@@ -9,7 +9,7 @@ var concat = require('gulp-concat');
 var webserver = require('gulp-webserver');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
-var util = require('gulp-util');
+var argv = require('yargs').argv;
 
 var libs = [
   'react',
@@ -31,11 +31,11 @@ gulp.task('app', function() {
 	var bundler = browserify({
 		entries: ['./js/app.js'],
 		transform: [reactify],
-		debug: !util.env.production
+		debug: argv.env != 'production'
 		})
 		.external(dependencies);
 
-	if (util.env.production)
+	if (argv.env == 'production')
 	{
 		return bundler.bundle()
 			.pipe(source('app.js'))
@@ -55,11 +55,11 @@ gulp.task('app', function() {
 gulp.task('vendor', function() {
 
 	var bundler = browserify({
-		debug: !util.env.production
+		debug: argv.env != 'production'
 		})
 		.require(dependencies);
 	
-	if (util.env.production)
+	if (argv.env == 'production')
 	{
 		return bundler.bundle()
 			.pipe(source('vendor.js'))
@@ -107,3 +107,5 @@ gulp.task('watch', function() {
 
 // 
 gulp.task('default', ['webserver', 'app', 'vendor', 'html', 'sass', 'sass:watch', 'watch']);
+gulp.task('build', ['webserver', 'app', 'vendor', 'html', 'sass']);
+gulp.task('build-only', ['app', 'vendor', 'html', 'sass']);
