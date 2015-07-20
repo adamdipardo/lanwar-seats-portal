@@ -1,0 +1,281 @@
+@import "react-tooltip";
+@import "react-select";
+@import url(http://fonts.googleapis.com/css?family=Roboto:300,700,400);
+
+$lanwarRed: #B9121B;
+
+body {
+	
+}
+
+header {
+	background-color: $lanwarRed;
+
+	h1.logo {
+		color: white;
+		font-weight: 300;
+		text-transform: uppercase;
+		font-size: 26px;
+		font-family: 'Roboto', sans-serif;
+		margin: 12px 0 0;
+		float: left;
+
+		strong {
+			font-weight: 600;
+		}
+	}
+
+	ul.menu {
+		list-style-type: none;
+		float: right;
+		margin: 0;
+		padding: 0;
+
+		li {
+			a {
+				display: block;
+				color: white;
+				font-size: 14px;
+				padding: 16px 10px;
+
+				&:hover {
+					background-color: darken($lanwarRed, 10%);
+					text-decoration: none;
+				}
+			}
+		}
+	}
+}
+
+h1 {
+	font-size: 36px;
+	font-weight: 300;
+	color: #333;
+	font-family: 'Roboto', sans-serif;
+	text-align: center;
+	margin: 40px 0;
+}
+
+h2 {
+	font-size: 22px;
+	color: #333;
+	font-weight: 400;
+	font-family: 'Roboto', sans-serif;
+}
+
+table.table {
+	font-size: 14px;
+
+	tr {
+		th {
+			font-weight: 300;
+			color: #666;
+		}
+	}
+}
+
+p.summary-text {
+	text-align: center;
+	margin: 0 0 40px;
+}
+
+input.form-control {
+	// box-shadow: none;
+	border-radius: 0;
+	border: 1px solid #CCC;
+	color: #666;
+}
+
+label {
+	font-weight: 300;
+	color: #666;
+}
+
+.btn {
+	&.btn-primary {
+		background-color: $lanwarRed;
+		border-width: 0;
+		border-radius: 0;
+
+		&:hover {
+			background-color: lighten($lanwarRed, 10%);
+		}
+	}
+
+	&.btn-default {
+		border-width: 0;
+		border-radius: 0;
+		background-color: whitesmoke;
+
+		&:hover {
+			background-color: lighten(whitesmoke, 10%);
+		}
+	}
+}
+
+div.checkout-timer {
+	span {
+
+		color: #333;
+		font-weight: 300;
+
+		&.time-left span {
+			font-weight: 700;
+			font-size: 22px;
+			color: $lanwarRed;
+		}
+
+	}
+}
+
+div.buttons-container {
+	text-align: right;
+
+	.btn {
+		margin: 0 0 0 10px;
+
+		&:first-child {
+			margin: 0;
+		}
+	}
+}
+
+div.section-row {
+
+	margin: 4px 0;
+
+	&.left-section {
+		text-align: right;
+	}
+
+	&.center-section {
+		text-align: center;
+	}
+
+	&.right-section {
+		text-align: left;
+	}
+
+	span.seat {
+		// border-radius: 50%;
+		background-color: $lanwarRed;
+		width: 25px;
+		height: 25px;
+		display: inline-block;
+		margin: 0 3px;
+
+		&:hover {
+			background-color: black;
+			cursor: pointer;
+		}
+
+		&.selected {
+			background-color: black;
+		}
+
+		&.taken {
+			background-color: #CCC;
+			cursor: not-allowed;
+		}
+	}
+
+}
+
+div.select-seats {
+
+	div.room-select, div.seat-map {
+
+		margin-top: 20px;
+		margin-bottom: 20px;
+
+	}
+
+	div.room-list {
+
+		span.seat-select-title {
+			font-size: 18px;
+			display: inline-block;
+			padding: 0 15px 0 0;
+			vertical-align: middle;
+			position: relative;
+			top: -15px;
+		}
+
+		div.Select {
+			width: 200px;
+			display: inline-block;
+		}
+	}
+
+	div.seats-message {
+
+		font-size: 18px;
+
+	}
+
+	div.front {
+
+		background-color: rgba(245, 245, 245, 1);
+		text-align: center;
+		padding-top: 20px;
+		padding-bottom: 20px;
+		text-transform: uppercase;
+		font-style: italic;
+		margin-top: 20px;
+		color: #999;
+	}
+
+}
+
+div.modal-content {
+	box-shadow: none;
+	border-radius: 0;
+	border: none;
+	padding: 20px;
+}
+
+div.loading-modal {
+
+	i {
+		display: block;
+		text-align: center;
+		padding: 0;
+		color: #CCC;
+	}
+
+	p {
+		text-align: center;
+		font-size: 14px;
+		color: #666;
+		margin: 20px 0 0;
+	}
+}
+
+div.ticket-seat-list {
+
+	ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+
+		li {
+			padding: 5px 0;
+			cursor: pointer;
+
+			span.ticket {
+				font-size: 16px;
+				font-weight: bold;
+			}
+
+			&:hover {
+				color: $lanwarRed;
+			}
+		}
+	}
+
+}
+
+div.loading-circle {
+	text-align: center;
+	color: #999;
+}
