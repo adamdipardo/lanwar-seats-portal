@@ -1,5 +1,5 @@
 var React = require('react');
-var Fluxxor = require('Fluxxor');
+var Fluxxor = require('fluxxor');
 var moment = require('moment');
 
 var FluxMixin = Fluxxor.FluxMixin(React);
