@@ -10,6 +10,7 @@ var webserver = require('gulp-webserver');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
 var argv = require('yargs').argv;
+var fs = require('fs');
 
 var libs = [
   'react',
@@ -105,7 +106,15 @@ gulp.task('watch', function() {
 	gulp.watch('./package.json', ['vendor']);
 });
 
+gulp.task('config', function(cb) {
+
+	var socketURL = argv.env == 'production' ? 'http://dev.tickets.lanwarx.com/reservations' : 'http://127.0.0.1:8000/reservations';
+
+	fs.writeFile('./js/LanwarConfig.js', 'var LanwarConfig = {socketURL: "'+socketURL+'"}; module.exports = LanwarConfig;', cb);
+
+});
+
 // 
-gulp.task('default', ['webserver', 'app', 'vendor', 'html', 'sass', 'sass:watch', 'watch']);
-gulp.task('build', ['webserver', 'app', 'vendor', 'html', 'sass']);
-gulp.task('build-only', ['app', 'vendor', 'html', 'sass']);
+gulp.task('default', ['config', 'webserver', 'app', 'vendor', 'html', 'sass', 'sass:watch', 'watch']);
+gulp.task('build', ['config', 'webserver', 'app', 'vendor', 'html', 'sass']);
+gulp.task('build-only', ['config', 'app', 'vendor', 'html', 'sass']);

@@ -3,6 +3,7 @@ var Fluxxor = require('fluxxor');
 var ReactTooltip = require("react-tooltip");
 var socket = require('socket.io-client');
 var io;
+var LanwarConfig = require('../LanwarConfig');
 
 var SeatMapRow = require('./SeatMapRow');
 
@@ -35,7 +36,7 @@ var SeatMap = React.createClass({
 
 		this.getFlux().actions.SeatAvailabilityActions.loadSeatStatuses();
 
-		io = socket('http://127.0.0.1:3000');
+		io = socket(LanwarConfig.socketURL);
 
 		io.on('seat changed', function(data) {
 			this.getFlux().actions.SeatAvailabilityActions.seatStatusChanged(data.id, data.status);
