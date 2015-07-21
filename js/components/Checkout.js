@@ -203,7 +203,7 @@ var Checkout = React.createClass({
 					</div>
 				</div>
 				<div id="scriptContainer"></div>
-				<ReservationLoading show={this.state.isLoadingCheckout && !this.state.checkoutSuccess && !this.state.checkoutError } text="Checking out&hellip;" />
+				<ReservationLoading show={this.state.isLoadingCheckout && !this.state.checkoutSuccess && !this.state.checkoutError } text="Checking out..." />
 			</div>
 		)
 
