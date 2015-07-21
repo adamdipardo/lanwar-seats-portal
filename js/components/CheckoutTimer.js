@@ -31,7 +31,7 @@ var CheckoutTimer = React.createClass({
 
 		var numSecondsLeft = this.state.timeoutAt.diff(moment(), 'seconds');
 
-		if (numSecondsLeft <= 0) {
+		if (numSecondsLeft < 0) {
 			this.props.onTimeExpired();
 			var prettyMinutes = 0;
 			var prettySeconds = "00";

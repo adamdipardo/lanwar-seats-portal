@@ -14,9 +14,12 @@ var Checkout = React.createClass({
 
 	mixins: [FluxMixin, StoreWatchMixin("BuyTicketsStore"), Navigation],
 
+	stripeCheckInterval: null,
+
 	getInitialState: function() {
 		return {
-			isLoadingCheckout: false
+			timerHasExpired: false,
+			hasStripe: false
 		}
 	},
 
@@ -33,7 +36,8 @@ var Checkout = React.createClass({
 			totalPrice: BuyTicketsStore.totalPrice,
 			checkoutSuccess: BuyTicketsStore.checkoutSuccess,
 			checkoutError: BuyTicketsStore.checkoutError,
-			reserveSessionId: BuyTicketsStore.reserveSessionId
+			reserveSessionId: BuyTicketsStore.reserveSessionId,
+			isLoadingCheckout: BuyTicketsStore.isLoadingCheckout
 		};
 
 	},
@@ -46,8 +50,15 @@ var Checkout = React.createClass({
 
 	handleTimeExpired: function() {
 
-		alert('Your reservation time has expired. Please go back and start your order again.');
-		this.transitionTo('/');
+		if (!this.state.isLoadingCheckout && !this.state.checkoutSuccess)
+		{
+			alert('Your reservation time has expired. Please go back and start your order again.');
+			this.transitionTo('/');
+		}
+		else
+		{
+			this.setState({timerHasExpired: true});
+		}
 
 	},
 
@@ -63,8 +74,6 @@ var Checkout = React.createClass({
 				// Use the token to create the charge with a server-side script.
 				// You can access the token ID with `token.id`
 
-				this.setState({isLoadingCheckout: true});
-
 				// init checkout
 				this.getFlux().actions.BuyTicketsActions.checkout(this.state.formData, this.state.tickets, this.state.totalPrice, token.id, this.state.reserveSessionId);
 
@@ -79,10 +88,27 @@ var Checkout = React.createClass({
 		});
 
 	},
+
+	redirectToStart: function() {
+
+		this.transitionTo('/');
+
+	},
+
+	checkForStripe: function() {
+
+		if (typeof(StripeCheckout) != "undefined") {
+			clearInterval(this.stripeCheckInterval);
+			this.setState({hasStripe: true});
+		}
+
+	},
 	
 	componentDidMount: function() {
 
 		$('#scriptContainer').append('<script type="text/javascript" src="https://checkout.stripe.com/checkout.js"></script>');
+		this.getFlux().actions.BuyTicketsActions.initCheckout();
+		this.stripeCheckInterval = setInterval(this.checkForStripe, 3000);
 
 	},
 
@@ -90,6 +116,12 @@ var Checkout = React.createClass({
 
 		if (this.state.checkoutSuccess === true)
 			this.handleCheckoutCompletd();
+
+		// if (this.state.checkoutError && this.state.timerHasExpired === true)
+		// 	this.redirectToStart();
+
+		// if (!this.state.isLoadingCheckout && this.state.timerHasExpired && !this.state.checkoutSuccess)
+		// 	this.handleTimeExpired();
 
 		var ticketRows = [];
 		var firstName = this.state.formData.firstName;
@@ -102,6 +134,14 @@ var Checkout = React.createClass({
 
 		if (!ticketRows.length || !firstName || !lastName || !email)
 			this.transitionTo('/');
+
+		var checkoutButton;
+		if (!this.state.hasStripe) {
+			checkoutButton = <button className="btn btn-primary disabled">Checkout</button>;
+		}
+		else {
+			checkoutButton = <button className="btn btn-primary" onClick={this.handleCheckout}>Checkout</button>;
+		}
 
 		return (
 			<div>
@@ -157,7 +197,7 @@ var Checkout = React.createClass({
 						</div>
 						<div className="col-md-4 buttons-container">
 							<button className="btn btn-default" onClick={this.handleClickBack}>Back</button>
-							<button className="btn btn-primary" onClick={this.handleCheckout}>Checkout</button>
+							{checkoutButton}
 						</div>
 						<div className="col-md-2"></div>
 					</div>

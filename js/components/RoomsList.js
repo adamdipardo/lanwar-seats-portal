@@ -22,14 +22,16 @@ var RoomsList = React.createClass({
 		var RoomsStore = flux.store("RoomsStore").getState();
 
 		return {
-			rooms: RoomsStore.rooms
+			rooms: RoomsStore.rooms,
+			isLoadingRooms: RoomsStore.isLoadingRooms
 		};
 
 	},
 
 	componentDidMount: function() {
 
-		this.getFlux().actions.RoomsActions.loadRooms();
+		if ($.isEmptyObject(this.state.rooms))
+			this.getFlux().actions.RoomsActions.loadRooms();
 
 	},
 
@@ -60,7 +62,7 @@ var RoomsList = React.createClass({
 			return false;
 		});
 		if (!hasRooms)
-			return <div></div>;
+			return <div className="room-list pull-left"><span className="seat-select-title loading">Loading Rooms...</span></div>;
 
 		var selectedRoom = this.state.selectedRoom;
 

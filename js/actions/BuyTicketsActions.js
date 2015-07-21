@@ -46,6 +46,8 @@ var BuyTicketsActions = {
 			formattedTickets.push({id: ticket.id, seat: ticket.seat.seatKey});
 		});
 
+		this.dispatch(LanwarConstants.CHECKOUT_LOADING, {});
+
 		$.ajax({
 			url: '/api/orders/create',
 			type: 'post',
@@ -58,6 +60,9 @@ var BuyTicketsActions = {
 				this.dispatch(LanwarConstants.CHECKOUT_ERROR, {error: JSON.parse(xhr.responseText).error});
 			}.bind(this)
 		});
+	},
+	initCheckout: function() {
+		this.dispatch(LanwarConstants.INIT_CHECKOUT, {});
 	}
 };
 

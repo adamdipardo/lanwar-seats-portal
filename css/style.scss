@@ -199,6 +199,10 @@ div.select-seats {
 			vertical-align: middle;
 			position: relative;
 			top: -15px;
+
+			&.loading {
+				color: #CCC;
+			}
 		}
 
 		div.Select {
