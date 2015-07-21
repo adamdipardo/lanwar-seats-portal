@@ -108,7 +108,7 @@ gulp.task('watch', function() {
 
 gulp.task('config', function(cb) {
 
-	var socketURL = argv.env == 'production' ? 'http://dev.tickets.lanwarx.ca/reservations' : 'http://127.0.0.1:8000/reservations';
+	var socketURL = argv.env == 'production' ? 'http://dev.tickets.lanwarx.ca/reservations/' : 'http://127.0.0.1:8000/reservations';
 
 	fs.writeFile('./js/LanwarConfig.js', 'var LanwarConfig = {socketURL: "'+socketURL+'"}; module.exports = LanwarConfig;', cb);
 
