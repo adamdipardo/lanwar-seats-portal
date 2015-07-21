@@ -283,3 +283,8 @@ div.loading-circle {
 	text-align: center;
 	color: #999;
 }
+
+.Select-control:not(.is-searchable) > .Select-input {
+  outline: none;
+  color: transparent;
+}
