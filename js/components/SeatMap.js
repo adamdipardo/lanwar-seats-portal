@@ -36,7 +36,7 @@ var SeatMap = React.createClass({
 
 		this.getFlux().actions.SeatAvailabilityActions.loadSeatStatuses();
 
-		io = socket(LanwarConfig.socketURL);
+		io = socket(LanwarConfig.socketURL, {path: "/reservations/socket.io"});
 
 		io.on('seat changed', function(data) {
 			this.getFlux().actions.SeatAvailabilityActions.seatStatusChanged(data.id, data.status);
