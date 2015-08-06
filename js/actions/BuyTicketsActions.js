@@ -39,7 +39,7 @@ var BuyTicketsActions = {
 			}
 		});
 	},
-	checkout: function(formData, tickets, total, token, sessionId) {
+	checkout: function(userId, formData, tickets, total, token, sessionId) {
 
 		var formattedTickets = [];
 		$.each(tickets, function(index, ticket) {
@@ -48,10 +48,28 @@ var BuyTicketsActions = {
 
 		this.dispatch(LanwarConstants.CHECKOUT_LOADING, {});
 
+		var sendData = {
+			eventId: 1, 
+			token: token, 
+			total: total,
+			tickets: JSON.stringify(formattedTickets), 
+			reservationSessionId: sessionId
+		};
+
+		if (userId != null)
+			sendData.userId = userId;
+		else {
+			sendData.firstName = formData.firstName;
+			sendData.lastName = formData.lastName;
+			sendData.email = formData.email;
+			sendData.password = formData.password;
+		}
+
+
 		$.ajax({
 			url: '/api/orders/create',
 			type: 'post',
-			data: {eventId: 1, token: token, total: total, firstName: formData.firstName, lastName: formData.lastName, email: formData.email, password: formData.password, tickets: JSON.stringify(formattedTickets), reservationSessionId: sessionId},
+			data: sendData,
 			dataType: 'json',
 			success: function(result) {
 				this.dispatch(LanwarConstants.CHECKOUT_SUCCESS, {});

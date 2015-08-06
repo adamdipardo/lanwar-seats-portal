@@ -81,7 +81,8 @@ gulp.task('webserver', function() {
   gulp.src('build')
     .pipe(webserver({
       livereload: true,
-      directoryListing: true,
+      directoryListing: false,
+      fallback: 'index.html',
       proxies: [{source: '/api', target:'http://l.dev.api.lanwar.ca'},{source: '/reservations', target:'http://127.0.0.1:3000'}]
     }));
 });
@@ -89,6 +90,15 @@ gulp.task('webserver', function() {
 gulp.task('html', function () {    
 	return gulp.src('*.html')
 		.pipe(gulp.dest('build'));
+});
+
+gulp.task('images', function () {    
+	return gulp.src('./img/*.{png,jpg,gif,ico,svg}')
+		.pipe(gulp.dest('build/img'));
+});
+
+gulp.task('images:watch', function () {
+	gulp.watch('./img/*.{png,jpg,gif,ico,svg}', ['images']);
 });
 
 gulp.task('sass', function () {
@@ -106,6 +116,15 @@ gulp.task('watch', function() {
 	gulp.watch('./package.json', ['vendor']);
 });
 
+gulp.task('scripts', function () {    
+	return gulp.src('./js/vendor/*.js')
+		.pipe(gulp.dest('build/js'));
+});
+
+gulp.task('scripts:watch', function () {
+	gulp.watch('./js/vendor/*.js', ['scripts']);
+});
+
 gulp.task('config', function(cb) {
 
 	var socketURL = argv.env == 'production' ? 'http://dev.tickets.lanwarx.ca/' : 'http://127.0.0.1:8000/';
@@ -115,6 +134,6 @@ gulp.task('config', function(cb) {
 });
 
 // 
-gulp.task('default', ['config', 'webserver', 'app', 'vendor', 'html', 'sass', 'sass:watch', 'watch']);
-gulp.task('build', ['config', 'webserver', 'app', 'vendor', 'html', 'sass']);
-gulp.task('build-only', ['config', 'app', 'vendor', 'html', 'sass']);
+gulp.task('default', ['config', 'webserver', 'app', 'vendor', 'html', 'sass', 'sass:watch', 'images', 'images:watch', 'scripts', 'scripts:watch', 'watch']);
+gulp.task('build', ['config', 'webserver', 'app', 'vendor', 'html', 'images', 'sass', 'scripts']);
+gulp.task('build-only', ['config', 'app', 'vendor', 'html', 'sass', 'images', 'scripts']);

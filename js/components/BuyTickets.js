@@ -7,9 +7,10 @@ var RegisterBasicFields = require('./RegisterBasicFields');
 var TicketForm = require('./TicketForm');
 
 var FluxMixin = Fluxxor.FluxMixin(React);
+var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var BuyTickets = React.createClass({
-	mixins: [FluxMixin, Navigation],
+	mixins: [FluxMixin, Navigation, StoreWatchMixin("UserAccountStore")],
 
 	getInitialState: function() {
 		return {
@@ -29,32 +30,51 @@ var BuyTickets = React.createClass({
 
 		var flux = this.getFlux();
 
-		// return flux.store("TicketTypesStore").getState();
+		var UserAccountStore = flux.store("UserAccountStore").getState();
+
+		return {
+			isLoggedIn: UserAccountStore.isLoggedIn
+		};
 
 	},
 
 	continueForm: function() {
 
-		if (this.refs.basicFormFields.isValid() && this.refs.ticketForm.isValid())
+		if ((this.state.isLoggedIn || this.refs.basicFormFields.isValid()) && this.refs.ticketForm.isValid())
 		{
-			var formData = this.refs.basicFormFields.getFormData();
-			this.getFlux().actions.BuyTicketsActions.saveFormData(formData);
+			if (!this.state.isLoggedIn) {
+				var formData = this.refs.basicFormFields.getFormData();
+				this.getFlux().actions.BuyTicketsActions.saveFormData(formData);
+			}
+			
 			this.transitionTo('select-seats');
 		}
 
 	},
 
 	render: function() {
+
+		var registerBasicFields = null;
+		if (!this.state.isLoggedIn) {
+			registerBasicFields = (
+				<div>
+					<p><i className="fa fa-exclamation red"></i> Login above if you already have an account, or fill out the fields below to create one.</p>
+					<RegisterBasicFields ref="basicFormFields"/>
+				</div>
+			);
+		}
+
 		return (
 			<div>
 				<Header />
-				<div className="container body">
+				<div className="container-fluid body">
 					<div className="container">
 						<div className="row">
 							<div className="col-md-2"></div>
 							<div className="col-md-8">
 								<h2>Buy Tickets</h2>
-								<RegisterBasicFields ref="basicFormFields"/>					
+								<p>Here you can buy tickets and reserve seats for LANWAR X. To start, select the number of tickets that you would like to buy. We recommend buying tickets for friends/groups together to make seat reservation easiest.</p>
+								{registerBasicFields}		
 								<TicketForm ref="ticketForm"/>
 								<button className="pull-right btn btn-primary" onClick={this.continueForm}>Continue</button>
 							</div>

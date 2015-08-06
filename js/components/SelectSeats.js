@@ -126,30 +126,32 @@ var SelectSeats = React.createClass({
 		return (
 			<div className="select-seats">
 				<Header />
-				<div className="container">
-					<div className="row">
-						<div className="col-md-12">
-							<h2>Choose seats for your tickets</h2>
+				<div className="container-fluid body">
+					<div className="container">
+						<div className="row">
+							<div className="col-md-12">
+								<h2>Choose seats for your tickets</h2>
+							</div>
 						</div>
-					</div>
-					<div className="row room-select">
-						<div className="col-md-12">
-							<RoomsList onSelectRoom={this.handleRoomSelect}/>
-							<div className="seats-message pull-right">{seatsMessage}</div>
+						<div className="row room-select">
+							<div className="col-md-12">
+								<RoomsList onSelectRoom={this.handleRoomSelect}/>
+								<div className="seats-message pull-right">{seatsMessage}</div>
+							</div>
 						</div>
-					</div>
-					<div className="row seat-map">
-						<div className="col-md-12">
-							<SeatMap onSeatClick={this.handleSeatClick} room={room}/>
+						<div className="row seat-map">
+							<div className="col-md-12">
+								<SeatMap onSeatClick={this.handleSeatClick} room={room}/>
+							</div>
 						</div>
-					</div>
-					<div className="row">
-						<div className="col-md-6">
-							{checkoutTimer}
-						</div>
-						<div className="col-md-6 buttons-container">
-							<button className="btn btn-default" onClick={this.handleClickBack}>Back</button> 
-							{continueButton}
+						<div className="row">
+							<div className="col-md-6">
+								{checkoutTimer}
+							</div>
+							<div className="col-md-6 buttons-container">
+								<button className="btn btn-default" onClick={this.handleClickBack}>Back</button> 
+								{continueButton}
+							</div>
 						</div>
 					</div>
 				</div>

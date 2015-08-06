@@ -25,7 +25,7 @@ var RegisterBasicFields = React.createClass({
 			ticketTypes: TicketTypesStore.ticketTypes,
 			isLoading: TicketTypesStore.isLoading,
 			getTicketTypesError: TicketTypesStore.getTicketTypesError,
-			formData: BuyTicketsStore.formData		
+			formData: BuyTicketsStore.formData
 		}
 
 	},

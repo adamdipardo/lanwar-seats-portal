@@ -12,7 +12,7 @@ var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var Checkout = React.createClass({
 
-	mixins: [FluxMixin, StoreWatchMixin("BuyTicketsStore"), Navigation],
+	mixins: [FluxMixin, StoreWatchMixin("BuyTicketsStore", "UserAccountStore"), Navigation],
 
 	stripeCheckInterval: null,
 
@@ -28,6 +28,7 @@ var Checkout = React.createClass({
 		var flux = this.getFlux();
 
 		var BuyTicketsStore = flux.store("BuyTicketsStore").getState();
+		var UserAccountStore = flux.store("UserAccountStore").getState();
 
 		return {
 			tickets: BuyTicketsStore.tickets,
@@ -37,7 +38,9 @@ var Checkout = React.createClass({
 			checkoutSuccess: BuyTicketsStore.checkoutSuccess,
 			checkoutError: BuyTicketsStore.checkoutError,
 			reserveSessionId: BuyTicketsStore.reserveSessionId,
-			isLoadingCheckout: BuyTicketsStore.isLoadingCheckout
+			isLoadingCheckout: BuyTicketsStore.isLoadingCheckout,
+			isLoggedIn: UserAccountStore.isLoggedIn,
+			user: UserAccountStore.user
 		};
 
 	},
@@ -74,8 +77,12 @@ var Checkout = React.createClass({
 				// Use the token to create the charge with a server-side script.
 				// You can access the token ID with `token.id`
 
+				var userId = null;
+				if (this.state.isLoggedIn && this.state.user)
+					userId = this.state.user.userId;
+
 				// init checkout
-				this.getFlux().actions.BuyTicketsActions.checkout(this.state.formData, this.state.tickets, this.state.totalPrice, token.id, this.state.reserveSessionId);
+				this.getFlux().actions.BuyTicketsActions.checkout(userId, this.state.formData, this.state.tickets, this.state.totalPrice, token.id, this.state.reserveSessionId);
 
 			}.bind(this)
 		});
@@ -117,12 +124,6 @@ var Checkout = React.createClass({
 		if (this.state.checkoutSuccess === true)
 			this.handleCheckoutCompletd();
 
-		// if (this.state.checkoutError && this.state.timerHasExpired === true)
-		// 	this.redirectToStart();
-
-		// if (!this.state.isLoadingCheckout && this.state.timerHasExpired && !this.state.checkoutSuccess)
-		// 	this.handleTimeExpired();
-
 		var ticketRows = [];
 		var firstName = this.state.formData.firstName;
 		var lastName = this.state.formData.lastName;
@@ -132,7 +133,7 @@ var Checkout = React.createClass({
 			ticketRows.push(<CheckoutTicket ticket={ticket}/>);
 		});
 
-		if (!ticketRows.length || !firstName || !lastName || !email)
+		if (!ticketRows.length || ((!firstName || !lastName || !email) && !this.state.isLoggedIn))
 			this.transitionTo('/');
 
 		var checkoutButton;
@@ -143,63 +144,72 @@ var Checkout = React.createClass({
 			checkoutButton = <button className="btn btn-primary" onClick={this.handleCheckout}>Checkout</button>;
 		}
 
+		var registerFieldsSummary = null;
+		if (!this.state.isLoggedIn) {
+			registerFieldsSummary = (
+				<table className="table">
+				<tr>
+					<td>First Name: </td>
+					<td>{firstName}</td>
+				</tr>
+				<tr>
+					<td>Last Name: </td>
+					<td>{lastName}</td>
+				</tr>
+				<tr>
+					<td>Email: </td>
+					<td>{email}</td>
+				</tr>
+				</table>
+			);
+		}
+
 		return (
 			<div>
 				<Header />
-				<div className="container">
-					<div className="row">
-						<div className="col-md-2"></div>
-						<div className="col-md-8">
-							<h2>Order Summary</h2>
+				<div className="container-fluid body">
+					<div className="container">
+						<div className="row">
+							<div className="col-md-2"></div>
+							<div className="col-md-8">
+								<h2>Order Summary</h2>
 
-							<table className="table">
-							<tr>
-								<td>First Name: </td>
-								<td>{firstName}</td>
-							</tr>
-							<tr>
-								<td>Last Name: </td>
-								<td>{lastName}</td>
-							</tr>
-							<tr>
-								<td>Email: </td>
-								<td>{email}</td>
-							</tr>
-							</table>
+								{registerFieldsSummary}
 
-							<h2>Tickets</h2>
-							<table className="table">
-							<thead>
-							<tr>
-								<th>Ticket Type</th>
-								<th>Price</th>
-								<th>Seat</th>
-							</tr>
-							</thead>
-							<tbody>
-								{ticketRows}
-							</tbody>
-							<tfoot>
-							<tr>
-								<th>Total</th>
-								<th>${this.state.totalPrice.toFixed(2)}</th>
-								<th></th>
-							</tr>
-							</tfoot>
-							</table>
+								<h2>Tickets</h2>
+								<table className="table">
+								<thead>
+								<tr>
+									<th>Ticket Type</th>
+									<th>Price</th>
+									<th>Seat</th>
+								</tr>
+								</thead>
+								<tbody>
+									{ticketRows}
+								</tbody>
+								<tfoot>
+								<tr>
+									<th>Total</th>
+									<th>${this.state.totalPrice.toFixed(2)}</th>
+									<th></th>
+								</tr>
+								</tfoot>
+								</table>
+							</div>
+							<div className="col-md-2"></div>
 						</div>
-						<div className="col-md-2"></div>
-					</div>
-					<div className="row">
-						<div className="col-md-2"></div>
-						<div className="col-md-4">
-							<CheckoutTimer onTimeExpired={this.handleTimeExpired} timeoutAt={this.state.checkoutExpireTime}/>
+						<div className="row">
+							<div className="col-md-2"></div>
+							<div className="col-md-4">
+								<CheckoutTimer onTimeExpired={this.handleTimeExpired} timeoutAt={this.state.checkoutExpireTime}/>
+							</div>
+							<div className="col-md-4 buttons-container">
+								<button className="btn btn-default" onClick={this.handleClickBack}>Back</button>
+								{checkoutButton}
+							</div>
+							<div className="col-md-2"></div>
 						</div>
-						<div className="col-md-4 buttons-container">
-							<button className="btn btn-default" onClick={this.handleClickBack}>Back</button>
-							{checkoutButton}
-						</div>
-						<div className="col-md-2"></div>
 					</div>
 				</div>
 				<div id="scriptContainer"></div>
