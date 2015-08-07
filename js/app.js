@@ -11,11 +11,13 @@ var BuyTicketsActions = require('./actions/BuyTicketsActions');
 var RoomsStore = require('./stores/RoomsStore');
 var UserAccountStore = require('./stores/UserAccountStore');
 var AdminOrdersStore = require('./stores/AdminOrdersStore');
+var CheckInStore = require('./stores/CheckInStore');
 var RoomsActions = require('./actions/RoomsActions');
 var SeatAvailabilityStore = require('./stores/SeatAvailabilityStore');
 var SeatAvailabilityActions = require('./actions/SeatAvailabilityActions');
 var UserAccountActions = require('./actions/UserAccountActions');
 var AdminOrdersActions = require('./actions/AdminOrdersActions');
+var CheckInActions = require('./actions/CheckInActions');
 
 var BuyTickets = require('./components/BuyTickets');
 var SelectSeats = require('./components/SelectSeats');
@@ -53,7 +55,8 @@ var stores = {
 	RoomsStore: new RoomsStore(),
 	SeatAvailabilityStore: new SeatAvailabilityStore(),
 	UserAccountStore: new UserAccountStore(),
-	AdminOrdersStore: new AdminOrdersStore()
+	AdminOrdersStore: new AdminOrdersStore(),
+	CheckInStore: new CheckInStore()
 };
 
 var actions = {
@@ -62,7 +65,8 @@ var actions = {
 	RoomsActions: RoomsActions,
 	SeatAvailabilityActions: SeatAvailabilityActions,
 	UserAccountActions: UserAccountActions,
-	AdminOrdersActions: AdminOrdersActions
+	AdminOrdersActions: AdminOrdersActions,
+	CheckInActions: CheckInActions
 }
 
 var flux = new Fluxxor.Flux(stores, actions);

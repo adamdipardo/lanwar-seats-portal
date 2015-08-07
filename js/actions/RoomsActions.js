@@ -20,7 +20,7 @@ var RoomsActions = {
 
 	loadSeats: function(roomKey, roomId) {
 
-		this.dispatch(LanwarConstants.LOAD_SEATS);
+		this.dispatch(LanwarConstants.LOAD_SEATS, {roomKey: roomKey, roomId: roomId});
 
 		$.ajax({
 			url: '/api/rooms/' + roomId + '/seats/read',

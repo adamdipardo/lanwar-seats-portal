@@ -492,3 +492,46 @@ div#reader {
 	min-height: 300px;
 	width: 100%;
 }
+
+div.check-in {
+
+	i {
+		display: block;
+		text-align: center;
+		color: green;
+	}
+
+	h3 {
+		text-align: center;
+		margin: 30px 0;
+	}
+
+	&.success {
+		table {
+			tr {
+				td {
+					&:first-child {
+						text-align: right;
+						width: 25%;
+						font-weight: 700;
+					}
+				}
+			}
+		}
+	}
+
+	&.error {
+		p {
+			text-align: center;
+			color: $lanwarRed;
+			font-weight: bold;
+			margin: 20px 0;
+		}
+	}
+
+	div.modal-buttons {
+		.btn {
+			margin: 0 0 0 10px;
+		}
+	}
+}

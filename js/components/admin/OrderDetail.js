@@ -7,6 +7,7 @@ var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var Header = require('../Header');
+var TicketRow = require('./TicketRow');
 
 var OrderDetail = React.createClass({
 
@@ -35,7 +36,7 @@ var OrderDetail = React.createClass({
 
 	},
 
-	handleCheckInClick: function(ticketId, e) {
+	handleCheckInClick: function(ticketId) {
 
 		var confirmCheckIn = window.confirm("Are you sure you want to check in ticket #" + ticketId + "?");
 
@@ -77,30 +78,7 @@ var OrderDetail = React.createClass({
 
 		var ticketRows = [];
 		for (var i = 0; i < orderDetail.tickets.length; i++) {
-			var ticket = orderDetail.tickets[i];
-
-			if (ticket.isLoadingCheckIn) {
-				var checkedIn = <span className="checked-in loading">Checking In... <i className="fa fa-circle-o-notch fa-spin"></i></span>;
-			}
-			else if (ticket.isCheckedIn) {
-				var checkInMoment = moment(ticket.checkInDate, "X");
-
-				if (checkInMoment.isSame(moment(), 'day'))
-					var checkInNice = "Today @ ";
-				else if (checkInMoment.diff(moment(), 'days') == -1)
-					var checkInNice = "Yesterday @ ";
-				else
-					var checkInNice = checkInMoment.format("MMM D, YYYY @ ");
-
-				checkInNice += checkInMoment.format("h:mm a");
-
-				var checkedIn = <span className="checked-in">{checkInNice}</span>;
-			}
-			else {
-				var checkedIn = <span className="checked-in not"><a onClick={this.handleCheckInClick.bind(this, ticket.id)}>Not Checked In, Click to Check In</a></span>;
-			}
-
-			ticketRows.push(<tr key={ticket.id}><td>{ticket.id}</td><td>{ticket.type}</td><td>{ticket.user.firstName} {ticket.user.lastName}</td><td>{checkedIn}</td></tr>);
+			ticketRows.push(<TicketRow ticket={orderDetail.tickets[i]} checkInClick={this.handleCheckInClick} allowClick={true} />);
 		}
 
 		return (

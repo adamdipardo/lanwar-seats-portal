@@ -3,16 +3,20 @@ var Fluxxor = require('fluxxor');
 var Navigation = require('react-router').Navigation;
 
 var Header = require('../Header');
+var CheckInModal = require('./CheckInModal');
 
 var FluxMixin = Fluxxor.FluxMixin(React);
+var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var Scan = React.createClass({
 
-	mixins: [FluxMixin, Navigation],
+	mixins: [FluxMixin, Navigation, StoreWatchMixin("UserAccountStore", "CheckInStore")],
 
 	getInitialState: function() {
 
-		return {};
+		return {
+			isWaitingForCode: true
+		};
 
 	},
 
@@ -21,22 +25,25 @@ var Scan = React.createClass({
 		var flux = this.getFlux();
 
 		var UserAccountStore = flux.store("UserAccountStore").getState();
+		var CheckInStore = flux.store("CheckInStore").getState();
 
 		return {
 			user: UserAccountStore.user,
 			isLoggedIn: UserAccountStore.isLoggedIn,
-			isLoadingSessionCheck: UserAccountStore.isLoadingSessionCheck
+			isLoadingSessionCheck: UserAccountStore.isLoadingSessionCheck,
+			isLoadingCheckIn: CheckInStore.isLoadingCheckIn
 		};
 
 	},
 
 	componentDidMount: function() {
 
-		$('#scripts').html('<script src="/js/html5-qrcode.js"></script>');
+		$('#scripts').html('<script src="/js/jsqrcode-combined.min.js"></script><script src="/js/html5-qrcode.js"></script>');
 
 		$('#reader').html5_qrcode(function(data) {
-			console.log('READ!');
-		},
+			if (!this.state.isLoadingCheckIn)
+				this.getFlux().actions.CheckInActions.checkInTicketByHash(data);
+		}.bind(this),
 		function(error) {
 			console.log('READ ERROR!');
 		}, 
@@ -55,8 +62,8 @@ var Scan = React.createClass({
 	render: function() {
 
 		// permission
-		// if ((!this.state.isLoggedIn || this.state.user.type != 'admin') && !this.state.isLoadingSessionCheck)
-		// 	this.transitionTo('/');
+		if ((!this.state.isLoggedIn || this.state.user.type != 'admin') && !this.state.isLoadingSessionCheck)
+			this.transitionTo('/');
 
 		return (
 			<div>
@@ -65,12 +72,15 @@ var Scan = React.createClass({
 					<div className="container">
 						<div className="row">
 							<div className="col-md-12">
+								<h2>Scan QR Code</h2>
 								<div id="reader"></div>
+								<p className="summary-text">Hold ticket QR code to webcam to scan.</p>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div id="scripts"></div>
+				<CheckInModal ref="checkInModal"/>
 			</div>
 		);
 

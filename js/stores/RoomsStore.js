@@ -46,6 +46,16 @@ var RoomsStore = Fluxxor.createStore({
 	onLoadSeats: function(payload) {
 		this.isLoadingSeats = true;
 		this.getSeatsError = null;
+
+		// empty existing rows if found...
+		for (var room in this.rooms)
+		{
+			if (this.rooms[room].id == payload.roomId)
+			{
+				this.rooms[room].rows = {};
+			}
+		}
+
 		this.emit("change");
 	},
 
