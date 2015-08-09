@@ -40,7 +40,8 @@ var Checkout = React.createClass({
 			reserveSessionId: BuyTicketsStore.reserveSessionId,
 			isLoadingCheckout: BuyTicketsStore.isLoadingCheckout,
 			isLoggedIn: UserAccountStore.isLoggedIn,
-			user: UserAccountStore.user
+			user: UserAccountStore.user,
+			isAdminGuestCheckout: BuyTicketsStore.isAdminGuestCheckout
 		};
 
 	},
@@ -71,6 +72,11 @@ var Checkout = React.createClass({
 
 	handleCheckout: function() {
 
+		if (this.state.isAdminGuestCheckout) {
+			this.getFlux().actions.BuyTicketsActions.checkout(null, this.state.formData, this.state.tickets, this.state.totalPrice, null, this.state.reserveSessionId, this.state.isAdminGuestCheckout);
+			return;
+		}
+
 		var handler = StripeCheckout.configure({
 			key: 'pk_test_4XeVhaeYMMQeeQPayeee7e8R',
 			token: function(token) {
@@ -78,11 +84,11 @@ var Checkout = React.createClass({
 				// You can access the token ID with `token.id`
 
 				var userId = null;
-				if (this.state.isLoggedIn && this.state.user)
+				if (this.state.isLoggedIn && this.state.user && !this.isAdminGuestCheckout)
 					userId = this.state.user.userId;
 
 				// init checkout
-				this.getFlux().actions.BuyTicketsActions.checkout(userId, this.state.formData, this.state.tickets, this.state.totalPrice, token.id, this.state.reserveSessionId);
+				this.getFlux().actions.BuyTicketsActions.checkout(userId, this.state.formData, this.state.tickets, this.state.totalPrice, token.id, this.state.reserveSessionId, this.state.isAdminGuestCheckout);
 
 			}.bind(this)
 		});
@@ -145,7 +151,7 @@ var Checkout = React.createClass({
 		}
 
 		var registerFieldsSummary = null;
-		if (!this.state.isLoggedIn) {
+		if (!this.state.isLoggedIn || this.state.isAdminGuestCheckout) {
 			registerFieldsSummary = (
 				<table className="table">
 				<tr>

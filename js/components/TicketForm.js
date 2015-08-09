@@ -63,7 +63,7 @@ var TicketForm = React.createClass({
 			<div>
 				<div className="row">
 					<div className="col-md-12">
-						<table className="table">
+						<table className="table ticket-types">
 						<thead>
 						<tr>
 							<th width="60%">Ticket</th>

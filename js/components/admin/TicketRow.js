@@ -42,6 +42,7 @@ var TicketRow = React.createClass({
 				<td>{ticket.id}</td>
 				<td>{ticket.type}</td>
 				<td>{ticket.user.firstName} {ticket.user.lastName}</td>
+				<td>{ticket.seat}</td>
 				<td>{checkedIn}</td>
 			</tr>
 		);

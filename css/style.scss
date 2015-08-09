@@ -535,3 +535,14 @@ div.check-in {
 		}
 	}
 }
+
+table.ticket-types {
+	td {
+		span.ticket-title {
+			font-weight: bold;
+			color: $lanwarRed;
+			display: block;
+			margin: 0 0 10px;
+		}
+	}
+}

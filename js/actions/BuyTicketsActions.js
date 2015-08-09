@@ -39,7 +39,7 @@ var BuyTicketsActions = {
 			}
 		});
 	},
-	checkout: function(userId, formData, tickets, total, token, sessionId) {
+	checkout: function(userId, formData, tickets, total, token, sessionId, isAdminGuestCheckout) {
 
 		var formattedTickets = [];
 		$.each(tickets, function(index, ticket) {
@@ -65,6 +65,8 @@ var BuyTicketsActions = {
 			sendData.password = formData.password;
 		}
 
+		if (isAdminGuestCheckout)
+			sendData.isAdminGuestCheckout = true;
 
 		$.ajax({
 			url: '/api/orders/create',
@@ -81,6 +83,12 @@ var BuyTicketsActions = {
 	},
 	initCheckout: function() {
 		this.dispatch(LanwarConstants.INIT_CHECKOUT, {});
+	},
+	setAdminGuestCheckout: function(isAdminGuestCheckout) {
+		this.dispatch(LanwarConstants.SET_ADMIN_GUEST_CHECKOUT, {isAdminGuestCheckout: isAdminGuestCheckout});
+	},
+	resetCheckout: function() {
+		this.dispatch(LanwarConstants.RESET_CHECKOUT, {});
 	}
 };
 

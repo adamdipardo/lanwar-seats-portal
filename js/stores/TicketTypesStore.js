@@ -25,7 +25,7 @@ var TicketTypesStore = Fluxxor.createStore({
 		this.isLoading = false;
 		this.ticketTypes = payload.ticketTypes.reduce(function(acc, ticketType){
 			var clientId = _.uniqueId();
-			acc[clientId] = {id: ticketType.id, name: ticketType.name, price: ticketType.price};
+			acc[clientId] = {id: ticketType.id, name: ticketType.name, price: ticketType.price, description: ticketType.description};
 			return acc;
 		}, {});
 		this.emit("change");

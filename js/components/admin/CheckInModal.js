@@ -73,6 +73,7 @@ var CheckInModal = React.createClass({
 							<th>Ticket #</th>
 							<th>Type</th>
 							<th>Assigned To</th>
+							<th>Seat</th>
 							<th>Checked In?</th>
 						</tr>
 						</thead>

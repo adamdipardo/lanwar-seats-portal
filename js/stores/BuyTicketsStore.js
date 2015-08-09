@@ -15,6 +15,7 @@ var BuyTicketsStore = Fluxxor.createStore({
 		this.checkoutSuccess = false;
 		this.checkoutError = null;
 		this.isLoadingCheckout = false;
+		this.isAdminGuestCheckout = false;
 
 		this.bindActions(
 			LanwarConstants.CHANGE_TICKET_QUANTITY, this.onChangeTicketQuantity,
@@ -25,7 +26,9 @@ var BuyTicketsStore = Fluxxor.createStore({
 			LanwarConstants.ALL_SEATS_UNRESERVED, this.onAllSeatsUnreserved,
 			LanwarConstants.CHECKOUT_SUCCESS, this.onCheckoutSuccess,
 			LanwarConstants.CHECKOUT_ERROR, this.onCheckoutError,
-			LanwarConstants.CHECKOUT_LOADING, this.onCheckoutLoading
+			LanwarConstants.CHECKOUT_LOADING, this.onCheckoutLoading,
+			LanwarConstants.SET_ADMIN_GUEST_CHECKOUT, this.onSetAdminGuestCheckout,
+			LanwarConstants.RESET_CHECKOUT, this.onResetCheckout
 		);
 	},
 
@@ -114,6 +117,26 @@ var BuyTicketsStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
+	onSetAdminGuestCheckout: function(payload) {
+		this.isAdminGuestCheckout = payload.isAdminGuestCheckout;
+		this.emit("change");
+	},
+
+	onResetCheckout: function() {
+		this.tickets = {};
+		this.totalPrice = 0.0;
+		this.formData = {};
+		this.isLoadingReservation = false;
+		this.reservationError = null;
+		this.checkoutExpireTime = null;
+		this.reserveSessionId = null;
+		this.checkoutSuccess = false;
+		this.checkoutError = null;
+		this.isLoadingCheckout = false;
+		this.isAdminGuestCheckout = false;
+		this.emit("change");
+	},
+
 	getState: function() {
 		return {
 			tickets: this.tickets,
@@ -125,7 +148,8 @@ var BuyTicketsStore = Fluxxor.createStore({
 			reserveSessionId: this.reserveSessionId,
 			checkoutSuccess: this.checkoutSuccess,
 			checkoutError: this.checkoutError,
-			isLoadingCheckout: this.isLoadingCheckout
+			isLoadingCheckout: this.isLoadingCheckout,
+			isAdminGuestCheckout: this.isAdminGuestCheckout
 		}
 	},
 

@@ -115,7 +115,7 @@ var OrderDetail = React.createClass({
 								</div>
 
 								<div className="row">
-									<div className="col-md-6">
+									<div className="col-md-8">
 										<h3>Tickets</h3>
 										<table className="table table-striped">
 										<thead>
@@ -123,6 +123,7 @@ var OrderDetail = React.createClass({
 											<th>Ticket #</th>
 											<th>Type</th>
 											<th>Assigned To</th>
+											<th>Seat</th>
 											<th>Checked In?</th>
 										</tr>
 										</thead>

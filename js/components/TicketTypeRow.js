@@ -32,7 +32,7 @@ var TicketTypeRow = React.createClass({
 
 		return (
 			<tr>
-				<td>{this.props.ticketType.name}</td>
+				<td><span className="ticket-title">{this.props.ticketType.name}</span><div className="description">{this.props.ticketType.description}</div></td>
 				<td>
 					<select onChange={this.handleQuantityChange}>{quantities}</select>
 				</td>

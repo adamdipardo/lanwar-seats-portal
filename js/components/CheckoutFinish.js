@@ -21,7 +21,8 @@ var CheckoutFinish = React.createClass({
 			tickets: BuyTicketsStore.tickets,
 			formData: BuyTicketsStore.formData,
 			totalPrice: BuyTicketsStore.totalPrice,
-			isLoggedIn: UserAccountStore.isLoggedIn
+			isLoggedIn: UserAccountStore.isLoggedIn,
+			isAdminGuestCheckout: BuyTicketsStore.isAdminGuestCheckout
 		};
 
 	},
@@ -38,7 +39,7 @@ var CheckoutFinish = React.createClass({
 		});
 
 		var registerSummary = null;
-		if (!this.state.isLoggedIn) {
+		if (!this.state.isLoggedIn || this.state.isAdminGuestCheckout) {
 			registerSummary = (
 				<table className="table">
 				<tr>

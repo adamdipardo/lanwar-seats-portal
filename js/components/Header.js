@@ -116,7 +116,7 @@ var Header = React.createClass({
 				</div>
 			</div>
 
-		var menu = [];
+		var menu = [<li><a href="/#/">Buy Tickets</a></li>];
 		if (this.state.isLoggedIn) {
 			menu.push([
 				<li className="dropdown"><a className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hello, {this.state.user.firstName}! <span className="caret"></span></a> <ul className="dropdown-menu"><li><a href="/#/profile">My Profile</a></li></ul></li>,
