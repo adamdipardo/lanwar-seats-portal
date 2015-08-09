@@ -18,6 +18,8 @@ var SeatAvailabilityActions = require('./actions/SeatAvailabilityActions');
 var UserAccountActions = require('./actions/UserAccountActions');
 var AdminOrdersActions = require('./actions/AdminOrdersActions');
 var CheckInActions = require('./actions/CheckInActions');
+var AdminTicketsActions = require('./actions/AdminTicketsActions');
+var AdminTicketsStore = require('./stores/AdminTicketsStore');
 
 var BuyTickets = require('./components/BuyTickets');
 var SelectSeats = require('./components/SelectSeats');
@@ -29,6 +31,7 @@ var RegisterSuccess = require('./components/RegisterSuccess');
 var AdminOrders = require('./components/admin/Orders');
 var AdminOrderDetail = require('./components/admin/OrderDetail');
 var AdminScan = require('./components/admin/Scan');
+var AdminTickets = require('./components/admin/CheckedInTickets');
 
 var routes = (
 	<Route name="home" path="/">
@@ -44,6 +47,7 @@ var routes = (
 			<Route name="admin-orders" path="/admin/orders" handler={AdminOrders} />
 			<Route name="admin-order-detail" path="/admin/orders/:orderId" handler={AdminOrderDetail} />
 			<Route name="admin-scan" path="/admin/scan" handler={AdminScan} />
+			<Route name="admin-checked-in-tickets" path="/admin/checked-in-tickets" handler={AdminTickets} />
 		</Route>
 		<DefaultRoute handler={BuyTickets} />
 	</Route>
@@ -56,7 +60,8 @@ var stores = {
 	SeatAvailabilityStore: new SeatAvailabilityStore(),
 	UserAccountStore: new UserAccountStore(),
 	AdminOrdersStore: new AdminOrdersStore(),
-	CheckInStore: new CheckInStore()
+	CheckInStore: new CheckInStore(),
+	AdminTicketsStore: new AdminTicketsStore()
 };
 
 var actions = {
@@ -66,7 +71,8 @@ var actions = {
 	SeatAvailabilityActions: SeatAvailabilityActions,
 	UserAccountActions: UserAccountActions,
 	AdminOrdersActions: AdminOrdersActions,
-	CheckInActions: CheckInActions
+	CheckInActions: CheckInActions,
+	AdminTicketsActions: AdminTicketsActions
 }
 
 var flux = new Fluxxor.Flux(stores, actions);

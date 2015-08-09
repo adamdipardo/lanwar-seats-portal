@@ -1,6 +1,8 @@
 var React = require('react');
 var moment = require('moment');
 
+var LanwarLib = require('../../LanwarLib');
+
 var TicketRow = React.createClass({
 
 	handleCheckInClick: function(ticketId, e) {
@@ -17,18 +19,7 @@ var TicketRow = React.createClass({
 			var checkedIn = <span className="checked-in loading">Checking In... <i className="fa fa-circle-o-notch fa-spin"></i></span>;
 		}
 		else if (ticket.isCheckedIn) {
-			var checkInMoment = moment(ticket.checkInDate, "X");
-
-			if (checkInMoment.isSame(moment(), 'day'))
-				var checkInNice = "Today @ ";
-			else if (checkInMoment.isSame(moment().subtract(1, 'days'), 'd'))
-				var checkInNice = "Yesterday @ ";
-			else
-				var checkInNice = checkInMoment.format("MMM D, YYYY @ ");
-
-			checkInNice += checkInMoment.format("h:mm a");
-
-			var checkedIn = <span className="checked-in">{checkInNice}</span>;
+			var checkedIn = LanwarLib.getNiceCheckInTime(ticket.checkInDate);
 		}
 		else if (this.props.allowClick) {
 			var checkedIn = <span className="checked-in not"><a onClick={this.handleCheckInClick.bind(this, ticket.id)}>Not Checked In, Click to Check In</a></span>;
