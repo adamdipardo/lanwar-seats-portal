@@ -14,7 +14,7 @@ var CheckoutTimer = require('./CheckoutTimer');
 var Header = require('./Header');
 
 var SelectSeats = React.createClass({
-	mixins: [FluxMixin, StoreWatchMixin("BuyTicketsStore"), Navigation],
+	mixins: [FluxMixin, StoreWatchMixin("OrderStore"), Navigation],
 
 	getInitialState: function() {
 		return {
@@ -28,13 +28,15 @@ var SelectSeats = React.createClass({
 
 		var flux = this.getFlux();
 
-		var BuyTicketsStore = flux.store("BuyTicketsStore").getState();
+		var OrderStore = flux.store("OrderStore").getState();
 
 		return {
-			tickets: BuyTicketsStore.tickets,
-			isLoadingReservation: BuyTicketsStore.isLoadingReservation,
-			reservationError: BuyTicketsStore.reservationError,
-			checkoutExpireTime: BuyTicketsStore.checkoutExpireTime
+			order: OrderStore.order,
+			isLoadingReservation: OrderStore.isLoadingReservation,
+			reservationError: OrderStore.reservationError,
+			checkoutExpireTime: OrderStore.checkoutExpireTime,
+			isLoadingBooking: OrderStore.isLoadingBooking,
+			reservationSessionId: OrderStore.reserveSessionId
 		};
 
 	},
@@ -44,7 +46,7 @@ var SelectSeats = React.createClass({
 		var response = confirm("Are you sure you want to go back? Any reserved seats will be lost.");
 
 		if (response == true) {
-			this.transitionTo('/');
+			this.transitionTo('/order/' + this.context.router.getCurrentParams().orderHash);
 		}
 
 	},
@@ -69,15 +71,22 @@ var SelectSeats = React.createClass({
 
 	handleTimeExpired: function() {
 
-		alert('Your reservation time has expired. Please go back and start your order again.');
-		this.transitionTo('/');
+		alert('Your reservation time has expired. Please start over if you\'d like to reserve new seats.');
+		this.transitionTo('/order/' + this.context.router.getCurrentParams().orderHash);
 
 	},
 
 	handleClickContinue: function() {
 
 		this.setState({isContinuing: true});
-		this.transitionTo('/checkout');
+
+		// reserveTickets = [];
+		// for (var i = 0; i < this.state.order.tickets.length; i++) {
+		// 	if (this.state.order.tickets[i].seat.seatKey && this.state.order.tickets[i].seat.seatKey != this.state.order.tickets[i].seat.id)
+		// 		reserveTickets.push({'id': this.state.order.tickets[i].id, 'seat': this.state.order.tickets[i].seat.seatKey});
+		// }
+		
+		this.getFlux().actions.OrderActions.bookSeats(this.context.router.getCurrentParams().orderHash, this.state.order.tickets, this.state.reservationSessionId, this.context.router);
 
 	},
 
@@ -86,10 +95,10 @@ var SelectSeats = React.createClass({
 		if (!this.state.isContinuing)
 		{
 			// un-reserve any seats the user has if leaving...
-			$.each(this.state.tickets, function(index, ticket) {
+			$.each(this.state.order.tickets, function(index, ticket) {
 
 				if (typeof(ticket.seat.seatKey) != "undefined" && ticket.seat.seatKey != "")
-					this.getFlux().actions.BuyTicketsActions.cancelSeatReservation(ticket.seat.seatKey, true);
+					this.getFlux().actions.OrderActions.cancelSeatReservation(ticket.seat.seatKey, true);
 
 			}.bind(this));
 		}
@@ -98,30 +107,39 @@ var SelectSeats = React.createClass({
 
 	render: function() {
 
-		var tickets = this.state.tickets;
+		var tickets = this.state.order.tickets;
 		var numSeatsChosen = 0;
 		var numSeatsToChoose = 0;
+		var numNewSeats = 0;
 		var room = this.state.room;
 
-		if (!Object.keys(tickets).length)
+		if (!this.context.router.getCurrentParams().orderHash)
 			this.transitionTo('/');
+		else if (!this.state.order.tickets || this.state.order.tickets.length == 0)
+			this.transitionTo('/order/' + this.context.router.getCurrentParams().orderHash);
 
 		// should timer be active (has a ticket been chosen?)
 		var checkoutTimer = this.state.checkoutExpireTime != null ? <CheckoutTimer onTimeExpired={this.handleTimeExpired} timeoutAt={this.state.checkoutExpireTime}/> : null;
 
-		Object.keys(tickets).map(function(id) {
+		$.each(tickets, function(index, ticket) {
 			numSeatsToChoose++;
-			if (tickets[id].seat.seatKey)
+			if (tickets[index].seat.name || tickets[index].seat.seatKey)
 				numSeatsChosen++;
+			if (tickets[index].seat.seatKey && tickets[index].seat.seatKey != tickets[index].seat.id)
+				numNewSeats++;
 		});
 
-		var continueButton = numSeatsChosen == numSeatsToChoose ? <button className="btn btn-primary" onClick={this.handleClickContinue}>Continue</button> : null;
+		var continueButton = numNewSeats > 0 ? <button className="btn btn-primary" onClick={this.handleClickContinue}>Save</button> : null;
 
-		var seatsMessage;
-		if (numSeatsChosen < numSeatsToChoose)
-			seatsMessage = <p>Selected {numSeatsChosen} out of {numSeatsToChoose} {numSeatsToChoose == 1 ? 'seat' : 'seats'}. Please select a seat for each ticket.</p>;
-		else
-			seatsMessage = continueButton;
+		var newSeatsMessage;
+		if (numNewSeats)
+			newSeatsMessage = <span>({numNewSeats} new {numNewSeats > 1 ? 'seats' : 'seat'})</span>;
+
+		var loadingMessage;
+		if (this.state.isLoadingReservation == true)
+			loadingMessage = 'Reserving Seat…';
+		else if (this.state.isLoadingBooking == true)
+			loadingMessage = 'Booking Seats…';
 		
 		return (
 			<div className="select-seats">
@@ -136,7 +154,7 @@ var SelectSeats = React.createClass({
 						<div className="row room-select">
 							<div className="col-md-12">
 								<RoomsList onSelectRoom={this.handleRoomSelect}/>
-								<div className="seats-message pull-right">{seatsMessage}</div>
+								<div className="seats-message pull-right"><p>Selected {numSeatsChosen} out of {numSeatsToChoose} {numSeatsToChoose == 1 ? 'seat' : 'seats'}. {newSeatsMessage} {continueButton}</p></div>
 							</div>
 						</div>
 						<div className="row seat-map">
@@ -149,14 +167,14 @@ var SelectSeats = React.createClass({
 								{checkoutTimer}
 							</div>
 							<div className="col-md-6 buttons-container">
-								<button className="btn btn-default" onClick={this.handleClickBack}>Back</button> 
+								<button className="btn btn-default" onClick={this.handleClickBack}>Cancel</button> 
 								{continueButton}
 							</div>
 						</div>
 					</div>
 				</div>
 				<TicketSeatList show={this.state.showTicketSeatList} room={this.state.selectedRoom} row={this.state.selectedRow} seat={this.state.selectedSeat} onHideModal={this.hideTicketSeatList} />
-				<ReservationLoading show={this.state.isLoadingReservation == true} text="Reserving Seat&hellip;" />
+				<ReservationLoading show={this.state.isLoadingReservation == true || this.state.isLoadingBooking == true} text={loadingMessage} />
 			</div>
 		);
 

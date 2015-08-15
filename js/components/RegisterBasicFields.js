@@ -32,7 +32,7 @@ var RegisterBasicFields = React.createClass({
 
 	isValid: function() {
 
-		var fields = ['firstName', 'lastName', 'email', 'password', 'confirmPassword'];
+		var fields = ['firstName', 'lastName', 'email'];
 
 		// validate
 		var errors = {};
@@ -47,16 +47,6 @@ var RegisterBasicFields = React.createClass({
 			if (field == 'email' && !(/@/.test(value)))
 				errors[field] = 'Please enter a valid email address';
 		}.bind(this));
-
-		// check passwords
-		var passwordValue = this.refs['password'].getDOMNode().value.trim();
-		var confirmPasswordValue = this.refs['confirmPassword'].getDOMNode().value.trim();
-
-		if (passwordValue != confirmPasswordValue || passwordValue.length < 6)
-		{
-			errors['password'] = 'Passwords must match and be at least 6 characters long';
-			errors['confirmPassword'] = '';
-		}
 
 		this.setState({errors: errors});
 
@@ -75,8 +65,7 @@ var RegisterBasicFields = React.createClass({
 		return {
 			firstName: this.refs.firstName.getDOMNode().value,
 			lastName: this.refs.lastName.getDOMNode().value,
-			email: this.refs.email.getDOMNode().value,
-			password: this.refs.password.getDOMNode().value
+			email: this.refs.email.getDOMNode().value
 		};
 	},
 
@@ -92,12 +81,6 @@ var RegisterBasicFields = React.createClass({
 					</div>
 					<div className="col-md-12">
 						{this.renderField('email', 'Email', 'email', this.state.formData['email'])}
-					</div>
-					<div className="col-md-6">
-						{this.renderField('password', 'Password', 'password')}
-					</div>
-					<div className="col-md-6">
-						{this.renderField('confirmPassword', 'Confirm Password', 'password')}
 					</div>
 				</div>
 			</div>

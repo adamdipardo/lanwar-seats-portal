@@ -10,36 +10,36 @@ var BuyTicketsActions = {
 	/*assignSeatToTicket: function(ticketKey, roomKey, rowKey, seatKey) {
 		this.dispatch(LanwarConstants.ASSIGN_SEAT_TO_TICKET, {ticketKey: ticketKey, roomKey: roomKey, rowKey: rowKey, seatKey: seatKey});
 	},*/
-	makeSeatReservation: function(ticketKey, roomKey, rowKey, seatKey) {
-		this.dispatch(LanwarConstants.LOAD_MAKE_RESERVATION);
+	// makeSeatReservation: function(ticketKey, roomKey, rowKey, seatKey) {
+	// 	this.dispatch(LanwarConstants.LOAD_MAKE_RESERVATION);
 
-		$.ajax({
-			url: LanwarConstants.RESERVATION_API + "/seat/" + seatKey + "/reserve",
-			type: 'post',
-			success: function(result) {
-				this.dispatch(LanwarConstants.LOAD_MAKE_RESERVATION_SUCCESS, {ticketKey: ticketKey, roomKey: roomKey, rowKey: rowKey, seatKey: seatKey, sessionId: result.sessId});
-			}.bind(this),
-			error: function(xhr) {
-				this.dispatch(LanwarConstants.LOAD_MAKE_RESERVATION, {error: JSON.parse(xhr.responseText).error});
-			}.bind(this)
-		});
-	},
-	cancelSeatReservation: function(seatKey, cancellingAll) {
-		if (typeof(cancellingAll) != "undefined" && cancellingAll == true)
-			this.dispatch(LanwarConstants.ALL_SEATS_UNRESERVED, {});
+	// 	$.ajax({
+	// 		url: LanwarConstants.RESERVATION_API + "/seat/" + seatKey + "/reserve",
+	// 		type: 'post',
+	// 		success: function(result) {
+	// 			this.dispatch(LanwarConstants.LOAD_MAKE_RESERVATION_SUCCESS, {ticketKey: ticketKey, roomKey: roomKey, rowKey: rowKey, seatKey: seatKey, sessionId: result.sessId});
+	// 		}.bind(this),
+	// 		error: function(xhr) {
+	// 			this.dispatch(LanwarConstants.LOAD_MAKE_RESERVATION, {error: JSON.parse(xhr.responseText).error});
+	// 		}.bind(this)
+	// 	});
+	// },
+	// cancelSeatReservation: function(seatKey, cancellingAll) {
+	// 	if (typeof(cancellingAll) != "undefined" && cancellingAll == true)
+	// 		this.dispatch(LanwarConstants.ALL_SEATS_UNRESERVED, {});
 
-		$.ajax({
-			url: LanwarConstants.RESERVATION_API + "/seat/" + seatKey + "/unreserve",
-			type: 'post',
-			success: function(result) {
-				// 
-			},
-			error: function(xhr) {
-				// 
-			}
-		});
-	},
-	checkout: function(userId, formData, tickets, total, token, sessionId, isAdminGuestCheckout) {
+	// 	$.ajax({
+	// 		url: LanwarConstants.RESERVATION_API + "/seat/" + seatKey + "/unreserve",
+	// 		type: 'post',
+	// 		success: function(result) {
+	// 			// 
+	// 		},
+	// 		error: function(xhr) {
+	// 			// 
+	// 		}
+	// 	});
+	// },
+	checkout: function(router, userId, formData, tickets, total, token, isAdminGuestCheckout) {
 
 		var formattedTickets = [];
 		$.each(tickets, function(index, ticket) {
@@ -52,8 +52,7 @@ var BuyTicketsActions = {
 			eventId: 1, 
 			token: token, 
 			total: total,
-			tickets: JSON.stringify(formattedTickets), 
-			reservationSessionId: sessionId
+			tickets: JSON.stringify(formattedTickets)
 		};
 
 		if (userId != null)
@@ -62,7 +61,6 @@ var BuyTicketsActions = {
 			sendData.firstName = formData.firstName;
 			sendData.lastName = formData.lastName;
 			sendData.email = formData.email;
-			sendData.password = formData.password;
 		}
 
 		if (isAdminGuestCheckout)
@@ -74,7 +72,8 @@ var BuyTicketsActions = {
 			data: sendData,
 			dataType: 'json',
 			success: function(result) {
-				this.dispatch(LanwarConstants.CHECKOUT_SUCCESS, {});
+				this.dispatch(LanwarConstants.CHECKOUT_SUCCESS, result);
+				router.transitionTo('/order/' + result.hash, {}, {checkout: true});
 			}.bind(this),
 			error: function(xhr) {
 				this.dispatch(LanwarConstants.CHECKOUT_ERROR, {error: JSON.parse(xhr.responseText).error});

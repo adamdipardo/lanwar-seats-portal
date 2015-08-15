@@ -63,7 +63,7 @@ var CheckedInTickets = React.createClass({
 			for (var i = 0; i < this.state.tickets.length; i++) {
 				var ticket = this.state.tickets[i];
 				var niceCheckInTime = LanwarLib.getNiceCheckInTime(ticket.checkInDate);
-				ticketRows.push(<tr key={i}><td>{ticket.id}</td><td>{ticket.user.lastName}</td><td>{ticket.user.firstName}</td><td>{ticket.seat}</td><td>{niceCheckInTime}</td><td><a href={"/#/admin/orders/" + ticket.orderId}>View Order</a></td></tr>);
+				ticketRows.push(<tr key={i}><td>{ticket.id}</td><td>{ticket.order.user.lastName}</td><td>{ticket.order.user.firstName}</td><td>{ticket.seat}</td><td>{niceCheckInTime}</td><td><a href={"/#/admin/orders/" + ticket.orderId}>View Order</a></td></tr>);
 			}
 		}
 

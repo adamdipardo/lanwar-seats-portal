@@ -42,7 +42,7 @@ var BuyTickets = React.createClass({
 				this.getFlux().actions.BuyTicketsActions.saveFormData(formData);
 			}
 			
-			this.transitionTo('select-seats');
+			this.transitionTo('checkout');
 		}
 
 	},
@@ -63,13 +63,8 @@ var BuyTickets = React.createClass({
 
 		var registerBasicFields = null;
 		if (!this.state.isLoggedIn || this.state.isAdminGuestCheckout) {
-			var loginMessage = null;
-			if (!this.state.isAdminGuestCheckout)
-				loginMessage = <p><i className="fa fa-exclamation red"></i> Login above if you already have an account, or fill out the fields below to create one.</p>;
-
 			registerBasicFields = (
 				<div>
-					{loginMessage}		
 					<RegisterBasicFields ref="basicFormFields"/>
 				</div>
 			);
@@ -84,7 +79,7 @@ var BuyTickets = React.createClass({
 						<div className="checkbox">
 							<label>
 								<input type="checkbox" onClick={this.handleAdminGuestClick} />
-								<i className="fa fa-usd red"></i> <strong>ADMINS ONLY:</strong> Create cash order for guest.
+								<i className="fa fa-usd red"></i> This is a cash order.
 							</label>
 						</div>
 					</div>

@@ -66,14 +66,14 @@ var Checkout = React.createClass({
 
 	},
 
-	handleCheckoutCompletd: function() {
-		this.transitionTo('/checkout-finish');
-	},
+	// handleCheckoutCompleted: function() {
+	// 	this.transitionTo('/checkout-finish');
+	// },
 
 	handleCheckout: function() {
 
 		if (this.state.isAdminGuestCheckout) {
-			this.getFlux().actions.BuyTicketsActions.checkout(null, this.state.formData, this.state.tickets, this.state.totalPrice, null, this.state.reserveSessionId, this.state.isAdminGuestCheckout);
+			this.getFlux().actions.BuyTicketsActions.checkout(this.context.router, null, this.state.formData, this.state.tickets, this.state.totalPrice, null, this.state.isAdminGuestCheckout);
 			return;
 		}
 
@@ -88,13 +88,13 @@ var Checkout = React.createClass({
 					userId = this.state.user.userId;
 
 				// init checkout
-				this.getFlux().actions.BuyTicketsActions.checkout(userId, this.state.formData, this.state.tickets, this.state.totalPrice, token.id, this.state.reserveSessionId, this.state.isAdminGuestCheckout);
+				this.getFlux().actions.BuyTicketsActions.checkout(this.context.router, userId, this.state.formData, this.state.tickets, this.state.totalPrice, token.id, this.state.isAdminGuestCheckout);
 
 			}.bind(this)
 		});
 
 		handler.open({
-			name: 'LAN WAR X',
+			name: 'LANWAR X',
 			description: 'Tickets',
 			amount: this.state.totalPrice * 100,
 			email: this.state.formData.email
@@ -127,8 +127,8 @@ var Checkout = React.createClass({
 
 	render: function() {
 
-		if (this.state.checkoutSuccess === true)
-			this.handleCheckoutCompletd();
+		// if (this.state.checkoutSuccess === true)
+		// 	this.handleCheckoutCompleted();
 
 		var ticketRows = [];
 		var firstName = this.state.formData.firstName;
@@ -136,7 +136,10 @@ var Checkout = React.createClass({
 		var email = this.state.formData.email;
 
 		$.each(this.state.tickets, function(index, ticket) {
-			ticketRows.push(<CheckoutTicket ticket={ticket}/>);
+			ticketRows.push(<tr key={index}>
+				<td>{ticket.name}</td>
+				<td>${ticket.price.toFixed(2)}</td>
+			</tr>);
 		});
 
 		if (!ticketRows.length || ((!firstName || !lastName || !email) && !this.state.isLoggedIn))
@@ -144,7 +147,7 @@ var Checkout = React.createClass({
 
 		var checkoutButton;
 		if (!this.state.hasStripe) {
-			checkoutButton = <button className="btn btn-primary disabled">Checkout</button>;
+			checkoutButton = <button className="btn btn-primary disabled">Initializing Checkout <i className="fa fa-circle-o-notch fa-spin"></i></button>;
 		}
 		else {
 			checkoutButton = <button className="btn btn-primary" onClick={this.handleCheckout}>Checkout</button>;
@@ -188,7 +191,6 @@ var Checkout = React.createClass({
 								<tr>
 									<th>Ticket Type</th>
 									<th>Price</th>
-									<th>Seat</th>
 								</tr>
 								</thead>
 								<tbody>
@@ -198,7 +200,6 @@ var Checkout = React.createClass({
 								<tr>
 									<th>Total</th>
 									<th>${this.state.totalPrice.toFixed(2)}</th>
-									<th></th>
 								</tr>
 								</tfoot>
 								</table>
@@ -207,10 +208,7 @@ var Checkout = React.createClass({
 						</div>
 						<div className="row">
 							<div className="col-md-2"></div>
-							<div className="col-md-4">
-								<CheckoutTimer onTimeExpired={this.handleTimeExpired} timeoutAt={this.state.checkoutExpireTime}/>
-							</div>
-							<div className="col-md-4 buttons-container">
+							<div className="col-md-8 buttons-container">
 								<button className="btn btn-default" onClick={this.handleClickBack}>Back</button>
 								{checkoutButton}
 							</div>

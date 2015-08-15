@@ -44,7 +44,7 @@ var CheckoutTimer = React.createClass({
 		}
 
 		return (
-			<div className="checkout-timer"><span>Time Left:</span> <span className="time-left">{prettyMinutes}:{prettySeconds}</span></div>
+			<div className="checkout-timer"><span>Reservations held for:</span> <span className="time-left">{prettyMinutes}:{prettySeconds}</span></div>
 		);
 
 	}

@@ -20,6 +20,10 @@ a {
 	}
 }
 
+*.pointer {
+	cursor: pointer;
+}
+
 div.app-loader {
 	position: absolute;
 	top: 0;
@@ -191,6 +195,31 @@ table.table {
 p.summary-text {
 	text-align: center;
 	margin: 0 0 40px;
+
+	&.lg {
+		font-size: 16px !important;
+	}
+}
+
+div.checkout-box {
+	background-color: #CCC;
+	padding: 10px;
+	margin: 40px 0;
+
+	h2 {
+		font-weight: 300;
+		font-size: 22px;
+		font-family: 'Roboto', sans-serif;
+		color: $lanwarRed;
+		text-align: center;
+	}
+
+	p {
+		font-size: 16px;
+		text-align: center;
+		font-weight: 300;
+		color: #333;
+	}
 }
 
 input.form-control {
@@ -214,6 +243,16 @@ label {
 		&:hover {
 			background-color: lighten($lanwarRed, 10%);
 		}
+	}
+
+	&.margin-left {
+		margin-left: 15px;
+	}
+
+	&.btn-thin {
+		padding: 1px 6px;
+		font-weight: 300;
+		width: 100%;
 	}
 
 	&.btn-default {
@@ -273,8 +312,8 @@ div.section-row {
 	span.seat {
 		// border-radius: 50%;
 		background-color: $lanwarRed;
-		width: 25px;
-		height: 25px;
+		width: 23px;
+		height: 23px;
 		display: inline-block;
 		margin: 0 3px;
 
@@ -536,6 +575,23 @@ div.check-in {
 	}
 }
 
+div.set-label {
+
+	p {
+		text-align: center;
+		font-size: 16px;
+	}
+
+	button {
+		width: 48%;
+
+		&:first-child {
+			margin-right: 4%;
+		}
+	}
+
+}
+
 table.ticket-types {
 	td {
 		span.ticket-title {
@@ -545,4 +601,8 @@ table.ticket-types {
 			margin: 0 0 10px;
 		}
 	}
+}
+
+.btn.choose-tickets-button {
+	margin: 20px 0 10px 15px;
 }

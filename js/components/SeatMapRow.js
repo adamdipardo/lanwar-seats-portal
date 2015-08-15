@@ -6,7 +6,7 @@ var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var SeatMapRow = React.createClass({
-	mixins: [FluxMixin, StoreWatchMixin("BuyTicketsStore")],
+	mixins: [FluxMixin, StoreWatchMixin("OrderStore")],
 
 	getInitialState: function() {
 		return {};
@@ -16,10 +16,10 @@ var SeatMapRow = React.createClass({
 
 		var flux = this.getFlux();
 
-		var BuyTicketsStore = flux.store("BuyTicketsStore").getState();
+		var OrderStore = flux.store("OrderStore").getState();
 
 		return {
-			tickets: BuyTicketsStore.tickets
+			order: OrderStore.order
 		};
 
 	},
@@ -73,16 +73,13 @@ var SeatMapRow = React.createClass({
 
 	isSeatSelectedByUser: function(seatKey) {
 
-		var tickets = this.state.tickets;
+		var tickets = this.state.order.tickets;
 
 		// console.log(tickets);
 
 		var isSeatSelected = false;
-		Object.keys(tickets).map(function(id) {
-			// console.log("TEST!");
-			// console.log(tickets[id].seat.seatKey);
-			// console.log(seatKey);
-			if (tickets[id].seat.seatKey == seatKey)
+		$.each(tickets, function(id, ticket) {
+			if (ticket.seat.seatKey == seatKey || ticket.seat.id == seatKey)
 			{
 				isSeatSelected = true;
 				return false;

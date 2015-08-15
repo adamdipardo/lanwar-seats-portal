@@ -72,7 +72,7 @@ var CheckInModal = React.createClass({
 						<tr>
 							<th>Ticket #</th>
 							<th>Type</th>
-							<th>Assigned To</th>
+							<th>Label</th>
 							<th>Seat</th>
 							<th>Checked In?</th>
 						</tr>
@@ -124,19 +124,23 @@ var CheckInModal = React.createClass({
 					</tr>
 					<tr>
 						<td>Seat</td>
-						<td>{this.state.checkInTicket.seat}</td>
+						<td>{this.state.checkInTicket.seat.name || "No seat assigned"}</td>
 					</tr>
 					<tr>
 						<td>Type</td>
 						<td>{this.state.checkInTicket.type}</td>
 					</tr>
 					<tr>
+						<td>Label</td>
+						<td>{this.state.checkInTicket.label || "No Label"}</td>
+					</tr>
+					<tr>
 						<td>First Name</td>
-						<td>{this.state.checkInTicket.user.firstName}</td>
+						<td>{this.state.checkInTicket.order.user.firstName}</td>
 					</tr>
 					<tr>
 						<td>Last Name</td>
-						<td>{this.state.checkInTicket.user.lastName}</td>
+						<td>{this.state.checkInTicket.order.user.lastName}</td>
 					</tr>
 					</tbody>
 					</table>

@@ -122,7 +122,7 @@ var OrderDetail = React.createClass({
 										<tr>
 											<th>Ticket #</th>
 											<th>Type</th>
-											<th>Assigned To</th>
+											<th>Label</th>
 											<th>Seat</th>
 											<th>Checked In?</th>
 										</tr>

@@ -83,7 +83,7 @@ gulp.task('webserver', function() {
       livereload: true,
       directoryListing: false,
       fallback: 'index.html',
-      proxies: [{source: '/api', target:'http://l.dev.api.lanwar.ca'},{source: '/reservations', target:'http://127.0.0.1:3000'}]
+      proxies: [{source: '/api', target:'http://l.dev.api.lanwar.ca'},{source: '/reservations', /*target:'http://127.0.0.1:3000'*/target:'http://dev.tickets.lanwarx.ca/reservations'}]
     }));
 });
 
