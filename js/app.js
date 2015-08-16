@@ -95,6 +95,6 @@ flux.actions.UserAccountActions.checkForSession();
 Router.run(routes, function(Handler) {
 	React.render(
     	<Handler flux={flux} />,
-    	document.getElementById("app")
+    	document.getElementById("lanwar-app")
   	);
 });

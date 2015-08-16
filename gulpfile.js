@@ -11,6 +11,9 @@ var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
 var argv = require('yargs').argv;
 var fs = require('fs');
+var RevAll = require('gulp-rev-all');
+var clean = require('gulp-clean');
+var minifyCss = require('gulp-minify-css');
 
 var libs = [
   'react',
@@ -26,6 +29,7 @@ var libs = [
 
 var packageJson = require('./package.json');
 var dependencies = Object.keys(packageJson && packageJson.dependencies || {});
+
 
 gulp.task('app', function() {
 
@@ -133,7 +137,30 @@ gulp.task('config', function(cb) {
 
 });
 
+gulp.task('clean:dist', function() {
+	return gulp.src('dist', {read: false})
+    	.pipe(clean());
+});
+
+gulp.task('hash', ['clean:dist'], function() {
+
+	var revAll = new RevAll({
+		dontRenameFile: ['index.html']
+	});
+	return gulp.src('build/**')
+    	.pipe(revAll.revision())
+    	.pipe(gulp.dest('dist'));
+
+});
+
+gulp.task('min-css', ['hash'], function() {
+	return gulp.src('dist/css/*.css')
+    	.pipe(minifyCss({compatibility: 'ie8'}))
+    	.pipe(gulp.dest('dist/css'));
+});
+
 // 
 gulp.task('default', ['config', 'webserver', 'app', 'vendor', 'html', 'sass', 'sass:watch', 'images', 'images:watch', 'scripts', 'scripts:watch', 'watch']);
 gulp.task('build', ['config', 'webserver', 'app', 'vendor', 'html', 'images', 'sass', 'scripts']);
 gulp.task('build-only', ['config', 'app', 'vendor', 'html', 'sass', 'images', 'scripts']);
+gulp.task('create-dist', ['min-css']);
