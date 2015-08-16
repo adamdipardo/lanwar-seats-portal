@@ -48,7 +48,7 @@ var Checkout = React.createClass({
 
 	handleClickBack: function() {
 
-		this.transitionTo('/select-seats');
+		this.transitionTo('/', {}, {back: true});
 
 	},
 

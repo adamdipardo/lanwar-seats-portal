@@ -55,7 +55,8 @@ var BuyTickets = React.createClass({
 
 	componentDidMount: function() {
 
-		this.getFlux().actions.BuyTicketsActions.resetCheckout();
+		if (!this.context.router.getCurrentQuery().back)
+			this.getFlux().actions.BuyTicketsActions.resetCheckout();
 
 	},
 
