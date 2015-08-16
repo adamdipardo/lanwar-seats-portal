@@ -112,6 +112,15 @@ var CheckoutFinish = React.createClass({
 			totalPrice += ticket.price;
 		}.bind(this));
 
+		// can user book seats?
+		var chooseSeatsButton;
+		for (var i = 0; i < this.state.order.tickets.length; i++) {
+			if (this.state.order.tickets[i].canBookSeat) {
+				chooseSeatsButton = (<a href={"/#/order/"+this.context.router.getCurrentParams().orderHash+"/select-seats"} className="btn btn-primary pull-right choose-tickets-button">Choose or Change Seats</a>);
+				break;
+			}
+		}
+
 		var registerSummary = null;
 		if (!this.state.isLoggedIn || this.state.isAdminGuestCheckout) {
 			registerSummary = (
@@ -152,7 +161,7 @@ var CheckoutFinish = React.createClass({
 										<h2>{this.state.order.tickets.length} Tickets</h2>
 									</div>
 									<div className="col-sm-6">										
-										<a href={"/#/order/"+this.context.router.getCurrentParams().orderHash+"/select-seats"} className="btn btn-primary pull-right choose-tickets-button">Choose or Change Seats</a>
+										{chooseSeatsButton}
 										<a onClick={this.getTicketsPDF} className="btn btn-primary pull-right choose-tickets-button">Print Tickets</a>
 									</div>
 								</div>

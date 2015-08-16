@@ -122,6 +122,11 @@ var SelectSeats = React.createClass({
 		var checkoutTimer = this.state.checkoutExpireTime != null ? <CheckoutTimer onTimeExpired={this.handleTimeExpired} timeoutAt={this.state.checkoutExpireTime}/> : null;
 
 		$.each(tickets, function(index, ticket) {
+
+			// skip tickets that cannot have seats
+			if (!ticket.canBookSeat)
+				return true;
+
 			numSeatsToChoose++;
 			if (tickets[index].seat.name || tickets[index].seat.seatKey)
 				numSeatsChosen++;

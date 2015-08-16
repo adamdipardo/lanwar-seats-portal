@@ -79,6 +79,7 @@ var Checkout = React.createClass({
 
 		var handler = StripeCheckout.configure({
 			key: 'pk_test_4XeVhaeYMMQeeQPayeee7e8R',
+
 			token: function(token) {
 				// Use the token to create the charge with a server-side script.
 				// You can access the token ID with `token.id`
@@ -97,7 +98,9 @@ var Checkout = React.createClass({
 			name: 'LANWAR X',
 			description: 'Tickets',
 			amount: this.state.totalPrice * 100,
-			email: this.state.formData.email
+			email: this.state.formData.email,
+			allowRememberMe: false,
+			image: 'img/icon-196.png'
 		});
 
 	},

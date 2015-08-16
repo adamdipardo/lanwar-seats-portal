@@ -33,7 +33,9 @@ var BuyTickets = React.createClass({
 
 	},
 
-	continueForm: function() {
+	continueForm: function(e) {
+
+		e.preventDefault();
 
 		if ((this.state.isLoggedIn || this.refs.basicFormFields.isValid()) && this.refs.ticketForm.isValid())
 		{
@@ -98,10 +100,13 @@ var BuyTickets = React.createClass({
 							<div className="col-md-8">
 								<h2>Buy Tickets</h2>
 								<p>Here you can buy tickets and reserve seats for LANWAR X. To start, select the number of tickets that you would like to buy. We recommend buying tickets for friends/groups together to make seat reservation easiest.</p>
+
+								<form onSubmit={this.continueForm}>
 								{adminGuestOption}
 								{registerBasicFields}		
 								<TicketForm ref="ticketForm"/>
-								<button className="pull-right btn btn-primary" onClick={this.continueForm}>Continue</button>
+								<button type="submit" className="pull-right btn btn-primary">Continue</button>
+								</form>
 							</div>
 							<div className="col-md-2"></div>
 						</div>

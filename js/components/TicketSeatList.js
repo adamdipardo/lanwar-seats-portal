@@ -61,6 +61,10 @@ var TicketSeatList = React.createClass({
 
 		var ticketRows = [];
 		$.each(tickets, function(id, ticket) {
+
+			// skip tickets that cannot have a seat
+			if (!ticket.canBookSeat)
+				return true;
 						
 			if (ticket.seat.roomKey)
 			{
