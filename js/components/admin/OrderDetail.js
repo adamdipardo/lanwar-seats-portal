@@ -32,7 +32,8 @@ var OrderDetail = React.createClass({
 
 	componentDidMount: function() {
 
-		this.getFlux().actions.AdminOrdersActions.getOrderDetail(this.context.router.getCurrentParams().orderId);
+		if (this.context.router.getCurrentQuery()['from-cache'] != 'true' || this.state.orderDetail.id != this.context.router.getCurrentParams().orderId)
+			this.getFlux().actions.AdminOrdersActions.getOrderDetail(this.context.router.getCurrentParams().orderId);
 
 	},
 

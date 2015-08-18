@@ -121,26 +121,6 @@ var CheckoutFinish = React.createClass({
 			}
 		}
 
-		var registerSummary = null;
-		if (!this.state.isLoggedIn || this.state.isAdminGuestCheckout) {
-			registerSummary = (
-				<table className="table">
-				<tr>
-					<td>First Name: </td>
-					<td>{firstName}</td>
-				</tr>
-				<tr>
-					<td>Last Name: </td>
-					<td>{lastName}</td>
-				</tr>
-				<tr>
-					<td>Email: </td>
-					<td>{email}</td>
-				</tr>
-				</table>
-			);
-		}
-
 		return (
 			<div>
 				<Header />
@@ -154,7 +134,20 @@ var CheckoutFinish = React.createClass({
 
 								<h2>Order Summary</h2>
 
-								{registerSummary}
+								<table className="table">
+								<tr>
+									<td>First Name: </td>
+									<td>{firstName}</td>
+								</tr>
+								<tr>
+									<td>Last Name: </td>
+									<td>{lastName}</td>
+								</tr>
+								<tr>
+									<td>Email: </td>
+									<td>{email}</td>
+								</tr>
+								</table>
 
 								<div className="row">
 									<div className="col-sm-6">

@@ -1,6 +1,6 @@
 @import "react-tooltip";
 @import "react-select";
-@import url(http://fonts.googleapis.com/css?family=Roboto:300,700,400);
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,700,400);
 
 $lanwarRed: #B9121B;
 
@@ -575,7 +575,7 @@ div.check-in {
 	}
 }
 
-div.set-label {
+div.set-label, div.lookup-order-number {
 
 	p {
 		text-align: center;
@@ -588,6 +588,19 @@ div.set-label {
 		&:first-child {
 			margin-right: 4%;
 		}
+	}
+
+	span.help-block {
+		text-align: center;
+	}
+
+}
+
+div.lookup-order-number {
+
+	input {
+		text-align: center;
+		font-size: 22px;
 	}
 
 }

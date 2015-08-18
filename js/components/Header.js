@@ -6,6 +6,7 @@ var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var AppLoader = require('./AppLoader');
+var OrderNumberLookupModal = require('./admin/OrderNumberLookupModal');
 
 var Header = React.createClass({
 
@@ -82,6 +83,13 @@ var Header = React.createClass({
 
 	},
 
+	openLookUpOrderNumberModal: function() {
+
+		this.getFlux().actions.AdminOrdersActions.openLookupOrderNumberModal();
+		setTimeout(function(){$('#order-number').focus();}, 100);
+
+	},
+
 	render: function() {
 
 		
@@ -125,7 +133,7 @@ var Header = React.createClass({
 
 			// add admin menu items
 			if (this.state.user.type == 'admin') {
-				menu.unshift(<li className="dropdown"><a className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span className="caret"></span></a> <ul className="dropdown-menu"><li><a href="/#/admin/orders">All Orders</a></li><li><a href="/#/admin/checked-in-tickets">All Checked-In Tickets</a></li><li><a href="/#/admin/scan">Scan</a></li></ul></li>);
+				menu.unshift(<li className="dropdown"><a className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span className="caret"></span></a> <ul className="dropdown-menu"><li><a href="/#/admin/orders">All Orders</a></li><li><a href="/#/admin/checked-in-tickets">All Checked-In Tickets</a></li><li><a href="/#/admin/scan">Scan</a></li><li><a onClick={this.openLookUpOrderNumberModal}>Lookup Order #</a></li></ul></li>);
 			}
 		}
 		else
@@ -148,6 +156,7 @@ var Header = React.createClass({
 					</div>
 				</header>
 				{loginSlider}
+				<OrderNumberLookupModal />
 			</div>
 		);
 

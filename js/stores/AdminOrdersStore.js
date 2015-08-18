@@ -9,6 +9,9 @@ var AdminOrdersStore = Fluxxor.createStore({
 		this.ordersPaging = {};
 		this.isLoadingOrderDetail = true;
 		this.orderDetail = {};
+		this.showLookupOrderNumberModal = false;
+		this.isLoadingOrderNumberLookup = false;
+		this.orderNumberLookupError = null;
 
 		this.bindActions(
 			LanwarConstants.ADMIN_ORDERS_LOADING, this.onOrdersLoading,
@@ -19,7 +22,12 @@ var AdminOrdersStore = Fluxxor.createStore({
 			LanwarConstants.ADMIN_ORDER_DETAIL_ERROR, this.onOrderDetailError,
 			LanwarConstants.ADMIN_CHECK_IN_ID_LOADING, this.onCheckInIdLoading,
 			LanwarConstants.ADMIN_CHECK_IN_ID_SUCCESS, this.onCheckInIdSuccess,
-			LanwarConstants.ADMIN_CHECK_IN_ID_ERROR, this.onCheckInIdError
+			LanwarConstants.ADMIN_CHECK_IN_ID_ERROR, this.onCheckInIdError,
+			LanwarConstants.OPEN_LOOKUP_ORDER_NUMBER_MODAL, this.onOpenLookupOrderNumberModal,
+			LanwarConstants.LOOKUP_ORDER_NUMBER_LOADING, this.onLookupOrderNumberLoading,
+			LanwarConstants.LOOKUP_ORDER_NUMBER_SUCCESS, this.onLookupOrderNumberSuccess,
+			LanwarConstants.LOOKUP_ORDER_NUMBER_ERROR, this.onLookupOrderNumberError,
+			LanwarConstants.DISMISS_LOOKUP_ORDER_NUMBER_MODAL, this.onDismissLookupOrderNumberModal
 		);
 	},
 
@@ -114,13 +122,47 @@ var AdminOrdersStore = Fluxxor.createStore({
 
 	},
 
+	onOpenLookupOrderNumberModal: function(payload) {
+		this.showLookupOrderNumberModal = true;
+		this.orderNumberLookupError = null;
+		this.emit("change");
+	},
+
+	onLookupOrderNumberLoading: function(payload) {
+		this.isLoadingOrderNumberLookup = true;
+		this.orderNumberLookupError = null;
+		this.emit("change");
+	},
+
+	onLookupOrderNumberSuccess: function(payload) {
+		this.isLoadingOrderNumberLookup = false;
+		this.showLookupOrderNumberModal = false;
+		this.isLoadingOrderDetail = false;
+		this.orderDetail = payload;
+		this.emit("change");
+	},
+
+	onLookupOrderNumberError: function(payload) {
+		this.isLoadingOrderNumberLookup = false;
+		this.orderNumberLookupError = payload.error;
+		this.emit("change");
+	},
+
+	onDismissLookupOrderNumberModal: function(payload) {
+		this.showLookupOrderNumberModal = false;
+		this.emit("change");
+	},
+
 	getState: function() {
 		return {
 			isLoadingOrders: this.isLoadingOrders,
 			orders: this.orders,
 			ordersPaging: this.ordersPaging,
 			isLoadingOrderDetail: this.isLoadingOrderDetail,
-			orderDetail: this.orderDetail
+			orderDetail: this.orderDetail,
+			showLookupOrderNumberModal: this.showLookupOrderNumberModal,
+			isLoadingOrderNumberLookup: this.isLoadingOrderNumberLookup,
+			orderNumberLookupError: this.orderNumberLookupError
 		};
 	}
 
