@@ -38,9 +38,9 @@ var SeatMapRow = React.createClass({
 
 		var sectionClasses;
 		if (numSections == 1)
-			sectionClasses = [['col-sm-12', 'center-section']];
+			sectionClasses = [['col-xs-12', 'center-section']];
 		else if (numSections == 3)
-			sectionClasses = [['col-sm-3', 'left-section'], ['col-sm-6', 'center-section'], ['col-sm-3', 'right-section']];
+			sectionClasses = [['col-xs-3', 'left-section'], ['col-xs-6', 'center-section'], ['col-xs-3', 'right-section']];
 
 		var sectionContainers = [];
 		row.seats.forEach(function(element, index) {
@@ -65,7 +65,7 @@ var SeatMapRow = React.createClass({
 		}.bind(this));
 
 		return (
-			<div className="row">
+			<div className="row seat-row">
 				{sectionContainers}
 			</div>
 		);

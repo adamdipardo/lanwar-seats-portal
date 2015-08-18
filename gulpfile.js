@@ -86,6 +86,7 @@ gulp.task('webserver', function() {
     .pipe(webserver({
       livereload: true,
       directoryListing: false,
+      host: '0.0.0.0',
       fallback: 'index.html',
       proxies: [{source: '/api', target:'http://l.dev.api.lanwar.ca'},{source: '/reservations', /*target:'http://127.0.0.1:3000'*/target:'http://dev.tickets.lanwarx.ca/reservations'}]
     }));

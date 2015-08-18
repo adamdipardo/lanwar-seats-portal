@@ -3,6 +3,7 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300,700,400);
 
 $lanwarRed: #B9121B;
+$collapseMax: 767px;
 
 body {
 	
@@ -42,73 +43,107 @@ div.app-loader {
 	}
 }
 
-header {
+nav.navbar.navbar-default {
+	border-radius: 0;
+	border-width: 0;
+	margin-bottom: 0;
 	background-color: $lanwarRed;
+	z-index: 10;
 
-	h1.logo {
-		color: white;
-		font-weight: 300;
-		text-transform: uppercase;
-		font-size: 26px;
-		font-family: 'Roboto', sans-serif;
-		margin: 12px 0 0;
-		float: left;
-
-		strong {
-			font-weight: 600;
-		}
-	}
-
-	ul.menu {
-		list-style-type: none;
-		float: right;
-		margin: 0;
-		padding: 0;
-
-		li {
+	header {
+		a.navbar-brand {
+			color: white;
+			font-weight: 300;
+			text-transform: uppercase;
+			font-size: 26px;
+			font-family: 'Roboto', sans-serif;
+			margin: 17px 0 0;
 			float: left;
+			padding: 0;
+			height: auto;
 
-			&.dropdown.open > a {
-				background-color: darken($lanwarRed, 10%);
+			strong {
+				font-weight: 600;
+			}
+		}
+
+		button.navbar-toggle {
+			border-width: 0;
+
+			&:hover, &:active, &:focus {
+				background-color: transparent;
 			}
 
-			a {
-				display: block;
-				color: white;
-				font-size: 14px;
-				padding: 16px 10px;
-				cursor: pointer;
-
-				&:hover {
-					background-color: darken($lanwarRed, 10%);
-					text-decoration: none;
-				}
-
-				&.no-hover:hover {
-					background-color: transparent;
-					text-decoration: none;
-				}
+			span.icon-bar {
+				background-color: white;
 			}
+		}
 
-			&.dropdown {
-				ul {
-					box-shadow: none;
-					margin: 0;
-					padding: 0;
-					border-radius: 0;
-					border: none;
-
+		@media all and (max-width: $collapseMax) {
+			div.navbar-collapse {
+				border-width: 0;
+				ul.nav {
 					li {
 						width: 100%;
+					}
+				}
+			}
+		}
 
-						a {
-							background-color: $lanwarRed;
-							color: white;
-							display: block;
-							padding: 10px;
+		ul.nav {
+			// list-style-type: none;
+			// float: right;
+			margin: 0;
+			padding: 0;
+			position: relative;
+			z-index: 10;
 
-							&:hover {
-								background-color: darken($lanwarRed, 10%);
+			li {
+				float: left;
+
+				&.dropdown.open > a {
+					background-color: darken($lanwarRed, 10%);
+					color: white;
+				}
+
+				a {
+					display: block;
+					color: white;
+					font-size: 14px;
+					padding: 16px 10px;
+					cursor: pointer;
+
+					&:hover, &:active, &:focus {
+						background-color: darken($lanwarRed, 10%);
+						text-decoration: none;
+					}
+
+					&.no-hover:hover, &.no-hover:active, &.no-hover:focus {
+						background-color: transparent;
+						text-decoration: none;
+					}
+				}
+
+				&.dropdown {
+					ul {
+						box-shadow: none;
+						margin: 0;
+						padding: 0;
+						border-radius: 0;
+						border: none;
+
+						li {
+							width: 100%;
+
+							a {
+								background-color: $lanwarRed;
+								color: white;
+								display: block;
+								padding: 10px;
+
+								&:hover {
+									background-color: darken($lanwarRed, 10%);
+								}
 							}
 						}
 					}
@@ -340,6 +375,12 @@ div.select-seats {
 
 		margin-top: 20px;
 		margin-bottom: 20px;
+		max-width: 100%;
+		overflow-x: auto;
+
+		div.seat-row {
+			min-width: 820px;
+		}
 
 	}
 
@@ -380,6 +421,7 @@ div.select-seats {
 		font-style: italic;
 		margin-top: 20px;
 		color: #999;
+		width: 100%;
 	}
 
 }
@@ -616,6 +658,15 @@ table.ticket-types {
 	}
 }
 
+.checkout-finish-buttons {
+	text-align: right;	
+}
+
 .btn.choose-tickets-button {
 	margin: 20px 0 10px 15px;
+	display: inline-block;
+
+	@media all and (max-width: $collapseMax) {
+		margin: 0 0 0 10px;
+	}
 }

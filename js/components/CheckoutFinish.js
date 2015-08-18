@@ -116,7 +116,7 @@ var CheckoutFinish = React.createClass({
 		var chooseSeatsButton;
 		for (var i = 0; i < this.state.order.tickets.length; i++) {
 			if (this.state.order.tickets[i].canBookSeat) {
-				chooseSeatsButton = (<a href={"/#/order/"+this.context.router.getCurrentParams().orderHash+"/select-seats"} className="btn btn-primary pull-right choose-tickets-button">Choose or Change Seats</a>);
+				chooseSeatsButton = (<a href={"/#/order/"+this.context.router.getCurrentParams().orderHash+"/select-seats"} className="btn btn-primary choose-tickets-button">Choose or Change Seats</a>);
 				break;
 			}
 		}
@@ -153,9 +153,9 @@ var CheckoutFinish = React.createClass({
 									<div className="col-sm-6">
 										<h2>{this.state.order.tickets.length} Tickets</h2>
 									</div>
-									<div className="col-sm-6">										
+									<div className="col-sm-6 checkout-finish-buttons">										
 										{chooseSeatsButton}
-										<a onClick={this.getTicketsPDF} className="btn btn-primary pull-right choose-tickets-button">Print Tickets</a>
+										<a onClick={this.getTicketsPDF} className="btn btn-primary choose-tickets-button">Print Tickets</a>
 									</div>
 								</div>
 
