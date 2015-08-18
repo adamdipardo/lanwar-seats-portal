@@ -11,6 +11,7 @@ The portal is only front-end, all back-end work is handled by a separate API and
 * Reviewing order
 * Setting labels for tickets
 * Printing a copy of the tickets PDF
+* Responsive
 
 ### Admin Features
 
@@ -18,6 +19,7 @@ The portal is only front-end, all back-end work is handled by a separate API and
 * View all orders
 * Check-in tickets either by manually lookup the order/ticket, or by QR code scan
 * View a list of all checked-in tickets
+* Lookup order by entering in the Order ID #
 
 ## Installation
 

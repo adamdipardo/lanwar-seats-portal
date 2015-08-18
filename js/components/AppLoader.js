@@ -22,13 +22,12 @@ var AppLoader = React.createClass({
 
 	render: function() {
 
-		var classes = "app-loader";
 		if (!this.state.isLoadingSessionCheck)
-			classes += " no-load";
+			return <div></div>;
 
 		return (
-			<div className={classes}>
-				<i className="fa fa-circle-o-notch fa-spin fa-4x"></i>
+			<div className="app-loader">
+				<div className="loader">Loading...</div>
 			</div>
 		);
 
