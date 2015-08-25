@@ -139,9 +139,20 @@ var Checkout = React.createClass({
 		var email = this.state.formData.email;
 
 		$.each(this.state.tickets, function(index, ticket) {
+			
+			// get names of chosen options and total price
+			var options = [];
+			var price = ticket.price;
+			for (var i = 0; i < ticket.options.length; i++) {
+				if (ticket.chosenOptions.indexOf(ticket.options[i].id) > -1) {
+					options.push(ticket.options[i].name);
+					price += ticket.options[i].price;
+				}
+			}
+
 			ticketRows.push(<tr key={index}>
-				<td>{ticket.name}</td>
-				<td>${ticket.price.toFixed(2)}</td>
+				<td>{ticket.name} {options.length ? '('+options.join(', ')+')' : ''}</td>
+				<td>${price.toFixed(2)}</td>
 			</tr>);
 		});
 

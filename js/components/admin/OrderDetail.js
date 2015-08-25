@@ -107,10 +107,6 @@ var OrderDetail = React.createClass({
 											<th>Last Name:</th>
 											<td>{orderDetail.user.lastName}</td>
 										</tr>
-										<tr>
-											<th>Gamer Tag:</th>
-											<td>{orderDetail.user.gamerTag}</td>
-										</tr>
 										</table>
 									</div>
 								</div>
@@ -123,6 +119,7 @@ var OrderDetail = React.createClass({
 										<tr>
 											<th>Ticket #</th>
 											<th>Type</th>
+											<th>Options</th>
 											<th>Label</th>
 											<th>Seat</th>
 											<th>Checked In?</th>

@@ -43,7 +43,15 @@ var BuyTicketsActions = {
 
 		var formattedTickets = [];
 		$.each(tickets, function(index, ticket) {
-			formattedTickets.push({id: ticket.id, seat: ticket.seat.seatKey});
+			var formattedTicket = {id: ticket.id, seat: ticket.seat.seatKey};
+
+			if (ticket.options.length > 0) {
+				formattedTicket.options = [];
+				for (var i = 0; i < ticket.chosenOptions.length; i++)
+					formattedTicket.options.push({id: ticket.chosenOptions[i]});
+			}
+
+			formattedTickets.push(formattedTicket);
 		});
 
 		this.dispatch(LanwarConstants.CHECKOUT_LOADING, {});
@@ -88,6 +96,9 @@ var BuyTicketsActions = {
 	},
 	resetCheckout: function() {
 		this.dispatch(LanwarConstants.RESET_CHECKOUT, {});
+	},
+	updateTicketOptions: function(ticketKey, chosenOptions) {
+		this.dispatch(LanwarConstants.UPDATE_TICKET_OPTIONS, {ticketKey: ticketKey, chosenOptions: chosenOptions});
 	}
 };
 

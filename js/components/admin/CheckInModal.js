@@ -72,6 +72,7 @@ var CheckInModal = React.createClass({
 						<tr>
 							<th>Ticket #</th>
 							<th>Type</th>
+							<th>Options</th>
 							<th>Label</th>
 							<th>Seat</th>
 							<th>Checked In?</th>
@@ -108,6 +109,14 @@ var CheckInModal = React.createClass({
 		}
 
 		if (typeof(this.state.checkInTicket.id) != "undefined") {
+
+			// get options
+			var options = [];
+			if (this.state.checkInTicket.options.length > 0) {
+				for (var i = 0; i < this.state.checkInTicket.options.length; i++)
+					options.push(this.state.checkInTicket.options[i].name);
+			}
+
 			return (
 				<Modal dialogClassName='check-in success' animation={false}>
 					<i className="fa fa-check-circle fa-4x"></i>
@@ -129,6 +138,10 @@ var CheckInModal = React.createClass({
 					<tr>
 						<td>Type</td>
 						<td>{this.state.checkInTicket.type}</td>
+					</tr>
+					<tr>
+						<td>Options</td>
+						<td>{options.join(', ')}</td>
 					</tr>
 					<tr>
 						<td>Label</td>

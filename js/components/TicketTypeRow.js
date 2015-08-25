@@ -13,13 +13,20 @@ var TicketTypeRow = React.createClass({
 
 	getInitialState: function() {
 		return {
-			quantity: 0
+			quantity: 0,
+			selectedOptions: []
 		};
 	},
 
 	handleQuantityChange: function(e) {
 		this.getFlux().actions.BuyTicketsActions.changeTicketQuantity(this.props.ticketType, e.target.value);
 		this.setState({quantity: e.target.value});
+	},
+
+	handleOptionChange: function(e, option) {
+
+		// 
+
 	},
 
 	render: function() {
@@ -30,7 +37,7 @@ var TicketTypeRow = React.createClass({
 			quantities.push(<option key={i} value={i} isSelected>{i}</option>);
 		}
 
-		return (
+		return (			
 			<tr>
 				<td><span className="ticket-title">{this.props.ticketType.name}</span><div className="description">{this.props.ticketType.description}</div></td>
 				<td>

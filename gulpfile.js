@@ -14,6 +14,8 @@ var fs = require('fs');
 var RevAll = require('gulp-rev-all');
 var clean = require('gulp-clean');
 var minifyCss = require('gulp-minify-css');
+var awspublish = require('gulp-awspublish');
+var cloudfront = require("gulp-cloudfront");
 
 var libs = [
   'react',

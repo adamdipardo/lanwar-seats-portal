@@ -44,3 +44,10 @@ The portal is only front-end, all back-end work is handled by a separate API and
 2. Run `gulp create-dist` to create a final distrobution-ready version of the project. The difference between this step and the last is that this step hashes all static resources, so that they can be cached. Output goes to the `dist` directory.
 
 ## Changelog
+
+## To-Do
+
+* Add in Smash tickets, most likely back-end work needed for special options (singles, doubles)
+* Remove login link from header
+* Create footer with basic information, admin login link?
+* Create login page, have non-authenticated requests to the admin redirect there

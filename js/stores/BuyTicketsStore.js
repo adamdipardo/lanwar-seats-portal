@@ -28,7 +28,8 @@ var BuyTicketsStore = Fluxxor.createStore({
 			LanwarConstants.CHECKOUT_ERROR, this.onCheckoutError,
 			LanwarConstants.CHECKOUT_LOADING, this.onCheckoutLoading,
 			LanwarConstants.SET_ADMIN_GUEST_CHECKOUT, this.onSetAdminGuestCheckout,
-			LanwarConstants.RESET_CHECKOUT, this.onResetCheckout
+			LanwarConstants.RESET_CHECKOUT, this.onResetCheckout,
+			LanwarConstants.UPDATE_TICKET_OPTIONS, this.onUpdateTicketOptions
 		);
 	},
 
@@ -137,6 +138,15 @@ var BuyTicketsStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
+	onUpdateTicketOptions: function(payload) {
+
+		var ticket = this.tickets[payload.ticketKey];
+		ticket.chosenOptions = payload.chosenOptions;
+		this.totalPrice = this._getTotalPrice();
+		this.emit("change");
+
+	},
+
 	getState: function() {
 		return {
 			tickets: this.tickets,
@@ -155,8 +165,16 @@ var BuyTicketsStore = Fluxxor.createStore({
 
 	_getTotalPrice: function() {
 		var price = 0.0;
-		for (var i in this.tickets)
+		for (var i in this.tickets) {
 			price += this.tickets[i].price;
+
+			if (this.tickets[i].chosenOptions && this.tickets[i].chosenOptions.length) {
+				for (var x = 0; x < this.tickets[i].options.length; x++) {
+					if (this.tickets[i].chosenOptions.indexOf(this.tickets[i].options[x].id) > -1)
+						price += this.tickets[i].options[x].price;
+				}
+			}
+		}
 		return price;
 	}
 });	

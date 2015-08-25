@@ -627,6 +627,8 @@ span.checked-in {
 
 	&.not {
 
+		color: $lanwarRed;
+
 		a {
 			color: $lanwarRed;
 			cursor: pointer;
@@ -734,6 +736,106 @@ table.ticket-types {
 			margin: 0 0 10px;
 		}
 	}
+}
+
+table.table-ticket-options {
+	// background-color: #EBEBEB;
+	border: 1px solid #CCC;
+	margin-top: 40px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+
+	&.no-options {
+		tbody {
+			span.title {
+				margin-bottom: 0;
+			}
+
+			div.description.option {
+				font-style: italic;
+			}
+
+			td {
+				padding-top: 4px;
+				padding-bottom: 4px;
+			}
+		}
+	}
+
+	tbody {
+		tr:first-child {
+			td {
+				// padding-top: 10px;
+			}
+		}
+
+		tr:last-child {
+			td {
+				// padding-bottom: 10px;
+			}
+		}
+
+		td.option-price {
+			vertical-align: middle;
+		}
+
+		td.price {
+			vertical-align: middle;
+
+			span.price {
+				color: $lanwarRed;
+				font-size: 24px;
+				display: block;
+				text-align: center;
+			}
+
+			span.total {
+				display: block;
+				text-align: center;
+				font-size: 12px;
+				font-weight: 700;
+				color: #999;
+				text-transform: uppercase;
+			}
+		}
+
+		td {
+			border-top: none;
+		}
+
+		span.option-required {
+			color: $lanwarRed;
+			display: inline-block;
+			padding-left: 10px;
+		}
+
+		span.title {
+			color: $lanwarRed;
+			font-weight: bold;
+			display: inline-block;
+			margin: 0 10px 10px 0;
+			font-size: 18px;
+			text-transform: uppercase;
+
+			&.option {
+				font-size: 14px;
+				color: #333;
+				// margin-left: 20px;
+				margin-bottom: 4px;
+			}
+		}
+
+		div.description {
+			&.option {
+				// margin-left: 20px;
+			}
+		}
+	}
+}
+
+p.error.options-error {
+	text-align: right;
+	color: $lanwarRed;
 }
 
 .checkout-finish-buttons {

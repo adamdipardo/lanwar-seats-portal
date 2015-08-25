@@ -28,12 +28,29 @@ var TicketRow = React.createClass({
 			var checkedIn = <span className="checked-in not">Not Checked In</span>;
 		}
 
+		// get options
+		var options = [];
+		if (ticket.options.length > 0) {
+			for (var i = 0; i < ticket.options.length; i++)
+				options.push(ticket.options[i].name);
+		}
+
+		// show seat description
+		var seat;
+		if (ticket.seat.name)
+			seat = ticket.seat.name;
+		else if (ticket.canBookSeat == true)
+			seat = "No Seat Assigned";
+		else
+			seat = "Not available";
+
 		return (
 			<tr key={ticket.id}>
 				<td>{ticket.id}</td>
 				<td>{ticket.type}</td>
+				<td>{options.join(', ')}</td>
 				<td>{ticket.label || "No Label Set"}</td>
-				<td>{ticket.seat.name || "No Seat Assigned"}</td>
+				<td>{seat}</td>
 				<td>{checkedIn}</td>
 			</tr>
 		);

@@ -28,7 +28,8 @@ var BuyTickets = React.createClass({
 		return {
 			isLoggedIn: UserAccountStore.isLoggedIn,
 			user: UserAccountStore.user,
-			isAdminGuestCheckout: BuyTicketsStore.isAdminGuestCheckout
+			isAdminGuestCheckout: BuyTicketsStore.isAdminGuestCheckout,
+			tickets: BuyTicketsStore.tickets
 		};
 
 	},
@@ -43,8 +44,19 @@ var BuyTickets = React.createClass({
 				var formData = this.refs.basicFormFields.getFormData();
 				this.getFlux().actions.BuyTicketsActions.saveFormData(formData);
 			}
+
+			var chooseOptions = false;
+			$.each(this.state.tickets, function(index, ticket) {
+				if (ticket.options.length > 0) {
+					chooseOptions = true;
+					return false;
+				}
+			});
 			
-			this.transitionTo('checkout');
+			if (chooseOptions)
+				this.transitionTo('choose-options');
+			else
+				this.transitionTo('checkout');
 		}
 
 	},

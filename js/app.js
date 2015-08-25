@@ -34,9 +34,11 @@ var AdminOrders = require('./components/admin/Orders');
 var AdminOrderDetail = require('./components/admin/OrderDetail');
 var AdminScan = require('./components/admin/Scan');
 var AdminTickets = require('./components/admin/CheckedInTickets');
+var ChooseOptions = require('./components/ChooseOptions');
 
 var routes = (
 	<Route name="home" path="/">
+		<Route name="choose-options" path="/choose-options" handler={ChooseOptions}/>
 		<Route name="select-seats" path="/select-seats" handler={SelectSeats}/>
 		<Route name="checkout" path="/checkout" handler={Checkout}/>
 		<Route name="checkout-finish" path="/checkout-finish" handler={CheckoutFinish}/>
