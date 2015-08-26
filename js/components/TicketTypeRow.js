@@ -13,7 +13,7 @@ var TicketTypeRow = React.createClass({
 
 	getInitialState: function() {
 		return {
-			quantity: this.props.initialChosen,
+			quantity: this.props.initialChosen || 0,
 			selectedOptions: []
 		};
 	},
