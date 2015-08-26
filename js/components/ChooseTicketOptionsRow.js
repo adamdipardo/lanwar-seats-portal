@@ -9,7 +9,7 @@ var ChooseTicketOptionsRow = React.createClass({
 	getInitialState: function() {
 
 		return {
-			chosenOptions: [],
+			chosenOptions: this.props.ticket.chosenOptions || [],
 			total: this.props.ticket.price
 		};
 
@@ -26,7 +26,6 @@ var ChooseTicketOptionsRow = React.createClass({
 		}
 
 		this.setState({chosenOptions: chosenOptions});
-		this.calculateTicketTotal();
 		this.getFlux().actions.BuyTicketsActions.updateTicketOptions(this.props.ticketKey, chosenOptions);
 
 	},
@@ -42,23 +41,26 @@ var ChooseTicketOptionsRow = React.createClass({
 			}
 		}
 
-		this.setState({total: total});
+		return total;
 
 	},
 
 	render: function() {
 
+		var total = this.calculateTicketTotal();
+
 		var optionRows = [];
 		for (var i = 0; i < this.props.ticket.options.length; i++) {
 			var option = this.props.ticket.options[i];
+			var isChecked = typeof(this.props.ticket.chosenOptions) != "undefined" && this.props.ticket.chosenOptions.indexOf(option.id) > -1;
 			optionRows.push((
-				<tr>
+				<tr key={option.id}>
 					<td width="65%">
 						<span className="title option">{option.name}</span>
 						<div className="description option">{option.description}</div>
 					</td>
 					<td width="15%" className="option-price">
-						<label><input type="checkbox" onChange={this.changeOption.bind(this, option)}/> ${option.price.toFixed(2)}</label>
+						<label><input type="checkbox" onChange={this.changeOption.bind(this, option)} checked={isChecked}/> ${option.price.toFixed(2)}</label>
 					</td>
 				</tr>
 			));
@@ -80,7 +82,7 @@ var ChooseTicketOptionsRow = React.createClass({
 			<tbody>
 			<tr>
 				<td colSpan="2"><span className="title">{this.props.ticket.name} Ticket</span> ${this.props.ticket.price.toFixed(2)} {showOptionRequired}</td>
-				<td className="price" rowSpan={(optionRows.length + 1)}><span className="total">Ticket Total</span><span className="price">${this.state.total.toFixed(2)}</span></td>
+				<td className="price" rowSpan={(optionRows.length + 1)}><span className="total">Ticket Total</span><span className="price">${total.toFixed(2)}</span></td>
 			</tr>
 			{optionRows}
 			</tbody>

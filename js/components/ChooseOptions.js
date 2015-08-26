@@ -3,6 +3,7 @@ var Fluxxor = require('fluxxor');
 var Navigation = require('react-router').Navigation;
 
 var Header = require('./Header');
+var Footer = require('./Footer');
 var ChooseTicketOptionsRow = require('./ChooseTicketOptionsRow');
 
 var FluxMixin = Fluxxor.FluxMixin(React);
@@ -28,6 +29,12 @@ var ChooseOptions = React.createClass({
 		return {
 			tickets: BuyTicketsStore.tickets
 		};
+
+	},
+
+	handleClickBack: function() {
+
+		this.transitionTo('/', {}, {back: true});
 
 	},
 
@@ -83,12 +90,16 @@ var ChooseOptions = React.createClass({
 								<form onSubmit={this.handleContinueClick}>
 								{ticketOptionRows}
 								<p className="error options-error">{this.state.continueError}</p>
-								<button type="submit" className="btn btn-primary pull-right">Continue</button>
+								<div className="buttons-container">
+									<button type="button" className="btn btn-default" onClick={this.handleClickBack}>Back</button>
+									<button type="submit" className="btn btn-primary pull-right">Continue</button>
+								</div>
 								</form>
 							</div>
 						</div>
 					</div>
 				</div>
+				<Footer />
 			</div>
 		);
 

@@ -7,6 +7,7 @@ The portal is only front-end, all back-end work is handled by a separate API and
 ## Features
 
 * Ordering one or more tickets, with payment handled by (Stripe Checkout)[https://stripe.com/docs/checkout].
+* Tickets can have options
 * Reserving seats
 * Reviewing order
 * Setting labels for tickets
@@ -47,7 +48,4 @@ The portal is only front-end, all back-end work is handled by a separate API and
 
 ## To-Do
 
-* Add in Smash tickets, most likely back-end work needed for special options (singles, doubles)
-* Remove login link from header
-* Create footer with basic information, admin login link?
-* Create login page, have non-authenticated requests to the admin redirect there
+* Add more stuff to footer, maybe

@@ -4,6 +4,7 @@ var Navigation = require('react-router').Navigation;
 var classNames = require('classnames');
 
 var Header = require('./Header');
+var Footer = require('./Footer');
 
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -174,7 +175,7 @@ var Profile = React.createClass({
 
 		// permission
 		if (!this.state.isLoggedIn && !this.state.isLoadingSessionCheck)
-			this.transitionTo('/');
+			this.transitionTo('/login');
 
 		// while loading only show icon
 		if (this.state.isLoadingProfile) {
@@ -190,6 +191,7 @@ var Profile = React.createClass({
 							</div>
 						</div>
 					</div>
+					<Footer />
 				</div>
 			);
 		}
@@ -334,6 +336,7 @@ var Profile = React.createClass({
 						</div>
 					</div>
 				</div>
+				<Footer />
 			</div>
 		);
 

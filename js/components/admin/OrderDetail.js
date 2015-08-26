@@ -7,6 +7,7 @@ var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var Header = require('../Header');
+var Footer = require('../Footer');
 var TicketRow = require('./TicketRow');
 
 var OrderDetail = React.createClass({
@@ -51,7 +52,7 @@ var OrderDetail = React.createClass({
 
 		// permission
 		if ((!this.state.isLoggedIn || this.state.user.type != 'admin') && !this.state.isLoadingSessionCheck)
-			this.transitionTo('/');
+			this.transitionTo('/login');
 
 		if (this.state.isLoadingOrderDetail) {
 			return (
@@ -68,6 +69,7 @@ var OrderDetail = React.createClass({
 							</div>
 						</div>
 					</div>
+					<Footer />
 				</div>
 			);
 		}
@@ -136,6 +138,7 @@ var OrderDetail = React.createClass({
 						</div>
 					</div>
 				</div>
+				<Footer />
 			</div>
 		);
 

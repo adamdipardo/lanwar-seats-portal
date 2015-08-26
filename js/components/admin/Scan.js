@@ -3,6 +3,7 @@ var Fluxxor = require('fluxxor');
 var Navigation = require('react-router').Navigation;
 
 var Header = require('../Header');
+var Footer = require('../Footer');
 var CheckInModal = require('./CheckInModal');
 
 var FluxMixin = Fluxxor.FluxMixin(React);
@@ -63,7 +64,7 @@ var Scan = React.createClass({
 
 		// permission
 		if ((!this.state.isLoggedIn || this.state.user.type != 'admin') && !this.state.isLoadingSessionCheck)
-			this.transitionTo('/');
+			this.transitionTo('/login');
 
 		return (
 			<div>
@@ -79,6 +80,7 @@ var Scan = React.createClass({
 						</div>
 					</div>
 				</div>
+				<Footer />
 				<div id="scripts"></div>
 				<CheckInModal ref="checkInModal"/>
 			</div>

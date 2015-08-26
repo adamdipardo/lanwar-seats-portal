@@ -4,6 +4,7 @@ var Navigation = require('react-router').Navigation;
 
 var RegisterBasicFields = require('./RegisterBasicFields');
 var Header = require('./Header');
+var Footer = require('./Footer');
 
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -74,6 +75,7 @@ var Register = React.createClass({
 						</div>
 					</div>
 				</div>
+				<Footer />
 			</div>
 		);
 

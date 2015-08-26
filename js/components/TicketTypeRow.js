@@ -13,7 +13,7 @@ var TicketTypeRow = React.createClass({
 
 	getInitialState: function() {
 		return {
-			quantity: 0,
+			quantity: this.props.initialChosen,
 			selectedOptions: []
 		};
 	},
@@ -41,7 +41,7 @@ var TicketTypeRow = React.createClass({
 			<tr>
 				<td><span className="ticket-title">{this.props.ticketType.name}</span><div className="description">{this.props.ticketType.description}</div></td>
 				<td>
-					<select onChange={this.handleQuantityChange}>{quantities}</select>
+					<select onChange={this.handleQuantityChange} value={this.state.quantity}>{quantities}</select>
 				</td>
 				<td>{this.state.quantity} x ${this.props.ticketType.price.toFixed(2)}</td>
 			</tr>

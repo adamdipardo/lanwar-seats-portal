@@ -2,6 +2,7 @@ var React = require('react');
 var Fluxxor = require('fluxxor');
 
 var Header = require('./Header');
+var Footer = require('./Footer');
 
 var FluxMixin = Fluxxor.FluxMixin(React);
 
@@ -32,6 +33,7 @@ var RegisterSuccess = React.createClass({
 						</div>
 					</div>
 				</div>
+				<Footer />
 			</div>
 		);
 

@@ -3,6 +3,7 @@ var Fluxxor = require('fluxxor');
 var Navigation = require('react-router').Navigation;
 
 var Header = require('../Header');
+var Footer = require('../Footer');
 var PagingButtons = require('../PagingButtons');
 
 var FluxMixin = Fluxxor.FluxMixin(React);
@@ -52,7 +53,7 @@ var Orders = React.createClass({
 
 		// permission
 		if ((!this.state.isLoggedIn || this.state.user.type != 'admin') && !this.state.isLoadingSessionCheck)
-			this.transitionTo('/');
+			this.transitionTo('/login');
 
 		var orderRows = [];
 		if (this.state.isLoadingOrders == true) {
@@ -112,6 +113,7 @@ var Orders = React.createClass({
 						</div>
 					</div>
 				</div>
+				<Footer />
 			</div>
 		);
 

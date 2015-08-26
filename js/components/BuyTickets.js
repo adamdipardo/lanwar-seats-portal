@@ -3,6 +3,7 @@ var Fluxxor = require('fluxxor');
 var Navigation = require('react-router').Navigation;
 
 var Header = require('./Header');
+var Footer = require('./Footer');
 var RegisterBasicFields = require('./RegisterBasicFields');
 var TicketForm = require('./TicketForm');
 
@@ -124,6 +125,7 @@ var BuyTickets = React.createClass({
 						</div>
 					</div>
 				</div>
+				<Footer />
 			</div>
 		);
 	}

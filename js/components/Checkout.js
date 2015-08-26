@@ -6,6 +6,7 @@ var CheckoutTicket = require('./CheckoutTicket');
 var CheckoutTimer = require('./CheckoutTimer');
 var ReservationLoading = require('./ReservationLoading');
 var Header = require('./Header');
+var Footer = require('./Footer');
 
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -48,7 +49,18 @@ var Checkout = React.createClass({
 
 	handleClickBack: function() {
 
-		this.transitionTo('/', {}, {back: true});
+		var shouldGoToOptions = false;
+		$.each(this.state.tickets, function(index, ticket) {
+			if (ticket.options.length > 0) {
+				shouldGoToOptions = true;
+				return false;
+			}
+		});
+
+		if (shouldGoToOptions)
+			this.transitionTo('/choose-options', {}, {back: true});
+		else
+			this.transitionTo('/', {}, {back: true});
 
 	},
 
@@ -230,6 +242,7 @@ var Checkout = React.createClass({
 						</div>
 					</div>
 				</div>
+				<Footer />
 				<div id="scriptContainer"></div>
 				<ReservationLoading show={this.state.isLoadingCheckout && !this.state.checkoutSuccess && !this.state.checkoutError } text="Checking out..." />
 			</div>

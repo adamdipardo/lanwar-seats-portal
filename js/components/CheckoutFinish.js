@@ -5,6 +5,7 @@ var ReactTooltip = require("react-tooltip");
 
 var CheckoutTicket = require('./CheckoutTicket');
 var Header = require('./Header');
+var Footer = require('./Footer');
 var SetTicketLabelModal = require('./SetTicketLabelModal');
 
 var FluxMixin = Fluxxor.FluxMixin(React);
@@ -92,6 +93,7 @@ var CheckoutFinish = React.createClass({
 							</div>
 						</div>
 					</div>
+					<Footer />
 				</div>
 			);
 		}
@@ -179,6 +181,7 @@ var CheckoutFinish = React.createClass({
 						</div>
 					</div>
 				</div>
+				<Footer />
 				<SetTicketLabelModal show={this.state.showLabelModal} ticket={this.state.labelTicket} onCancelSetLabel={this.handleCancelSetLabel} onLabelSet={this.handleSetLabel}/>
 			</div>
 		);

@@ -12,6 +12,7 @@ var TicketSeatList = require('./TicketSeatList');
 var ReservationLoading = require('./ReservationLoading');
 var CheckoutTimer = require('./CheckoutTimer');
 var Header = require('./Header');
+var Footer = require('./Footer');
 
 var SelectSeats = React.createClass({
 	mixins: [FluxMixin, StoreWatchMixin("OrderStore"), Navigation],
@@ -178,6 +179,7 @@ var SelectSeats = React.createClass({
 						</div>
 					</div>
 				</div>
+				<Footer />
 				<TicketSeatList show={this.state.showTicketSeatList} room={this.state.selectedRoom} row={this.state.selectedRow} seat={this.state.selectedSeat} onHideModal={this.hideTicketSeatList} />
 				<ReservationLoading show={this.state.isLoadingReservation == true || this.state.isLoadingBooking == true} text={loadingMessage} />
 			</div>

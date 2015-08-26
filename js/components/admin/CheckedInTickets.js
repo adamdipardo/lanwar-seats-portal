@@ -7,6 +7,7 @@ var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var Header = require('../Header');
+var Footer = require('../Footer');
 var PagingButtons = require('../PagingButtons');
 
 var CheckedInTickets = React.createClass({
@@ -53,7 +54,7 @@ var CheckedInTickets = React.createClass({
 
 		// permission
 		if ((!this.state.isLoggedIn || this.state.user.type != 'admin') && !this.state.isLoadingSessionCheck)
-			this.transitionTo('/');
+			this.transitionTo('/login');
 
 		var ticketRows = [];
 		if (this.state.isLoadingTickets == true) {
@@ -111,6 +112,7 @@ var CheckedInTickets = React.createClass({
 						</div>
 					</div>
 				</div>
+				<Footer />
 			</div>
 		);
 

@@ -59,6 +59,16 @@ var TicketForm = React.createClass({
 
 		var errorString = this.state.error !== null ? <p className="has-error"><span className="help-block">{this.state.error}</span></p> : "";
 
+		// get count of each ticket type selected
+		var ticketTypesSelected = {};
+		$.each(this.state.tickets, function(index, ticket) {
+			if (ticket.id in ticketTypesSelected)
+				ticketTypesSelected[ticket.id]++;
+			else
+				ticketTypesSelected[ticket.id] = 1;
+		});
+		console.log(ticketTypesSelected);
+
 		return (
 			<div>
 				<div className="row">
@@ -73,7 +83,7 @@ var TicketForm = React.createClass({
 						</thead>
 						<tbody>
 							{Object.keys(ticketTypes).map(function(id) {
-								return <TicketTypeRow key={id} ticketType={ticketTypes[id]} />
+								return <TicketTypeRow key={id} ticketType={ticketTypes[id]} initialChosen={ticketTypesSelected[ticketTypes[id].id]} />
 							})}
 						</tbody>
 						<tfoot>
