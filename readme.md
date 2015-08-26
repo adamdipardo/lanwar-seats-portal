@@ -49,3 +49,7 @@ The portal is only front-end, all back-end work is handled by a separate API and
 ## To-Do
 
 * Add more stuff to footer, maybe
+* Cash order discount?
+* Export list of orders/tickets to CSV
+* Show summary information
+* Add remaining rooms for seat selection
