@@ -83,8 +83,8 @@ var TicketForm = React.createClass({
 						</thead>
 						<tbody>
 							{Object.keys(ticketTypes).map(function(id) {
-								return <TicketTypeRow key={id} ticketType={ticketTypes[id]} initialChosen={ticketTypesSelected[ticketTypes[id].id]} />
-							})}
+								return <TicketTypeRow key={id} ticketType={ticketTypes[id]} initialChosen={ticketTypesSelected[ticketTypes[id].id]} isStudent={this.props.isStudent} />
+							}.bind(this))}
 						</tbody>
 						<tfoot>
 						<tr>

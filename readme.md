@@ -17,6 +17,7 @@ The portal is only front-end, all back-end work is handled by a separate API and
 ### Admin Features
 
 * Create manual or cash orders, where no credit card info is needed.
+  * Can also include a student discount ($5 off each ticket, and tickets are marked as being "STUDENT")
 * View all orders
 * Check-in tickets either by manually lookup the order/ticket, or by QR code scan
 * View a list of all checked-in tickets
@@ -49,7 +50,6 @@ The portal is only front-end, all back-end work is handled by a separate API and
 ## To-Do
 
 * Add more stuff to footer, maybe
-* Cash order discount?
 * Export list of orders/tickets to CSV
 * Show summary information
 * Add remaining rooms for seat selection

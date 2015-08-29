@@ -109,6 +109,10 @@ var OrderDetail = React.createClass({
 											<th>Last Name:</th>
 											<td>{orderDetail.user.lastName}</td>
 										</tr>
+										<tr>
+											<th>Student Order?</th>
+											<td>{orderDetail.isStudent ? 'Yes' : 'No'}</td>
+										</tr>
 										</table>
 									</div>
 								</div>

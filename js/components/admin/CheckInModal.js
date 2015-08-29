@@ -39,6 +39,12 @@ var CheckInModal = React.createClass({
 
 	},
 
+	componentWillUnmount: function() {
+
+		this.getFlux().actions.CheckInActions.dismissCheckIn();
+
+	},
+
 	render: function() {
 
 		if (!this.state.isLoadingCheckIn && !this.state.checkInError && typeof(this.state.checkInTicket.id) == "undefined")
@@ -126,6 +132,10 @@ var CheckInModal = React.createClass({
 					<tr>
 						<td>Order #</td>
 						<td>{this.state.checkInTicket.orderId}</td>
+					</tr>
+					<tr>
+						<td>Is Student?</td>
+						<td>{this.state.checkInTicket.order.isStudent ? 'Yes' : 'No'}</td>
 					</tr>
 					<tr>
 						<td>Ticket #</td>

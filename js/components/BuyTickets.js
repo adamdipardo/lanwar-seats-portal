@@ -30,6 +30,7 @@ var BuyTickets = React.createClass({
 			isLoggedIn: UserAccountStore.isLoggedIn,
 			user: UserAccountStore.user,
 			isAdminGuestCheckout: BuyTicketsStore.isAdminGuestCheckout,
+			isStudentCheckout: BuyTicketsStore.isStudentCheckout,
 			tickets: BuyTicketsStore.tickets
 		};
 
@@ -66,6 +67,18 @@ var BuyTickets = React.createClass({
 
 		this.getFlux().actions.BuyTicketsActions.setAdminGuestCheckout(e.target.checked);
 
+		if (e.target.checked == false && this.state.isStudentCheckout)
+			this.getFlux().actions.BuyTicketsActions.setStudentCheckout(false);
+
+	},
+
+	handleStudentClick: function(e) {
+	
+		this.getFlux().actions.BuyTicketsActions.setStudentCheckout(e.target.checked);
+
+		if (e.target.checked == true)
+			this.getFlux().actions.BuyTicketsActions.setAdminGuestCheckout(true);
+
 	},
 
 	componentDidMount: function() {
@@ -94,8 +107,14 @@ var BuyTickets = React.createClass({
 					<div className="form-group">
 						<div className="checkbox">
 							<label>
-								<input type="checkbox" onClick={this.handleAdminGuestClick} />
+								<input type="checkbox" checked={this.state.isAdminGuestCheckout} onClick={this.handleAdminGuestClick} />
 								<i className="fa fa-usd red"></i> This is a cash order.
+							</label>
+						</div>
+						<div className="checkbox">
+							<label>
+								<input type="checkbox" checked={this.state.isStudentCheckout} onClick={this.handleStudentClick} />
+								<i className="fa fa-graduation-cap red"></i> Apply a student discount ($5 off each ticket)
 							</label>
 						</div>
 					</div>
@@ -117,7 +136,7 @@ var BuyTickets = React.createClass({
 								<form onSubmit={this.continueForm}>
 								{adminGuestOption}
 								{registerBasicFields}		
-								<TicketForm ref="ticketForm"/>
+								<TicketForm ref="ticketForm" isStudent={this.state.isStudentCheckout}/>
 								<button type="submit" className="pull-right btn btn-primary">Continue</button>
 								</form>
 							</div>

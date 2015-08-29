@@ -39,7 +39,7 @@ var BuyTicketsActions = {
 	// 		}
 	// 	});
 	// },
-	checkout: function(router, userId, formData, tickets, total, token, isAdminGuestCheckout) {
+	checkout: function(router, userId, formData, tickets, total, token, isAdminGuestCheckout, isStudentCheckout) {
 
 		var formattedTickets = [];
 		$.each(tickets, function(index, ticket) {
@@ -74,6 +74,9 @@ var BuyTicketsActions = {
 		if (isAdminGuestCheckout)
 			sendData.isAdminGuestCheckout = true;
 
+		if (isStudentCheckout)
+			sendData.isStudent = true;
+
 		$.ajax({
 			url: '/api/orders/create',
 			type: 'post',
@@ -93,6 +96,9 @@ var BuyTicketsActions = {
 	},
 	setAdminGuestCheckout: function(isAdminGuestCheckout) {
 		this.dispatch(LanwarConstants.SET_ADMIN_GUEST_CHECKOUT, {isAdminGuestCheckout: isAdminGuestCheckout});
+	},
+	setStudentCheckout: function(isStudentCheckout) {
+		this.dispatch(LanwarConstants.SET_STUDENT_CHECKOUT, {isStudentCheckout: isStudentCheckout});
 	},
 	resetCheckout: function() {
 		this.dispatch(LanwarConstants.RESET_CHECKOUT, {});

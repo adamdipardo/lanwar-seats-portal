@@ -1,5 +1,6 @@
 var React = require('react');
 var Fluxxor = require('fluxxor');
+var LanwarConstants = require('../constants/LanwarConstants');
 
 var FluxMixin = Fluxxor.FluxMixin(React);
 // var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -37,13 +38,17 @@ var TicketTypeRow = React.createClass({
 			quantities.push(<option key={i} value={i} isSelected>{i}</option>);
 		}
 
+		var price = this.props.ticketType.price;
+		if (this.props.isStudent)
+			price -= LanwarConstants.STUDENT_DISCOUNT;
+
 		return (			
 			<tr>
 				<td><span className="ticket-title">{this.props.ticketType.name}</span><div className="description">{this.props.ticketType.description}</div></td>
 				<td>
 					<select onChange={this.handleQuantityChange} value={this.state.quantity}>{quantities}</select>
 				</td>
-				<td>{this.state.quantity} x ${this.props.ticketType.price.toFixed(2)}</td>
+				<td>{this.state.quantity} x ${price.toFixed(2)}</td>
 			</tr>
 		);
 	}

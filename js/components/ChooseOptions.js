@@ -27,7 +27,8 @@ var ChooseOptions = React.createClass({
 		var BuyTicketsStore = flux.store("BuyTicketsStore").getState();
 
 		return {
-			tickets: BuyTicketsStore.tickets
+			tickets: BuyTicketsStore.tickets,
+			isStudentCheckout: BuyTicketsStore.isStudentCheckout
 		};
 
 	},
@@ -65,12 +66,12 @@ var ChooseOptions = React.createClass({
 		$.each(this.state.tickets, function(index, ticket) {
 			if (ticket.options.length > 0) {
 				numTicketsWithOptions++;
-				ticketOptionRows.unshift(<ChooseTicketOptionsRow ticket={ticket} key={index} ticketKey={index}/>);
+				ticketOptionRows.unshift(<ChooseTicketOptionsRow ticket={ticket} key={index} ticketKey={index} isStudent={this.state.isStudentCheckout}/>);
 			}
 			else {
-				ticketOptionRows.push(<ChooseTicketOptionsRow ticket={ticket} key={index} ticketKey={index}/>);
+				ticketOptionRows.push(<ChooseTicketOptionsRow ticket={ticket} key={index} ticketKey={index} isStudent={this.state.isStudentCheckout}/>);
 			}
-		});
+		}.bind(this));
 
 		if (numTicketsWithOptions == 0)
 			this.context.router.transitionTo('/');

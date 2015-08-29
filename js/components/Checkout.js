@@ -1,6 +1,7 @@
 var React = require('react');
 var Fluxxor = require('fluxxor');
 var Navigation = require('react-router').Navigation;
+var LanwarConstants = require('../constants/LanwarConstants');
 
 var CheckoutTicket = require('./CheckoutTicket');
 var CheckoutTimer = require('./CheckoutTimer');
@@ -42,7 +43,8 @@ var Checkout = React.createClass({
 			isLoadingCheckout: BuyTicketsStore.isLoadingCheckout,
 			isLoggedIn: UserAccountStore.isLoggedIn,
 			user: UserAccountStore.user,
-			isAdminGuestCheckout: BuyTicketsStore.isAdminGuestCheckout
+			isAdminGuestCheckout: BuyTicketsStore.isAdminGuestCheckout,
+			isStudentCheckout: BuyTicketsStore.isStudentCheckout
 		};
 
 	},
@@ -85,7 +87,7 @@ var Checkout = React.createClass({
 	handleCheckout: function() {
 
 		if (this.state.isAdminGuestCheckout) {
-			this.getFlux().actions.BuyTicketsActions.checkout(this.context.router, null, this.state.formData, this.state.tickets, this.state.totalPrice, null, this.state.isAdminGuestCheckout);
+			this.getFlux().actions.BuyTicketsActions.checkout(this.context.router, null, this.state.formData, this.state.tickets, this.state.totalPrice, null, this.state.isAdminGuestCheckout, this.state.isStudentCheckout);
 			return;
 		}
 
@@ -155,6 +157,8 @@ var Checkout = React.createClass({
 			// get names of chosen options and total price
 			var options = [];
 			var price = ticket.price;
+			if (this.state.isStudentCheckout)
+				price -= LanwarConstants.STUDENT_DISCOUNT;
 			for (var i = 0; i < ticket.options.length; i++) {
 				if (ticket.chosenOptions.indexOf(ticket.options[i].id) > -1) {
 					options.push(ticket.options[i].name);
@@ -166,7 +170,7 @@ var Checkout = React.createClass({
 				<td>{ticket.name} {options.length ? '('+options.join(', ')+')' : ''}</td>
 				<td>${price.toFixed(2)}</td>
 			</tr>);
-		});
+		}.bind(this));
 
 		if (!ticketRows.length || ((!firstName || !lastName || !email) && !this.state.isLoggedIn))
 			this.transitionTo('/');

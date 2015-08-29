@@ -1,5 +1,6 @@
 var React = require('react');
 var Fluxxor = require('fluxxor');
+var LanwarConstants = require('../constants/LanwarConstants');
 
 var FluxMixin = Fluxxor.FluxMixin(React);
 
@@ -34,6 +35,9 @@ var ChooseTicketOptionsRow = React.createClass({
 
 		var total = this.props.ticket.price;
 
+		if (this.props.isStudent)
+			total -= LanwarConstants.STUDENT_DISCOUNT;
+
 		for (var i = 0; i < this.state.chosenOptions.length; i++) {
 			for (var x = 0; x < this.props.ticket.options.length; x++) {
 				if (this.props.ticket.options[x].id == this.state.chosenOptions[i])
@@ -48,6 +52,10 @@ var ChooseTicketOptionsRow = React.createClass({
 	render: function() {
 
 		var total = this.calculateTicketTotal();
+
+		var ticketPrice = this.props.ticket.price;
+		if (this.props.isStudent)
+			ticketPrice -= LanwarConstants.STUDENT_DISCOUNT;
 
 		var optionRows = [];
 		for (var i = 0; i < this.props.ticket.options.length; i++) {
@@ -81,7 +89,7 @@ var ChooseTicketOptionsRow = React.createClass({
 			<table className={hasNoOptions + " table table-ticket-options"}>
 			<tbody>
 			<tr>
-				<td colSpan="2"><span className="title">{this.props.ticket.name} Ticket</span> ${this.props.ticket.price.toFixed(2)} {showOptionRequired}</td>
+				<td colSpan="2"><span className="title">{this.props.ticket.name} Ticket</span> ${ticketPrice.toFixed(2)} {showOptionRequired}</td>
 				<td className="price" rowSpan={(optionRows.length + 1)}><span className="total">Ticket Total</span><span className="price">${total.toFixed(2)}</span></td>
 			</tr>
 			{optionRows}

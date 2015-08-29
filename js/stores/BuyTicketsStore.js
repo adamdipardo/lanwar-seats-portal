@@ -16,6 +16,7 @@ var BuyTicketsStore = Fluxxor.createStore({
 		this.checkoutError = null;
 		this.isLoadingCheckout = false;
 		this.isAdminGuestCheckout = false;
+		this.isStudentCheckout = false;
 
 		this.bindActions(
 			LanwarConstants.CHANGE_TICKET_QUANTITY, this.onChangeTicketQuantity,
@@ -28,6 +29,7 @@ var BuyTicketsStore = Fluxxor.createStore({
 			LanwarConstants.CHECKOUT_ERROR, this.onCheckoutError,
 			LanwarConstants.CHECKOUT_LOADING, this.onCheckoutLoading,
 			LanwarConstants.SET_ADMIN_GUEST_CHECKOUT, this.onSetAdminGuestCheckout,
+			LanwarConstants.SET_STUDENT_CHECKOUT, this.onSetStudentCheckout,
 			LanwarConstants.RESET_CHECKOUT, this.onResetCheckout,
 			LanwarConstants.UPDATE_TICKET_OPTIONS, this.onUpdateTicketOptions
 		);
@@ -123,6 +125,11 @@ var BuyTicketsStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
+	onSetStudentCheckout: function(payload) {
+		this.isStudentCheckout = payload.isStudentCheckout;
+		this.emit("change");
+	},
+
 	onResetCheckout: function() {
 		this.tickets = {};
 		this.totalPrice = 0.0;
@@ -159,7 +166,8 @@ var BuyTicketsStore = Fluxxor.createStore({
 			checkoutSuccess: this.checkoutSuccess,
 			checkoutError: this.checkoutError,
 			isLoadingCheckout: this.isLoadingCheckout,
-			isAdminGuestCheckout: this.isAdminGuestCheckout
+			isAdminGuestCheckout: this.isAdminGuestCheckout,
+			isStudentCheckout: this.isStudentCheckout
 		}
 	},
 
@@ -167,6 +175,9 @@ var BuyTicketsStore = Fluxxor.createStore({
 		var price = 0.0;
 		for (var i in this.tickets) {
 			price += this.tickets[i].price;
+
+			if (this.isStudentCheckout)
+				price -= LanwarConstants.STUDENT_DISCOUNT;
 
 			if (this.tickets[i].chosenOptions && this.tickets[i].chosenOptions.length) {
 				for (var x = 0; x < this.tickets[i].options.length; x++) {
