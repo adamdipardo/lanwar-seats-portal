@@ -6,7 +6,7 @@ The portal is only front-end, all back-end work is handled by a separate API and
 
 ## Features
 
-* Ordering one or more tickets, with payment handled by (Stripe Checkout)[https://stripe.com/docs/checkout].
+* Ordering one or more tickets, with payment handled by [Stripe Checkout](https://stripe.com/docs/checkout).
 * Tickets can have options
 * Reserving seats
 * Reviewing order
