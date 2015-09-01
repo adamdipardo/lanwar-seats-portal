@@ -52,4 +52,4 @@ The portal is only front-end, all back-end work is handled by a separate API and
 * Add more stuff to footer, maybe
 * Export list of orders/tickets to CSV
 * Show summary information
-* Add remaining rooms for seat selection
+* Add UA3XXX rooms?
