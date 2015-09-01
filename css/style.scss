@@ -455,12 +455,15 @@ div.select-seats {
 		margin-top: 20px;
 		margin-bottom: 20px;
 		max-width: 100%;
-		overflow-x: auto;
 
 		div.seat-row {
 			min-width: 820px;
 		}
 
+	}
+
+	div.seat-map {
+		overflow-x: auto;
 	}
 
 	div.room-list {
