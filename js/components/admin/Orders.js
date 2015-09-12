@@ -1,6 +1,7 @@
 var React = require('react');
 var Fluxxor = require('fluxxor');
 var Navigation = require('react-router').Navigation;
+var moment = require('moment');
 
 var Header = require('../Header');
 var Footer = require('../Footer');
@@ -15,7 +16,11 @@ var Orders = React.createClass({
 
 	getInitialState: function() {
 
-		return {};
+		return {
+			page: 1,
+			sort: 'lastName',
+			sortDirection: 'asc'
+		};
 
 	},
 
@@ -41,14 +46,37 @@ var Orders = React.createClass({
 
 	componentDidMount: function() {
 
-		this.getFlux().actions.AdminOrdersActions.getOrders(1);
+		this.getFlux().actions.AdminOrdersActions.getOrders(this.state.page);
 		this.getFlux().actions.AdminOrdersActions.getOrdersSummary();
 
 	},
 
 	handleClickNewPage: function(newPage) {
 
-		this.getFlux().actions.AdminOrdersActions.getOrders(newPage);
+		this.setState({page: newPage});
+		this.getFlux().actions.AdminOrdersActions.getOrders(newPage, this.state.sort, this.state.sortDirection);
+
+	},
+
+	sortOrders: function(sortKey, e) {
+
+		if (this.state.sort == sortKey) {
+			var sortDir = this.state.sortDirection == 'asc' ? 'desc' : 'asc';
+		}
+		else {
+			var sortDir = 'asc';
+		}
+
+		this.setState({sortDirection: sortDir});
+		this.setState({sort: sortKey});
+
+		this.getFlux().actions.AdminOrdersActions.getOrders(this.state.page, sortKey, sortDir);		
+
+	},
+
+	getPrettyDate: function(unixTime) {
+
+		return moment(unixTime, "X").format('YYYY-MM-DD @ h:mm a');
 
 	},
 
@@ -60,7 +88,7 @@ var Orders = React.createClass({
 
 		var orderRows = [];
 		if (this.state.isLoadingOrders == true) {
-			orderRows.push(<tr><td colSpan="5" className="loading-row">Loading... <i className="fa fa-circle-o-notch fa-spin"></i></td></tr>)
+			orderRows.push(<tr><td colSpan="6" className="loading-row">Loading... <i className="fa fa-circle-o-notch fa-spin"></i></td></tr>)
 		}
 		else {		
 			for (var i = 0; i < this.state.orders.length; i++) {
@@ -69,7 +97,7 @@ var Orders = React.createClass({
 				for (var x = 0; x < this.state.orders[i].tickets.length; x++) {
 					if (this.state.orders[i].tickets[x].isCheckedIn) numCheckedIn++;
 				}
-				orderRows.push(<tr key={i}><td>{order.id}</td><td>{order.user.lastName}</td><td>{order.user.firstName}</td><td>{numCheckedIn} / {order.tickets.length}</td><td><a href={"/#/admin/orders/" + order.id}>View</a></td></tr>);
+				orderRows.push(<tr key={i}><td>{order.id}</td><td>{order.user.lastName}</td><td>{order.user.firstName}</td><td>{this.getPrettyDate(order.created)}</td><td>{numCheckedIn} / {order.tickets.length}</td><td><a href={"/#/admin/orders/" + order.id}>View</a></td></tr>);
 			}
 		}
 
@@ -88,10 +116,13 @@ var Orders = React.createClass({
 		}
 
 		var summary = null;
-		if (!this.state.isLoadingOrdersSummary && typeof(this.state.summary.total) != "undefined") {
+		if (!this.state.isLoadingOrdersSummary) {
 			var smashOptions = [];
-			for (var i = 0; i < this.state.summary.smashOptions.length; i++)
-				smashOptions.push(<div className="col-md-1 options"><h2>{this.state.summary.smashOptions[i].numOrdered}</h2><h3>{this.state.summary.smashOptions[i].name}</h3></div>);
+
+			if (typeof(this.state.summary.smashOptions) != "undefined") {
+				for (var i = 0; i < this.state.summary.smashOptions.length; i++)
+					smashOptions.push(<div className="col-md-1 options"><h2>{this.state.summary.smashOptions[i].numOrdered}</h2><h3>{this.state.summary.smashOptions[i].name}</h3></div>);
+			}
 
 			summary = (
 				<div className="row orders-summary">
@@ -101,6 +132,18 @@ var Orders = React.createClass({
 					{smashOptions}
 				</div>
 			);
+		}
+
+		var sortIcons = {
+			orderNumber: null,
+			lastName: null,
+			firstName: null,
+			created: null
+		};
+		for (var sortIcon in sortIcons) {
+			if (sortIcon == this.state.sort) {
+				sortIcons[sortIcon] = <i className={"fa fa-sort-" + this.state.sortDirection}></i>;
+			}
 		}
 
 		return (
@@ -116,12 +159,13 @@ var Orders = React.createClass({
 
 								{paging}
 
-								<table className="table table-striped">
+								<table className="table table-striped orders-table">
 								<thead>
 								<tr>
-									<th width="10%">Order #</th>
-									<th width="30%">Last</th>
-									<th width="30%">First</th>
+									<th width="10%"><a onClick={this.sortOrders.bind(this, 'orderNumber')}>Order # {sortIcons.orderNumber}</a></th>
+									<th width="20%"><a onClick={this.sortOrders.bind(this, 'lastName')}>Last {sortIcons.lastName}</a></th>
+									<th width="20%"><a onClick={this.sortOrders.bind(this, 'firstName')}>First {sortIcons.firstName}</a></th>
+									<th width="20%"><a onClick={this.sortOrders.bind(this, 'created')}>Created {sortIcons.created}</a></th>
 									<th width="10%">Check In</th>
 									<th width="20%"></th>
 								</tr>

@@ -2,13 +2,13 @@ var LanwarConstants = require('../constants/LanwarConstants');
 
 var AdminOrdersActions = {
 
-	getOrders: function(pageNum) {
+	getOrders: function(pageNum, sortKey, sortDirection) {
 		this.dispatch(LanwarConstants.ADMIN_ORDERS_LOADING, {});
 
 		$.ajax({
 			url: '/api/orders/read',
 			type: 'post',
-			data: {page: pageNum || 1},
+			data: {page: pageNum || 1, sort: sortKey || 'lastName', sortDirection: sortDirection || 'asc'},
 			success: function(result) {
 				this.dispatch(LanwarConstants.ADMIN_ORDERS_SUCCESS, result);
 			}.bind(this),
