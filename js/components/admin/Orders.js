@@ -32,7 +32,9 @@ var Orders = React.createClass({
 			ordersPaging: AdminOrdersStore.ordersPaging,
 			user: UserAccountStore.user,
 			isLoadingSessionCheck: UserAccountStore.isLoadingSessionCheck,
-			isLoggedIn: UserAccountStore.isLoggedIn
+			isLoggedIn: UserAccountStore.isLoggedIn,
+			isLoadingOrdersSummary: AdminOrdersStore.isLoadingOrdersSummary,
+			summary: AdminOrdersStore.summary
 		};
 
 	},
@@ -40,6 +42,7 @@ var Orders = React.createClass({
 	componentDidMount: function() {
 
 		this.getFlux().actions.AdminOrdersActions.getOrders(1);
+		this.getFlux().actions.AdminOrdersActions.getOrdersSummary();
 
 	},
 
@@ -84,6 +87,22 @@ var Orders = React.createClass({
 			);
 		}
 
+		var summary = null;
+		if (!this.state.isLoadingOrdersSummary && typeof(this.state.summary.total) != "undefined") {
+			var smashOptions = [];
+			for (var i = 0; i < this.state.summary.smashOptions.length; i++)
+				smashOptions.push(<div className="col-md-1 options"><h2>{this.state.summary.smashOptions[i].numOrdered}</h2><h3>{this.state.summary.smashOptions[i].name}</h3></div>);
+
+			summary = (
+				<div className="row orders-summary">
+					<div className="col-md-2"><h2>{this.state.summary.total}</h2><h3>Tickets Sold</h3></div>
+					<div className="col-md-1"><h2>{this.state.summary.byoc}<h3>BYOC</h3></h2></div>
+					<div className="col-md-1"><h2>{this.state.summary.smash}</h2><h3>Smash</h3></div>
+					{smashOptions}
+				</div>
+			);
+		}
+
 		return (
 			<div>
 				<Header />
@@ -92,6 +111,8 @@ var Orders = React.createClass({
 						<div className="row">
 							<div className="col-md-12">
 								<h2>Orders</h2>
+
+								{summary}
 
 								{paging}
 

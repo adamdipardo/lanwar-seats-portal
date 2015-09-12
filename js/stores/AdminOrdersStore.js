@@ -12,6 +12,8 @@ var AdminOrdersStore = Fluxxor.createStore({
 		this.showLookupOrderNumberModal = false;
 		this.isLoadingOrderNumberLookup = false;
 		this.orderNumberLookupError = null;
+		this.isLoadingOrdersSummary = false;
+		this.summary = {};
 
 		this.bindActions(
 			LanwarConstants.ADMIN_ORDERS_LOADING, this.onOrdersLoading,
@@ -27,7 +29,10 @@ var AdminOrdersStore = Fluxxor.createStore({
 			LanwarConstants.LOOKUP_ORDER_NUMBER_LOADING, this.onLookupOrderNumberLoading,
 			LanwarConstants.LOOKUP_ORDER_NUMBER_SUCCESS, this.onLookupOrderNumberSuccess,
 			LanwarConstants.LOOKUP_ORDER_NUMBER_ERROR, this.onLookupOrderNumberError,
-			LanwarConstants.DISMISS_LOOKUP_ORDER_NUMBER_MODAL, this.onDismissLookupOrderNumberModal
+			LanwarConstants.DISMISS_LOOKUP_ORDER_NUMBER_MODAL, this.onDismissLookupOrderNumberModal,
+			LanwarConstants.ADMIN_ORDERS_SUMMARY_LOADING, this.onOrdersSummaryLoading,
+			LanwarConstants.ADMIN_ORDERS_SUMMARY_SUCCESS, this.onOrdersSummarySuccess,
+			LanwarConstants.ADMIN_ORDERS_SUMMARY_ERROR, this.onOrdersSummaryError
 		);
 	},
 
@@ -153,6 +158,32 @@ var AdminOrdersStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
+	onOrdersSummaryLoading: function(payload) {
+		this.isLoadingOrdersSummary = true;
+		this.summary = {
+			total: 0,
+			byoc: 0,
+			smash: 0
+		};
+		this.emit("change");
+	},
+
+	onOrdersSummarySuccess: function(payload) {
+		this.isLoadingOrdersSummary = false;
+		this.summary = {
+			total: payload.total,
+			byoc: payload.tickets[0].numOrdered,
+			smash: payload.tickets[1].numOrdered,
+			smashOptions: payload.tickets[1].options
+		};
+		this.emit("change");
+	},
+
+	onOrdersSummaryError: function() {
+		this.isLoadingOrdersSummary = false;
+		this.emit("change");
+	},
+
 	getState: function() {
 		return {
 			isLoadingOrders: this.isLoadingOrders,
@@ -162,7 +193,9 @@ var AdminOrdersStore = Fluxxor.createStore({
 			orderDetail: this.orderDetail,
 			showLookupOrderNumberModal: this.showLookupOrderNumberModal,
 			isLoadingOrderNumberLookup: this.isLoadingOrderNumberLookup,
-			orderNumberLookupError: this.orderNumberLookupError
+			orderNumberLookupError: this.orderNumberLookupError,
+			summary: this.summary,
+			isLoadingOrdersSummary: this.isLoadingOrdersSummary
 		};
 	}
 

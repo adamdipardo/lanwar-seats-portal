@@ -17,6 +17,20 @@ var AdminOrdersActions = {
 			}.bind(this)
 		});
 	},
+	getOrdersSummary: function() {
+		this.dispatch(LanwarConstants.ADMIN_ORDERS_SUMMARY_LOADING, {});
+
+		$.ajax({
+			url: '/api/orders/summary/read',
+			type: 'post',
+			success: function(result) {
+				this.dispatch(LanwarConstants.ADMIN_ORDERS_SUMMARY_SUCCESS, result);
+			}.bind(this),
+			error: function(xhr) {
+				this.dispatch(LanwarConstants.ADMIN_ORDERS_SUMMARY_ERROR, {error: JSON.parse(xhr.responseText).error});
+			}.bind(this)
+		});
+	},
 	getOrderDetail: function(orderId) {
 		this.dispatch(LanwarConstants.ADMIN_ORDER_DETAIL_LOADING, {});
 
