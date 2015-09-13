@@ -130,6 +130,9 @@ var Orders = React.createClass({
 					<div className="col-md-1"><h2>{this.state.summary.byoc}<h3>BYOC</h3></h2></div>
 					<div className="col-md-1"><h2>{this.state.summary.smash}</h2><h3>Smash</h3></div>
 					{smashOptions}
+					<div className="col-md-6">
+						<a className="btn btn-primary" href="/api/orders/csv/read" target="_blank">Download CSV</a>
+					</div>
 				</div>
 			);
 		}

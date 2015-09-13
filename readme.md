@@ -50,5 +50,4 @@ The portal is only front-end, all back-end work is handled by a separate API and
 ## To-Do
 
 * Add more stuff to footer, maybe
-* Export list of orders/tickets to CSV
 * Add UA3XXX rooms?
