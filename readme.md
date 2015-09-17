@@ -22,6 +22,7 @@ The portal is only front-end, all back-end work is handled by a separate API and
 * Check-in tickets either by manually lookup the order/ticket, or by QR code scan
 * View a list of all checked-in tickets
 * Lookup order by entering in the Order ID #
+* Download a CSV of all orders/tickets
 
 ## Installation
 

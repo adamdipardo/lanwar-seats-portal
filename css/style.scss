@@ -548,6 +548,10 @@ div.ticket-seat-list {
 				font-weight: bold;
 			}
 
+			span.ticket-label {
+				font-style: italic;
+			}
+
 			&:hover {
 				color: $lanwarRed;
 			}

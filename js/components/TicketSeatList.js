@@ -78,7 +78,7 @@ var TicketSeatList = React.createClass({
 			else
 				var seatName = "Seat not yet assigned.";
 
-			ticketRows.push(<li key={id} onClick={this.chooseTicket.bind(null, id)}><i className="fa fa-ticket"></i> <span className="ticket">{ticket.type}</span> <span className="seat">{seatName}</span></li>);
+			ticketRows.push(<li key={id} onClick={this.chooseTicket.bind(null, id)}><i className="fa fa-ticket"></i> <span className="ticket">{ticket.type}</span> <span className="ticket-label">{ticket.label}</span> <span className="seat">{seatName}</span></li>);
 
 		}.bind(this));
 
