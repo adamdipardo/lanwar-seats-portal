@@ -62,7 +62,7 @@ var CheckInModal = React.createClass({
 		if (this.state.checkInError) {
 
 			var orderInfo;
-			if (typeof(this.state.checkInOrder.tickets) != "undefined") {
+			if (typeof(this.state.checkInOrder) != "undefined" && typeof(this.state.checkInOrder.tickets) != "undefined") {
 				var ticketRows = [];
 
 				for (var i = 0; i < this.state.checkInOrder.tickets.length; i++) {

@@ -11,7 +11,12 @@ var CheckInActions = {
 				this.dispatch(LanwarConstants.CHECK_IN_HASH_SUCCESS, result);
 			}.bind(this),
 			error: function(xhr) {
-				this.dispatch(LanwarConstants.CHECK_IN_HASH_ERROR, {error: JSON.parse(xhr.responseText).error, order: JSON.parse(xhr.responseText).order});
+				try	{
+					this.dispatch(LanwarConstants.CHECK_IN_HASH_ERROR, {error: JSON.parse(xhr.responseText).error, order: JSON.parse(xhr.responseText).order});
+				}
+				catch (e) {
+					this.dispatch(LanwarConstants.CHECK_IN_HASH_ERROR, {error: 'There was an error reading the QR-code, please try scanning again.'});
+				}
 			}.bind(this)
 		});
 	},
