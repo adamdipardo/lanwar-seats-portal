@@ -104,7 +104,8 @@ var BuyTicketsStore = Fluxxor.createStore({
 	onCheckoutError: function(payload) {
 		this.isLoadingCheckout = false;
 		this.checkoutError = payload.error;
-		alert(payload.error);
+		if (payload.error)
+			alert(payload.error);
 		this.emit("change");
 	},
 

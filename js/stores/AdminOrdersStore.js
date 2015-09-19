@@ -63,7 +63,9 @@ var AdminOrdersStore = Fluxxor.createStore({
 
 		this.isLoadingOrders = false;
 		this.emit("change");
-		alert(payload.error);
+
+		if (payload.error != 'Permission denied')
+			alert(payload.error);
 
 	},
 
@@ -87,7 +89,9 @@ var AdminOrdersStore = Fluxxor.createStore({
 
 		this.isLoadingOrderDetail = false;
 		this.emit("change");
-		alert(payload.error);
+
+		if (payload.error != 'Permission denied')
+			alert(payload.error);
 
 	},
 
@@ -123,7 +127,9 @@ var AdminOrdersStore = Fluxxor.createStore({
 			}
 		}
 		this.emit("change");
-		alert(payload.error);
+
+		if (payload.error != 'Permission denied')
+			alert(payload.error);
 
 	},
 

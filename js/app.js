@@ -96,6 +96,12 @@ flux.on("dispatch", function(type, payload) {
 // check for session
 flux.actions.UserAccountActions.checkForSession();
 
+// keep checking session
+var sessionCheckInterval = setInterval(function() { 
+	if (flux.store('UserAccountStore').getState().isLoggedIn)
+		flux.actions.UserAccountActions.checkForSession(true);
+}, 60 * 1000)
+
 Router.run(routes, function(Handler) {
 	React.render(
     	<Handler flux={flux} />,

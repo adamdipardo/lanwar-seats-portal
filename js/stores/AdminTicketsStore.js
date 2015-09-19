@@ -42,7 +42,9 @@ var AdminTicketsStore = Fluxxor.createStore({
 
 		this.isLoadingTickets = false;
 		this.emit("change");
-		alert(payload.error);
+
+		if (payload.error != "Permission denied")
+			alert(payload.error);	
 
 	},
 

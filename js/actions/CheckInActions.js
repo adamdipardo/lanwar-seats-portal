@@ -11,12 +11,20 @@ var CheckInActions = {
 				this.dispatch(LanwarConstants.CHECK_IN_HASH_SUCCESS, result);
 			}.bind(this),
 			error: function(xhr) {
-				try	{
-					this.dispatch(LanwarConstants.CHECK_IN_HASH_ERROR, {error: JSON.parse(xhr.responseText).error, order: JSON.parse(xhr.responseText).order});
+				try {
+					var errorStr = JSON.parse(xhr.responseText).error;
+
+					if (!errorStr)
+						throw true;
 				}
 				catch (e) {
-					this.dispatch(LanwarConstants.CHECK_IN_HASH_ERROR, {error: 'There was an error reading the QR-code, please try scanning again.'});
+					var errorStr = "There was an error reading the QR-code, please try scanning again.";
 				}
+
+				if (errorStr == "Permission denied")
+					this.dispatch(LanwarConstants.SESSION_TIMEOUT, {error: "Your session has timed-out. The ticket was not checked in. Please login again."});
+				
+				this.dispatch(LanwarConstants.CHECK_IN_HASH_ERROR, {error: errorStr == "Permission denied" ? "" : errorStr});
 			}.bind(this)
 		});
 	},

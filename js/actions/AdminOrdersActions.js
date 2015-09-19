@@ -13,7 +13,20 @@ var AdminOrdersActions = {
 				this.dispatch(LanwarConstants.ADMIN_ORDERS_SUCCESS, result);
 			}.bind(this),
 			error: function(xhr) {
-				this.dispatch(LanwarConstants.ADMIN_ORDERS_ERROR, {error: JSON.parse(xhr.responseText).error});
+				try {
+					var errorStr = JSON.parse(xhr.responseText).error;
+
+					if (!errorStr)
+						throw true;
+				}
+				catch (e) {
+					var errorStr = "Sorry, there was an error. Please try again later.";
+				}
+
+				if (errorStr == "Permission denied")
+					this.dispatch(LanwarConstants.SESSION_TIMEOUT, {});
+				else
+					this.dispatch(LanwarConstants.ADMIN_ORDERS_ERROR, {error: errorStr});
 			}.bind(this)
 		});
 	},
@@ -27,7 +40,20 @@ var AdminOrdersActions = {
 				this.dispatch(LanwarConstants.ADMIN_ORDERS_SUMMARY_SUCCESS, result);
 			}.bind(this),
 			error: function(xhr) {
-				this.dispatch(LanwarConstants.ADMIN_ORDERS_SUMMARY_ERROR, {error: JSON.parse(xhr.responseText).error});
+				try {
+					var errorStr = JSON.parse(xhr.responseText).error;
+
+					if (!errorStr)
+						throw true;
+				}
+				catch (e) {
+					var errorStr = "Sorry, there was an error. Please try again later.";
+				}
+
+				if (errorStr == "Permission denied")
+					this.dispatch(LanwarConstants.SESSION_TIMEOUT, {});
+				else
+					this.dispatch(LanwarConstants.ADMIN_ORDERS_SUMMARY_ERROR, {error: errorStr});
 			}.bind(this)
 		});
 	},
@@ -41,7 +67,20 @@ var AdminOrdersActions = {
 				this.dispatch(LanwarConstants.ADMIN_ORDER_DETAIL_SUCCESS, result);
 			}.bind(this),
 			error: function(xhr) {
-				this.dispatch(LanwarConstants.ADMIN_ORDER_DETAIL_ERROR, {error: JSON.parse(xhr.responseText).error});
+				try {
+					var errorStr = JSON.parse(xhr.responseText).error;
+
+					if (!errorStr)
+						throw true;
+				}
+				catch (e) {
+					var errorStr = "Sorry, there was an error. Please try again later.";
+				}
+
+				if (errorStr == "Permission denied")
+					this.dispatch(LanwarConstants.SESSION_TIMEOUT, {});
+				else
+					this.dispatch(LanwarConstants.ADMIN_ORDER_DETAIL_ERROR, {error: errorStr});
 			}.bind(this)
 		});
 	},
@@ -55,7 +94,20 @@ var AdminOrdersActions = {
 				this.dispatch(LanwarConstants.ADMIN_CHECK_IN_ID_SUCCESS, result);
 			}.bind(this),
 			error: function(xhr) {
-				this.dispatch(LanwarConstants.ADMIN_CHECK_IN_ID_ERROR, {error: JSON.parse(xhr.responseText).error});
+				try {
+					var errorStr = JSON.parse(xhr.responseText).error;
+
+					if (!errorStr)
+						throw true;
+				}
+				catch (e) {
+					var errorStr = "Sorry, there was an error. Please try again later.";
+				}
+
+				if (errorStr == "Permission denied")
+					this.dispatch(LanwarConstants.SESSION_TIMEOUT, {error: "Your session has timed-out. The ticket was not checked-in. Please login again."});
+				else				
+					this.dispatch(LanwarConstants.ADMIN_CHECK_IN_ID_ERROR, {error: errorStr == "Permission denied" ? "" : errorStr});
 			}.bind(this)
 		});
 	},
@@ -73,7 +125,20 @@ var AdminOrdersActions = {
 				router.transitionTo('/admin/orders/' + orderNumber, {}, {'from-cache':true});
 			}.bind(this),
 			error: function(xhr) {
-				this.dispatch(LanwarConstants.LOOKUP_ORDER_NUMBER_ERROR, {error: JSON.parse(xhr.responseText).error});
+				try {
+					var errorStr = JSON.parse(xhr.responseText).error;
+
+					if (!errorStr)
+						throw true;
+				}
+				catch (e) {
+					var errorStr = "Sorry, there was an error. Please try again later.";
+				}
+
+				if (errorStr == "Permission denied")
+					this.dispatch(LanwarConstants.SESSION_TIMEOUT, {});
+				
+				this.dispatch(LanwarConstants.LOOKUP_ORDER_NUMBER_ERROR, {error: errorStr == "Permission denied" ? "" : errorStr});
 			}.bind(this)
 		});
 	},

@@ -12,7 +12,21 @@ var AdminTicketsActions = {
 				this.dispatch(LanwarConstants.ADMIN_TICKETS_SUCCESS, result);
 			}.bind(this),
 			error: function(xhr) {
-				this.dispatch(LanwarConstants.ADMIN_TICKETS_ERROR, {error: JSON.parse(xhr.responseText).error});
+				try {
+					var errorStr = JSON.parse(xhr.responseText).error;
+
+					if (!errorStr)
+						throw true;
+				}
+				catch (e) {
+					var errorStr = "Sorry, there was an error. Please try again later.";
+				}
+
+				if (errorStr == "Permission denied")
+					this.dispatch(LanwarConstants.SESSION_TIMEOUT, {});
+				else
+					this.dispatch(LanwarConstants.ADMIN_TICKETS_ERROR, {error: errorStr});
+
 			}.bind(this)
 		});
 	},

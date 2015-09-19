@@ -17,6 +17,8 @@ var UserAccountStore = Fluxxor.createStore({
 		this.isLoadingUpdatePassword = false;
 		this.updatePasswordError = null;
 		this.isLoadingRegister = false;
+		this.sessionTimedOut = false;
+		this.timeoutMessage;
 
 		this.bindActions(
 			LanwarConstants.LOGIN_LOADING, this.onLoginLoading,
@@ -40,7 +42,9 @@ var UserAccountStore = Fluxxor.createStore({
 			LanwarConstants.LOGOUT_SUCCESS, this.onLogoutSuccess,
 			LanwarConstants.REGISTER_LOADING, this.onRegisterLoading,
 			LanwarConstants.REGISTER_SUCCESS, this.onRegisterSuccess,
-			LanwarConstants.REGISTER_ERROR, this.onRegisterError
+			LanwarConstants.REGISTER_ERROR, this.onRegisterError,
+			LanwarConstants.SESSION_TIMEOUT, this.onSessionTimeout,
+			LanwarConstants.DISMISSED_SESSION_TIMEOUT, this.onDismissedSessionTimeout
 		);
 	},
 
@@ -58,7 +62,7 @@ var UserAccountStore = Fluxxor.createStore({
 		this.isLoggedIn = true;
 		this.user = payload;
 		if (this.user.type == 'admin')
-			payload.router.transitionTo('/admin/orders');
+			payload.router.transitionTo(payload.redirectUrl || '/admin/orders');
 		else
 			payload.router.transitionTo('/profile');
 		this.emit("change");
@@ -80,6 +84,8 @@ var UserAccountStore = Fluxxor.createStore({
 
 	onSessionCheckError: function(payload) {
 		this.isLoadingSessionCheck = false;
+		this.isLoggedIn = false;
+		this.user = {};
 		this.emit("change");
 	},
 
@@ -87,6 +93,19 @@ var UserAccountStore = Fluxxor.createStore({
 		this.isLoadingSessionCheck = false;
 		this.isLoggedIn = true;
 		this.user = payload;
+		this.emit("change");
+	},
+
+	onSessionTimeout: function(payload) {
+		this.sessionTimedOut = true;
+		this.timeoutMessage = payload.error || "Your session has timed-out. Please login again.";
+		this.emit("change");
+	},
+
+	onDismissedSessionTimeout: function(payload) {
+		this.isLoggedIn = false;
+		this.user = {};
+		this.sessionTimedOut = false;
 		this.emit("change");
 	},
 
@@ -199,7 +218,9 @@ var UserAccountStore = Fluxxor.createStore({
 			updateEmailError: this.updateEmailError,
 			isLoadingUpdatePassword: this.isLoadingUpdatePassword,
 			updatePasswordError: this.updatePasswordError,
-			isLoadingRegister: this.isLoadingRegister
+			isLoadingRegister: this.isLoadingRegister,
+			sessionTimedOut: this.sessionTimedOut,
+			timeoutMessage: this.timeoutMessage
 		}
 	}
 });	

@@ -59,7 +59,7 @@ var OrderNumberLookUpModal = React.createClass({
 
 	render: function() {
 
-		if (!this.state.showLookupOrderNumberModal)
+		if (!this.state.showLookupOrderNumberModal || this.state.orderNumberLookupError === "")
 			return (<div></div>);
 
 		var lookUpButton;

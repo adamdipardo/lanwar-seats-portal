@@ -87,7 +87,20 @@ var BuyTicketsActions = {
 				router.transitionTo('/order/' + result.hash, {}, {checkout: true});
 			}.bind(this),
 			error: function(xhr) {
-				this.dispatch(LanwarConstants.CHECKOUT_ERROR, {error: JSON.parse(xhr.responseText).error});
+				try {
+					var errorStr = JSON.parse(xhr.responseText).error;
+
+					if (!errorStr)
+						throw true;
+				}
+				catch (e) {
+					var errorStr = "Sorry, there was an error. Please try again later.";
+				}
+
+				if (errorStr.indexOf("Permission denied") > -1)
+					this.dispatch(LanwarConstants.SESSION_TIMEOUT, {error: "Your session has timed out. The order was not recorded. Please login and create the order again."});
+				
+				this.dispatch(LanwarConstants.CHECKOUT_ERROR, {error: errorStr.indexOf("Permission denied") > -1 ? "" : errorStr});
 			}.bind(this)
 		});
 	},

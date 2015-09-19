@@ -47,7 +47,7 @@ var Login = React.createClass({
 			this.setState({passwordError: true});
 
 		if (!this.state.emailError && !this.state.passwordError)
-			this.getFlux().actions.UserAccountActions.login(this.state.email, this.state.password, this.context.router);
+			this.getFlux().actions.UserAccountActions.login(this.state.email, this.state.password, this.context.router.getCurrentQuery().return, this.context.router);
 
 	},
 
@@ -69,15 +69,22 @@ var Login = React.createClass({
 			var loginButton = <span><button type="submit" className="btn btn-primary">Login</button></span>;
 		}
 
+		var flashMessage;
+		if (this.context.router.getCurrentQuery().expired == "true") {
+			flashMessage = <div className="alert alert-danger">Your session has expired. Please login again.</div>;
+		}
+
 		return (
 			<div>
 				<Header />
 				<div className="container-fluid body">
 					<div className="container">
 						<div className="row">
-							<div className="col-md-3"></div>
-							<div className="col-md-3">
+							<div className="col-md-4"></div>
+							<div className="col-md-4">
 								<h2>Admin Login</h2>
+
+								{flashMessage}
 
 								<form className="form" onSubmit={this.attemptLogin}>
 								<div className="form-group">
@@ -93,7 +100,7 @@ var Login = React.createClass({
 								</div>
 								</form>
 							</div>
-							<div className="col-md-3"></div>
+							<div className="col-md-4"></div>
 						</div>
 					</div>
 				</div>

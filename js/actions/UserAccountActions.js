@@ -1,7 +1,7 @@
 var LanwarConstants = require('../constants/LanwarConstants');
 
 var UserAccountActions = {
-	login: function(email, password, router) {
+	login: function(email, password, redirectUrl, router) {
 		this.dispatch(LanwarConstants.LOGIN_LOADING, {});
 
 		$.ajax({
@@ -10,6 +10,7 @@ var UserAccountActions = {
 			data: {email: email, password: password},
 			success: function(result) {
 				result.router = router;
+				result.redirectUrl = redirectUrl;
 				this.dispatch(LanwarConstants.LOGIN_SUCCESS, result);
 			}.bind(this),
 			error: function(xhr) {
@@ -17,17 +18,22 @@ var UserAccountActions = {
 			}.bind(this)
 		});
 	},
-	checkForSession: function() {
-		this.dispatch(LanwarConstants.SESSION_CHECK_LOADING, {});
+	checkForSession: function(isSilent) {
+		if (!isSilent)
+			this.dispatch(LanwarConstants.SESSION_CHECK_LOADING, {});
 
 		$.ajax({
 			url: '/api/sessions/check',
 			type: 'post',
 			success: function(result) {
-				this.dispatch(LanwarConstants.SESSION_CHECK_SUCCESS, result);
+				if (!isSilent)
+					this.dispatch(LanwarConstants.SESSION_CHECK_SUCCESS, result);
 			}.bind(this),
 			error: function(xhr) {
-				this.dispatch(LanwarConstants.SESSION_CHECK_ERROR, {error: JSON.parse(xhr.responseText).error});
+				if (!isSilent)
+					this.dispatch(LanwarConstants.SESSION_CHECK_ERROR, {error: JSON.parse(xhr.responseText).error});
+				else
+					this.dispatch(LanwarConstants.SESSION_TIMEOUT, {});
 			}.bind(this)
 		});
 	},
@@ -118,6 +124,10 @@ var UserAccountActions = {
 				this.dispatch(LanwarConstants.REGISTER_ERROR, {error: JSON.parse(xhr.responseText).error});
 			}.bind(this)
 		});
+	},
+	dismissSessionTimedOutModal: function(router) {
+		router.transitionTo('/login', {}, {expired: true, return: router.getCurrentPathname()});
+		this.dispatch(LanwarConstants.DISMISSED_SESSION_TIMEOUT, {});
 	}
 };
 

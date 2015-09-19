@@ -52,7 +52,7 @@ var OrderDetail = React.createClass({
 
 		// permission
 		if ((!this.state.isLoggedIn || this.state.user.type != 'admin') && !this.state.isLoadingSessionCheck)
-			this.transitionTo('/login');
+			this.transitionTo('/login', {}, {expired: true, return: this.context.router.getCurrentPathname()});
 
 		if (this.state.isLoadingOrderDetail) {
 			return (

@@ -7,6 +7,7 @@ var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var AppLoader = require('./AppLoader');
 var OrderNumberLookupModal = require('./admin/OrderNumberLookupModal');
+var SessionTimedOutModal = require('./SessionTimedOutModal');
 
 var Header = React.createClass({
 
@@ -84,6 +85,7 @@ var Header = React.createClass({
 						</div>
 					</header>
 				</nav>
+				<SessionTimedOutModal />
 				<OrderNumberLookupModal />
 			</div>
 		);
