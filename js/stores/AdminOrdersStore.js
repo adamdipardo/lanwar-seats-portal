@@ -14,6 +14,7 @@ var AdminOrdersStore = Fluxxor.createStore({
 		this.orderNumberLookupError = null;
 		this.isLoadingOrdersSummary = false;
 		this.summary = {};
+		this.orderNumberLookup = null;
 
 		this.bindActions(
 			LanwarConstants.ADMIN_ORDERS_LOADING, this.onOrdersLoading,
@@ -201,7 +202,8 @@ var AdminOrdersStore = Fluxxor.createStore({
 			isLoadingOrderNumberLookup: this.isLoadingOrderNumberLookup,
 			orderNumberLookupError: this.orderNumberLookupError,
 			summary: this.summary,
-			isLoadingOrdersSummary: this.isLoadingOrdersSummary
+			isLoadingOrdersSummary: this.isLoadingOrdersSummary,
+			orderNumberLookup: this.orderNumberLookup
 		};
 	}
 

@@ -13,9 +13,7 @@ var OrderNumberLookUpModal = React.createClass({
 
 	getInitialState: function() {
 
-		return {
-			orderNumber: null
-		};
+		return {};
 
 	},
 
@@ -28,7 +26,8 @@ var OrderNumberLookUpModal = React.createClass({
 		return {
 			isLoadingOrderNumberLookup: AdminOrdersStore.isLoadingOrderNumberLookup,
 			orderNumberLookupError: AdminOrdersStore.orderNumberLookupError,
-			showLookupOrderNumberModal: AdminOrdersStore.showLookupOrderNumberModal
+			showLookupOrderNumberModal: AdminOrdersStore.showLookupOrderNumberModal,
+			orderNumberLookup: AdminOrdersStore.orderNumberLookup
 		};
 
 	},
