@@ -56,7 +56,12 @@ var Scan = React.createClass({
 
 	componentWillUnmount: function() {
 
-		$('#reader').html5_qrcode_stop();
+		try {
+			$('#reader').html5_qrcode_stop();
+		}
+		catch (e) {
+			// do nothing, just need to catch error in case QR-code scanner is not running and we try to stop it
+		}
 
 	},
 
