@@ -130,9 +130,11 @@ var BuyTickets = React.createClass({
 						<div className="row">
 							<div className="col-md-2"></div>
 							<div className="col-md-8">
-								<h2>Buy Tickets</h2>
-								<p>Here you can buy tickets and reserve seats for LANWAR X. To start, select the number of tickets that you would like to buy. We recommend buying tickets for friends/groups together to make seat reservation easiest.</p>
+								<h1>LANWAR X</h1>
+								<h2 className="sub-title">November 20-22, 2015</h2>
 
+								<p style={{'textAlign': 'center'}}>Buy tickets below! View <a href="http://lanwarx.ca">our website</a> for full event details.</p>
+							
 								<form onSubmit={this.continueForm}>
 								{adminGuestOption}
 								{registerBasicFields}		

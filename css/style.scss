@@ -286,6 +286,13 @@ h2 {
 	color: #333;
 	font-weight: 400;
 	font-family: 'Roboto', sans-serif;
+
+	&.sub-title {
+		text-align: center;
+		margin: -20px 0 40px;
+		font-weight: 300;
+		color: #333;
+	}
 }
 
 h3 {

@@ -48,7 +48,7 @@ var Footer = React.createClass({
 				<div className="container">
 					<div className="row">
 						<div className="col-md-12">
-							<a href="https://lanwarx.ca">LANWARX.ca</a>
+							<a href="http://lanwarx.ca">LANWARX.ca</a>
 							{loginLogout}
 						</div>
 					</div>
