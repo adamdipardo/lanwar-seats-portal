@@ -44,7 +44,7 @@ var SelectSeats = React.createClass({
 
 	handleClickBack: function() {
 
-		var response = confirm("Are you sure you want to go back? Any reserved seats will be lost.");
+		var response = confirm("Are you sure you want to go back? Any new seats that you have reserved in this session will be lost. (Previously reserved seats will be kept.)");
 
 		if (response == true) {
 			this.transitionTo('/order/' + this.context.router.getCurrentParams().orderHash);

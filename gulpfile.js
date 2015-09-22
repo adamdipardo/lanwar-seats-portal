@@ -84,14 +84,28 @@ gulp.task('vendor', function() {
 });
 
 gulp.task('webserver', function() {
-  gulp.src('build')
-    .pipe(webserver({
-      livereload: true,
-      directoryListing: false,
-      host: '0.0.0.0',
-      fallback: 'index.html',
-      proxies: [{source: '/api', target:'http://l.dev.api.lanwar.ca'},{source: '/reservations', /*target:'http://127.0.0.1:3000'*/target:'http://dev.tickets.lanwarx.ca/reservations'}]
-    }));
+	if (argv.env == 'local')
+	{
+		gulp.src('build')
+			.pipe(webserver({
+			  livereload: true,
+			  directoryListing: false,
+			  host: '0.0.0.0',
+			  fallback: 'index.html',
+			  proxies: [{source: '/api', target:'http://l.dev.api.lanwar.ca'},{source: '/reservations', /*target:'http://127.0.0.1:3000'*/target:'https://dev-tickets.lanwarx.ca/reservations'}]
+			}));
+	}
+	else
+	{
+		gulp.src('build')
+			.pipe(webserver({
+			  livereload: true,
+			  directoryListing: false,
+			  host: '0.0.0.0',
+			  fallback: 'index.html',
+			  proxies: [{source: '/api', target:'http://lanwar-dev.herokuapp.com'},{source: '/reservations', /*target:'http://127.0.0.1:3000'*/target:'https://dev-tickets.lanwarx.ca/reservations'}]
+			}));
+	}
 });
 
 gulp.task('html', function () {    
