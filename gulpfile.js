@@ -38,11 +38,11 @@ gulp.task('app', function() {
 	var bundler = browserify({
 		entries: ['./js/app.js'],
 		transform: [reactify],
-		debug: argv.env != 'production'
+		debug: (argv.env != 'production' && argv.env != 'dev')
 		})
 		.external(dependencies);
 
-	if (argv.env == 'production')
+	if (argv.env == 'production' || argv.env == 'dev')
 	{
 		return bundler.bundle()
 			.pipe(source('app.js'))
@@ -62,11 +62,11 @@ gulp.task('app', function() {
 gulp.task('vendor', function() {
 
 	var bundler = browserify({
-		debug: argv.env != 'production'
+		debug: (argv.env != 'production' && argv.env != 'dev')
 		})
 		.require(dependencies);
 	
-	if (argv.env == 'production')
+	if (argv.env == 'production' || argv.env == 'dev')
 	{
 		return bundler.bundle()
 			.pipe(source('vendor.js'))
@@ -148,7 +148,16 @@ gulp.task('scripts:watch', function () {
 
 gulp.task('config', function(cb) {
 
-	var socketURL = argv.env == 'production' ? 'https://dev-tickets.lanwarx.ca/' : 'http://127.0.0.1:8000/';
+	var socketURL;
+	if (argv.env == 'production') {
+		socketURL = 'https://tickets.lanwarx.ca/';
+	}
+	else if (argv.env == 'dev') {
+		socketURL = 'https://dev-tickets.lanwarx.ca/';
+	}
+	else {
+		socketURL = 'http://127.0.0.1:8000/'
+	}
 
 	fs.writeFile('./js/LanwarConfig.js', 'var LanwarConfig = {socketURL: "'+socketURL+'"}; module.exports = LanwarConfig;', cb);
 
