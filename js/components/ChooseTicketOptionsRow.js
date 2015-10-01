@@ -4,6 +4,8 @@ var LanwarConstants = require('../constants/LanwarConstants');
 
 var FluxMixin = Fluxxor.FluxMixin(React);
 
+var OptionNotesField = require('./OptionNotesField');
+
 var ChooseTicketOptionsRow = React.createClass({
 	mixins: [FluxMixin],
 
@@ -21,9 +23,14 @@ var ChooseTicketOptionsRow = React.createClass({
 		var chosenOptions = this.state.chosenOptions;
 
 		if (e.target.checked)
-			chosenOptions.push(option.id);
+			chosenOptions.push({id: option.id, notes: ""});
 		else {
-			chosenOptions.splice(chosenOptions.indexOf(option.id), 1);
+			for (var i = 0; i < chosenOptions.length; i++) {
+				if (chosenOptions[i].id == option.id) {
+					chosenOptions.splice(i, 1);	
+					break;
+				}
+			}			
 		}
 
 		this.setState({chosenOptions: chosenOptions});
@@ -40,12 +47,25 @@ var ChooseTicketOptionsRow = React.createClass({
 
 		for (var i = 0; i < this.state.chosenOptions.length; i++) {
 			for (var x = 0; x < this.props.ticket.options.length; x++) {
-				if (this.props.ticket.options[x].id == this.state.chosenOptions[i])
+				if (this.props.ticket.options[x].id == this.state.chosenOptions[i].id)
 					total += this.props.ticket.options[x].price;
 			}
 		}
 
 		return total;
+
+	},
+
+	isOptionChecked: function(optionId) {
+
+		var chosenOptions = this.props.ticket.chosenOptions;
+
+		for (var i = 0; i < chosenOptions.length; i++) {
+			if (chosenOptions[i].id == optionId)
+				return true;
+		}
+
+		return false;
 
 	},
 
@@ -60,7 +80,8 @@ var ChooseTicketOptionsRow = React.createClass({
 		var optionRows = [];
 		for (var i = 0; i < this.props.ticket.options.length; i++) {
 			var option = this.props.ticket.options[i];
-			var isChecked = typeof(this.props.ticket.chosenOptions) != "undefined" && this.props.ticket.chosenOptions.indexOf(option.id) > -1;
+			var isChecked = typeof(this.props.ticket.chosenOptions) != "undefined" && this.isOptionChecked(option.id);
+			var optionNotes = isChecked ? <OptionNotesField ticketKey={this.props.ticketKey} optionId={option.id} /> : null;
 			optionRows.push((
 				<tr key={option.id}>
 					<td width="65%">
@@ -69,6 +90,13 @@ var ChooseTicketOptionsRow = React.createClass({
 					</td>
 					<td width="15%" className="option-price">
 						<label><input type="checkbox" onChange={this.changeOption.bind(this, option)} checked={isChecked}/> ${option.price.toFixed(2)}</label>
+					</td>
+				</tr>
+			));
+			optionRows.push((
+				<tr key={option.id+"notes"}>
+					<td colSpan="2">
+						{optionNotes}
 					</td>
 				</tr>
 			));

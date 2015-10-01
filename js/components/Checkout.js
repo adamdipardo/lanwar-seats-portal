@@ -143,6 +143,17 @@ var Checkout = React.createClass({
 
 	},
 
+	getChosenOptionIndexInList: function(chosenOptions, optionId) {
+
+		for (var i = 0; i < chosenOptions.length; i++) {
+			if (chosenOptions[i].id == optionId)
+				return i;
+		}
+
+		return -1;
+
+	},
+
 	render: function() {
 
 		// if (this.state.checkoutSuccess === true)
@@ -161,14 +172,15 @@ var Checkout = React.createClass({
 			if (this.state.isStudentCheckout)
 				price -= LanwarConstants.STUDENT_DISCOUNT;
 			for (var i = 0; i < ticket.options.length; i++) {
-				if (ticket.chosenOptions.indexOf(ticket.options[i].id) > -1) {
-					options.push(ticket.options[i].name);
+				var chosenOptionIndex = this.getChosenOptionIndexInList(ticket.chosenOptions, ticket.options[i].id);
+				if (chosenOptionIndex > -1) {
+					options.push(ticket.options[i].name + " (" + ticket.chosenOptions[chosenOptionIndex].notes + ")");
 					price += ticket.options[i].price;
 				}
 			}
 
 			ticketRows.push(<tr key={index}>
-				<td>{ticket.name} {options.length ? '('+options.join(', ')+')' : ''}</td>
+				<td>{ticket.name} {options.length ? '– '+options.join(', ')+'' : ''}</td>
 				<td>${price.toFixed(2)}</td>
 			</tr>);
 		}.bind(this));

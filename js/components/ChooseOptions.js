@@ -50,6 +50,16 @@ var ChooseOptions = React.createClass({
 				areTicketsValid = false;
 				return false;
 			}
+			else if (ticket.chosenOptions.length > 0) {
+				for (var i = 0; i < ticket.chosenOptions.length; i++) {
+					console.log(ticket.chosenOptions[i]);
+					console.log(ticket.chosenOptions[i].notes);
+					if (typeof(ticket.chosenOptions[i].notes) == "undefined" || ticket.chosenOptions[i].notes.trim() == "") {
+						areTicketsValid = false;
+						return false;
+					}
+				}				
+			}
 		});
 
 		this.setState({areTicketsValid: areTicketsValid, continueError: !areTicketsValid ? 'Please select an option for all tickets above, where an option is required.' : '' });
