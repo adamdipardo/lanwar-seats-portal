@@ -92,7 +92,7 @@ gulp.task('webserver', function() {
 			  directoryListing: false,
 			  host: '0.0.0.0',
 			  fallback: 'index.html',
-			  proxies: [{source: '/api', target:'http://l.dev.api.lanwar.ca'},{source: '/reservations', /*target:'http://127.0.0.1:3000'*/target:'https://dev-tickets.lanwarx.ca/reservations'}]
+			  proxies: [{source: '/api', target:'http://l.dev.api.lanwar.ca'},{source: '/reservations', target:'http://127.0.0.1:3000'}]
 			}));
 	}
 	else
@@ -151,15 +151,18 @@ gulp.task('config', function(cb) {
 	var socketURL;
 	if (argv.env == 'production') {
 		socketURL = 'https://tickets.lanwarx.ca/';
+		stripePK = 'pk_live_kaAxoRRHGCWyhBch0VqOjQvc';
 	}
 	else if (argv.env == 'dev') {
 		socketURL = 'https://dev-tickets.lanwarx.ca/';
+		stripePK = 'pk_test_wLwLaMViOVhUcRGOIBWmj3N1';
 	}
 	else {
-		socketURL = 'http://127.0.0.1:8000/'
+		socketURL = 'http://127.0.0.1:8000/';
+		stripePK = 'pk_test_wLwLaMViOVhUcRGOIBWmj3N1';
 	}
 
-	fs.writeFile('./js/LanwarConfig.js', 'var LanwarConfig = {socketURL: "'+socketURL+'"}; module.exports = LanwarConfig;', cb);
+	fs.writeFile('./js/LanwarConfig.js', 'var LanwarConfig = {socketURL: "'+socketURL+'", stripePK: "'+stripePK+'"}; module.exports = LanwarConfig;', cb);
 
 });
 

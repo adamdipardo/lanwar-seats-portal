@@ -2,6 +2,7 @@ var React = require('react');
 var Fluxxor = require('fluxxor');
 var Navigation = require('react-router').Navigation;
 var LanwarConstants = require('../constants/LanwarConstants');
+var LanwarConfig = require('../LanwarConfig');
 
 var CheckoutTicket = require('./CheckoutTicket');
 var CheckoutTimer = require('./CheckoutTimer');
@@ -92,7 +93,7 @@ var Checkout = React.createClass({
 		}
 
 		var handler = StripeCheckout.configure({
-			key: 'pk_test_4XeVhaeYMMQeeQPayeee7e8R',
+			key: LanwarConfig.stripePK,
 
 			token: function(token) {
 				// Use the token to create the charge with a server-side script.
