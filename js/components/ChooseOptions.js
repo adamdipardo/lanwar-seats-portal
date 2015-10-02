@@ -50,7 +50,7 @@ var ChooseOptions = React.createClass({
 				areTicketsValid = false;
 				return false;
 			}
-			else if (ticket.chosenOptions.length > 0) {
+			else if (typeof(ticket.chosenOptions) != "undefined" && ticket.chosenOptions.length > 0) {
 				for (var i = 0; i < ticket.chosenOptions.length; i++) {
 					console.log(ticket.chosenOptions[i]);
 					console.log(ticket.chosenOptions[i].notes);
