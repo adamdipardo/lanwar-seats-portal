@@ -970,3 +970,29 @@ div.session-timeout {
 		width: 100%;
 	}
 }
+
+div.coupon-form {
+	padding-top: 15px;
+	padding-bottom: 15px;
+	margin-top: 20px;
+	margin-bottom: 40px;
+	background-color: #EBEBEB;
+
+	form {
+		margin-bottom: 0;
+		text-align: center;
+
+		label {
+			padding: 0 15px 0 0;
+		}
+
+		input {
+			margin: 0 15px 0 0;
+		}
+	}
+
+	p {
+		margin: 0 !important;
+		text-align: center;
+	}
+}

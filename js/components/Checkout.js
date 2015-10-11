@@ -22,7 +22,8 @@ var Checkout = React.createClass({
 	getInitialState: function() {
 		return {
 			timerHasExpired: false,
-			hasStripe: false
+			hasStripe: false,
+			coupon: ""
 		}
 	},
 
@@ -45,7 +46,9 @@ var Checkout = React.createClass({
 			isLoggedIn: UserAccountStore.isLoggedIn,
 			user: UserAccountStore.user,
 			isAdminGuestCheckout: BuyTicketsStore.isAdminGuestCheckout,
-			isStudentCheckout: BuyTicketsStore.isStudentCheckout
+			isStudentCheckout: BuyTicketsStore.isStudentCheckout,
+			isLoadingCouponCheck: BuyTicketsStore.isLoadingCouponCheck,
+			couponDiscount: BuyTicketsStore.couponDiscount
 		};
 
 	},
@@ -88,7 +91,7 @@ var Checkout = React.createClass({
 	handleCheckout: function() {
 
 		if (this.state.isAdminGuestCheckout) {
-			this.getFlux().actions.BuyTicketsActions.checkout(this.context.router, null, this.state.formData, this.state.tickets, this.state.totalPrice, null, this.state.isAdminGuestCheckout, this.state.isStudentCheckout);
+			this.getFlux().actions.BuyTicketsActions.checkout(this.context.router, null, this.state.formData, this.state.tickets, this.state.totalPrice, null, this.state.isAdminGuestCheckout, this.state.isStudentCheckout, this.state.coupon);
 			return;
 		}
 
@@ -104,7 +107,7 @@ var Checkout = React.createClass({
 					userId = this.state.user.userId;
 
 				// init checkout
-				this.getFlux().actions.BuyTicketsActions.checkout(this.context.router, userId, this.state.formData, this.state.tickets, this.state.totalPrice, token.id, this.state.isAdminGuestCheckout);
+				this.getFlux().actions.BuyTicketsActions.checkout(this.context.router, userId, this.state.formData, this.state.tickets, this.state.totalPrice, token.id, this.state.isAdminGuestCheckout, null, this.state.coupon);
 
 			}.bind(this)
 		});
@@ -154,6 +157,25 @@ var Checkout = React.createClass({
 
 	},
 
+	handleCouponChange: function(e) {
+
+		this.setState({coupon: e.target.value});
+
+	},
+
+	handleCouponApply: function(e) {
+
+		e.preventDefault();
+		this.getFlux().actions.BuyTicketsActions.checkCoupon(this.state.coupon);
+
+	},
+
+	componentWillUnmount: function() {
+
+		this.getFlux().actions.BuyTicketsActions.resetCoupon();
+
+	},
+
 	render: function() {
 
 		// if (this.state.checkoutSuccess === true)
@@ -171,6 +193,8 @@ var Checkout = React.createClass({
 			var price = ticket.price;
 			if (this.state.isStudentCheckout)
 				price -= LanwarConstants.STUDENT_DISCOUNT;
+			if (this.state.couponDiscount)
+				price -= this.state.couponDiscount;
 			for (var i = 0; i < ticket.options.length; i++) {
 				var chosenOptionIndex = this.getChosenOptionIndexInList(ticket.chosenOptions, ticket.options[i].id);
 				if (chosenOptionIndex > -1) {
@@ -216,6 +240,42 @@ var Checkout = React.createClass({
 			);
 		}
 
+		if (this.state.isStudentCheckout) {
+			var couponForm = null;
+		}
+		else if (this.state.couponDiscount > 0) {
+			var couponForm = (
+				<div className="row coupon-form">
+					<div className="col-md-12">
+						<p>Coupon code "{this.state.coupon}" applied. ${this.state.couponDiscount.toFixed(2)} off each ticket.</p>
+					</div>
+				</div>
+			);
+		}
+		else {
+
+			if (this.state.isLoadingCouponCheck)
+				var applyButton = <button type="submit" className="btn btn-primary" disabled="disabled">Checking...</button>;
+			else
+				var applyButton = <button type="submit" className="btn btn-primary">Apply</button>;
+
+			var couponForm = (
+				<div className="row coupon-form">
+					<div className="col-md-12">
+					<form onSubmit={this.handleCouponApply} className="form-inline">					
+						<div className="form-group">
+							<label htmlFor="coupon">Have a coupon?</label>
+							<input type="text" id="coupon" value={this.state.coupon} onChange={this.handleCouponChange} placeholder="coupon code" className="form-control" />
+						</div>
+						<div className="form-group">
+							{applyButton}
+						</div>
+					</form>
+					</div>
+				</div>
+			);
+		}
+
 		return (
 			<div>
 				<Header />
@@ -225,6 +285,8 @@ var Checkout = React.createClass({
 							<div className="col-md-2"></div>
 							<div className="col-md-8">
 								<h2>Order Summary</h2>
+
+								{couponForm}
 
 								{registerFieldsSummary}
 

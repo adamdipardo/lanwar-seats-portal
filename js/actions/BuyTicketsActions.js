@@ -39,7 +39,7 @@ var BuyTicketsActions = {
 	// 		}
 	// 	});
 	// },
-	checkout: function(router, userId, formData, tickets, total, token, isAdminGuestCheckout, isStudentCheckout) {
+	checkout: function(router, userId, formData, tickets, total, token, isAdminGuestCheckout, isStudentCheckout, coupon) {
 
 		var formattedTickets = [];
 		$.each(tickets, function(index, ticket) {
@@ -76,6 +76,9 @@ var BuyTicketsActions = {
 
 		if (isStudentCheckout)
 			sendData.isStudent = true;
+
+		if (typeof(coupon) != "undefined" && coupon.trim() != "" && !isStudentCheckout)
+			sendData.coupon = coupon;
 
 		$.ajax({
 			url: '/api/orders/create',
@@ -121,6 +124,34 @@ var BuyTicketsActions = {
 	},
 	updateTicketOptionsNotes: function(ticketKey, optionId, notes) {
 		this.dispatch(LanwarConstants.UPDATE_TICKET_OPTIONS_NOTES, {ticketKey: ticketKey, optionId: optionId, notes: notes});
+	},
+	checkCoupon: function(coupon) {
+		this.dispatch(LanwarConstants.CHECK_COUPON_LOADING);
+
+		$.ajax({
+			url: '/api/events/' + LanwarConstants.EVENT_ID + '/coupon/read',
+			type: 'post',
+			data: {coupon: coupon},
+			success: function(result) {
+				this.dispatch(LanwarConstants.CHECK_COUPON_SUCCESS, result);
+			}.bind(this),
+			error: function(xhr) {
+				try {
+					var errorStr = JSON.parse(xhr.responseText).error;
+
+					if (!errorStr)
+						throw true;
+				}
+				catch (e) {
+					var errorStr = "Sorry, there was an error. Please try again later.";
+				}
+				
+				this.dispatch(LanwarConstants.CHECK_COUPON_ERROR, {error: errorStr});
+			}.bind(this)
+		});
+	},
+	resetCoupon: function() {
+		this.dispatch(LanwarConstants.RESET_COUPON, {});
 	}
 };
 
