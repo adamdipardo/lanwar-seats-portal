@@ -40,7 +40,7 @@ var BuyTickets = React.createClass({
 
 		e.preventDefault();
 
-		if ((this.state.isLoggedIn || this.refs.basicFormFields.isValid()) && this.refs.ticketForm.isValid())
+		if (this.refs.basicFormFields.isValid() && this.refs.ticketForm.isValid())
 		{
 			if (!this.state.isLoggedIn || this.state.isAdminGuestCheckout) {
 				var formData = this.refs.basicFormFields.getFormData();
@@ -91,13 +91,13 @@ var BuyTickets = React.createClass({
 	render: function() {
 
 		var registerBasicFields = null;
-		if (!this.state.isLoggedIn || this.state.isAdminGuestCheckout) {
+		// if (!this.state.isLoggedIn || this.state.isAdminGuestCheckout) {
 			registerBasicFields = (
 				<div>
 					<RegisterBasicFields ref="basicFormFields"/>
 				</div>
 			);
-		}
+		// }
 
 		// if logged in as admin, show option for guest ticket creation
 		var adminGuestOption = null;

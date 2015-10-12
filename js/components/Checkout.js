@@ -99,12 +99,10 @@ var Checkout = React.createClass({
 			key: LanwarConfig.stripePK,
 
 			token: function(token) {
-				// Use the token to create the charge with a server-side script.
-				// You can access the token ID with `token.id`
-
+				
 				var userId = null;
-				if (this.state.isLoggedIn && this.state.user && !this.isAdminGuestCheckout)
-					userId = this.state.user.userId;
+				// if (this.state.isLoggedIn && this.state.user && !this.isAdminGuestCheckout)
+				//	userId = this.state.user.userId;
 
 				// init checkout
 				this.getFlux().actions.BuyTicketsActions.checkout(this.context.router, userId, this.state.formData, this.state.tickets, this.state.totalPrice, token.id, this.state.isAdminGuestCheckout, null, this.state.coupon);

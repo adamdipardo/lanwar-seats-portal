@@ -105,6 +105,7 @@ var BuyTicketsStore = Fluxxor.createStore({
 		this.isLoadingCheckout = false;
 		this.checkoutSuccess = true;
 		this.checkoutExpireTime = null;
+		this.onResetCheckout();
 		this.emit("change");
 	},
 
@@ -135,6 +136,7 @@ var BuyTicketsStore = Fluxxor.createStore({
 
 	onSetStudentCheckout: function(payload) {
 		this.isStudentCheckout = payload.isStudentCheckout;
+		this.totalPrice = this._getTotalPrice();
 		this.emit("change");
 	},
 
@@ -150,6 +152,7 @@ var BuyTicketsStore = Fluxxor.createStore({
 		this.checkoutError = null;
 		this.isLoadingCheckout = false;
 		this.isAdminGuestCheckout = false;
+		this.isStudentCheckout = false;
 		this.emit("change");
 	},
 
