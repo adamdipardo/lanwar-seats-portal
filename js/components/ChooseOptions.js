@@ -45,24 +45,46 @@ var ChooseOptions = React.createClass({
 
 		// only show continue button if tickets are all valid
 		var areTicketsValid = true;
+		var hasDoubles;
+		var hasDoublesPartner;
+		var hasBothDoubles = false;
 		$.each(this.state.tickets, function(index, ticket) {
+			var hasDoubles = false;
+			var hasDoublesPartner = false;
 			if (ticket.isOptionRequired == true && (typeof(ticket.chosenOptions) == "undefined" || ticket.chosenOptions.length == 0)) {
 				areTicketsValid = false;
 				return false;
 			}
 			else if (typeof(ticket.chosenOptions) != "undefined" && ticket.chosenOptions.length > 0) {
 				for (var i = 0; i < ticket.chosenOptions.length; i++) {
-					console.log(ticket.chosenOptions[i]);
-					console.log(ticket.chosenOptions[i].notes);
 					if (typeof(ticket.chosenOptions[i].notes) == "undefined" || ticket.chosenOptions[i].notes.trim() == "") {
 						areTicketsValid = false;
 						return false;
 					}
+
+					if (ticket.chosenOptions[i].id == 11 || ticket.chosenOptions[i].id == 12)
+						hasDoubles = true;
+
+					if (ticket.chosenOptions[i].id == 21 || ticket.chosenOptions[i].id == 22)
+						hasDoublesPartner = true;
+
+					if (hasDoubles && hasDoublesPartner) {
+						areTicketsValid = false;
+						hasBothDoubles = true;
+						return false;
+					}
+
 				}				
 			}
 		});
 
-		this.setState({areTicketsValid: areTicketsValid, continueError: !areTicketsValid ? 'Please select an option for all tickets above, where an option is required.' : '' });
+		var errorStr;
+		if (hasBothDoubles)
+			errorStr = 'You cannot select Doubles AND Doubles Partner in the same ticket.';
+		else
+			errorStr = 'Please select an option for all tickets above, where an option is required.';
+
+		this.setState({areTicketsValid: areTicketsValid, continueError: !areTicketsValid ? errorStr : '' });
 
 		if (areTicketsValid)
 			this.context.router.transitionTo('checkout');
