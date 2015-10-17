@@ -94,6 +94,22 @@ var Checkout = React.createClass({
 			this.getFlux().actions.BuyTicketsActions.checkout(this.context.router, null, this.state.formData, this.state.tickets, this.state.totalPrice, null, this.state.isAdminGuestCheckout, this.state.isStudentCheckout, this.state.coupon);
 			return;
 		}
+		else if (this.state.totalPrice == 0) {
+
+			var areAllTicketsFree = true;
+			$.each(this.state.tickets, function(index, ticket) {
+				if (ticket.name != "Spectator") {
+					areAllTicketsFree = false;
+					return false;
+				}
+			});
+
+			if (areAllTicketsFree) {
+				this.getFlux().actions.BuyTicketsActions.checkout(this.context.router, null, this.state.formData, this.state.tickets, this.state.totalPrice, "free", this.state.isAdminGuestCheckout, null, this.state.coupon);
+				return;
+			}
+
+		}
 
 		var handler = StripeCheckout.configure({
 			key: LanwarConfig.stripePK,
@@ -189,9 +205,9 @@ var Checkout = React.createClass({
 			// get names of chosen options and total price
 			var options = [];
 			var price = ticket.price;
-			if (this.state.isStudentCheckout)
+			if (this.state.isStudentCheckout && ticket.price != 0)
 				price -= LanwarConstants.STUDENT_DISCOUNT;
-			if (this.state.couponDiscount)
+			if (this.state.couponDiscount && ticket.price != 0)
 				price -= this.state.couponDiscount;
 			for (var i = 0; i < ticket.options.length; i++) {
 				var chosenOptionIndex = this.getChosenOptionIndexInList(ticket.chosenOptions, ticket.options[i].id);

@@ -39,7 +39,7 @@ var TicketTypeRow = React.createClass({
 		}
 
 		var price = this.props.ticketType.price;
-		if (this.props.isStudent)
+		if (this.props.isStudent && this.props.ticketType.price > 0)
 			price -= LanwarConstants.STUDENT_DISCOUNT;
 
 		return (			

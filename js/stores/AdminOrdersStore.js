@@ -181,7 +181,21 @@ var AdminOrdersStore = Fluxxor.createStore({
 			total: payload.total,
 			byoc: payload.tickets[0].numOrdered,
 			smash: payload.tickets[1].numOrdered,
-			smashOptions: payload.tickets[1].options
+			smashOptions: [
+				{
+					name: 'Singles', 
+					numOrdered: payload.tickets[1].options[0].numOrdered
+				},
+				{
+					name: 'Doubles', 
+					numOrdered: payload.tickets[1].options[1].numOrdered
+				},
+				{
+					name: 'Doubles Partner', 
+					numOrdered: payload.tickets[1].options[2].numOrdered
+				}
+			],
+			spectator: payload.tickets[2].numOrdered
 		};
 		this.emit("change");
 	},

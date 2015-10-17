@@ -225,10 +225,10 @@ var BuyTicketsStore = Fluxxor.createStore({
 		for (var i in this.tickets) {
 			price += this.tickets[i].price;
 
-			if (this.isStudentCheckout)
+			if (this.isStudentCheckout && this.tickets[i].price != 0)
 				price -= LanwarConstants.STUDENT_DISCOUNT;
 
-			if (this.couponDiscount)
+			if (this.couponDiscount  && this.tickets[i].price != 0)
 				price -= this.couponDiscount;
 
 			if (this.tickets[i].chosenOptions && this.tickets[i].chosenOptions.length) {
