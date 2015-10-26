@@ -84,6 +84,14 @@ var OrderDetail = React.createClass({
 			ticketRows.push(<TicketRow ticket={orderDetail.tickets[i]} checkInClick={this.handleCheckInClick} allowClick={true} />);
 		}
 
+		var recordedBy;
+		if (typeof(orderDetail.createdBy) != "undefined") {
+			recordedBy = (<tr>
+				<th>Recorded By</th>
+				<td>{orderDetail.createdBy.firstName} {orderDetail.createdBy.lastName}</td>
+			</tr>);
+		}
+
 		return (
 			<div>
 				<Header />
@@ -110,9 +118,18 @@ var OrderDetail = React.createClass({
 											<td>{orderDetail.user.lastName}</td>
 										</tr>
 										<tr>
+											<th>Email:</th>
+											<td>{orderDetail.user.email}</td>
+										</tr>
+										<tr>
 											<th>Student Order?</th>
 											<td>{orderDetail.isStudent ? 'Yes' : 'No'}</td>
 										</tr>
+										<tr>
+											<th>Paid By</th>
+											<td>{orderDetail.isCash ? 'Cash' : 'Online'}</td>
+										</tr>
+										{recordedBy}
 										</table>
 									</div>
 								</div>
