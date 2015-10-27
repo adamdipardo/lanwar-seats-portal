@@ -204,7 +204,7 @@ var Orders = React.createClass({
 			startDate = moment().subtract(7, 'days').format("YYYY-MM-DD");
 			endDate = moment().format("YYYY-MM-DD");	
 		}
-		else if (this.state.dateRange == "custom") {
+		else if (this.state.dateRange == "customRange") {
 			startDate = this.state.startDate;
 			endDate = this.state.endDate;
 		}
