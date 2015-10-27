@@ -9,10 +9,15 @@ var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 var Header = require('../Header');
 var Footer = require('../Footer');
 var TicketRow = require('./TicketRow');
+var ReSendEmail = require('./ReSendEmail');
 
 var OrderDetail = React.createClass({
 
 	mixins: [FluxMixin, StoreWatchMixin("AdminOrdersStore"), Navigation],
+
+	getInitialState: function() {
+		showReSendEmail: false
+	},
 
 	getStateFromFlux: function() {
 
@@ -26,7 +31,8 @@ var OrderDetail = React.createClass({
 			isLoggedIn: UserAccountStore.isLoggedIn,
 			isLoadingSessionCheck: UserAccountStore.isLoadingSessionCheck,
 			isLoadingOrderDetail: AdminOrdersStore.isLoadingOrderDetail,
-			orderDetail: AdminOrdersStore.orderDetail
+			orderDetail: AdminOrdersStore.orderDetail,
+			reSendEmailMessage: AdminOrdersStore.reSendEmailMessage
 		};
 
 	},
@@ -45,6 +51,18 @@ var OrderDetail = React.createClass({
 		if (confirmCheckIn == true) {
 			this.getFlux().actions.AdminOrdersActions.checkInTicketById(ticketId);
 		}
+
+	},
+
+	handleReSendEmailClick: function() {
+
+		this.getFlux().actions.AdminOrdersActions.openReSendEmailModal();
+
+	},
+
+	componentWillUnmount: function() {
+
+		this.getFlux().actions.AdminOrdersActions.resetReSendEmailMessage();
 
 	},
 
@@ -92,6 +110,15 @@ var OrderDetail = React.createClass({
 			</tr>);
 		}
 
+		var reSendEmailMessage;
+		if (this.state.reSendEmailMessage) {
+			reSendEmailMessage = (
+				<div className="success-message">
+					<p>{this.state.reSendEmailMessage}</p>
+				</div>
+			);
+		}
+
 		return (
 			<div>
 				<Header />
@@ -99,6 +126,7 @@ var OrderDetail = React.createClass({
 					<div className="container">
 						<div className="row">
 							<div className="col-md-12">
+								{reSendEmailMessage}
 								<h2>Order #{this.context.router.getCurrentParams().orderId}</h2>
 
 								<div className="row">
@@ -131,6 +159,7 @@ var OrderDetail = React.createClass({
 										</tr>
 										{recordedBy}
 										</table>
+										<button className="btn btn-primary" onClick={this.handleReSendEmailClick}>Re-Send Confirmation Email</button>
 									</div>
 								</div>
 
@@ -160,6 +189,7 @@ var OrderDetail = React.createClass({
 					</div>
 				</div>
 				<Footer />
+				<ReSendEmail order={orderDetail} />
 			</div>
 		);
 

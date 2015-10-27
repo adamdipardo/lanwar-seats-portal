@@ -15,6 +15,9 @@ var AdminOrdersStore = Fluxxor.createStore({
 		this.isLoadingOrdersSummary = false;
 		this.summary = {};
 		this.orderNumberLookup = null;
+		this.showReSendEmailModal = false;
+		this.isLoadingReSendEmail = false;
+		this.reSendEmailMessage = null;
 
 		this.bindActions(
 			LanwarConstants.ADMIN_ORDERS_LOADING, this.onOrdersLoading,
@@ -33,7 +36,13 @@ var AdminOrdersStore = Fluxxor.createStore({
 			LanwarConstants.DISMISS_LOOKUP_ORDER_NUMBER_MODAL, this.onDismissLookupOrderNumberModal,
 			LanwarConstants.ADMIN_ORDERS_SUMMARY_LOADING, this.onOrdersSummaryLoading,
 			LanwarConstants.ADMIN_ORDERS_SUMMARY_SUCCESS, this.onOrdersSummarySuccess,
-			LanwarConstants.ADMIN_ORDERS_SUMMARY_ERROR, this.onOrdersSummaryError
+			LanwarConstants.ADMIN_ORDERS_SUMMARY_ERROR, this.onOrdersSummaryError,
+			LanwarConstants.DISMISS_RE_SEND_EMAIL_MODAL, this.onDismissReSendEmailModal,
+			LanwarConstants.OPEN_RE_SEND_EMAIL_MODAL, this.onOpenReSendEmailModal,
+			LanwarConstants.RE_SEND_EMAIL_LOADING, this.onReSendEmailLoading,
+			LanwarConstants.RE_SEND_EMAIL_SUCCESS, this.onReSendEmailSuccess,
+			LanwarConstants.RE_SEND_EMAIL_ERROR, this.onReSendEmailError,
+			LanwarConstants.RESET_RE_SEND_EMAIL_MESSAGE, this.onResetReSendEmailMessage
 		);
 	},
 
@@ -166,6 +175,40 @@ var AdminOrdersStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
+	onOpenReSendEmailModal: function(payload) {
+		this.showReSendEmailModal = true;
+		this.reSendEmailMessage = null;
+		this.emit("change");
+	},
+
+	onDismissReSendEmailModal: function(payload) {
+		this.showReSendEmailModal = false;
+		this.emit("change");
+	},
+
+	onReSendEmailLoading: function(payload) {
+		this.isLoadingReSendEmail = true;
+		this.emit("change");
+	},
+
+	onReSendEmailError: function(payload) {
+		this.isLoadingReSendEmail = false;
+		this.emit("change");	
+		alert(payload.error);
+	},
+
+	onReSendEmailSuccess: function(payload) {
+		this.isLoadingReSendEmail = false;
+		this.showReSendEmailModal = false;
+		this.reSendEmailMessage = "Email has been sent to " + payload.email
+		this.emit("change");
+	},
+
+	onResetReSendEmailMessage: function(payload) {
+		this.reSendEmailMessage = null;
+		this.emit("change");
+	},
+
 	onOrdersSummaryLoading: function(payload) {
 		this.isLoadingOrdersSummary = true;
 		this.summary = {
@@ -218,7 +261,10 @@ var AdminOrdersStore = Fluxxor.createStore({
 			orderNumberLookupError: this.orderNumberLookupError,
 			summary: this.summary,
 			isLoadingOrdersSummary: this.isLoadingOrdersSummary,
-			orderNumberLookup: this.orderNumberLookup
+			orderNumberLookup: this.orderNumberLookup,
+			showReSendEmailModal: this.showReSendEmailModal,
+			isLoadingReSendEmail: this.isLoadingReSendEmail,
+			reSendEmailMessage: this.reSendEmailMessage
 		};
 	}
 

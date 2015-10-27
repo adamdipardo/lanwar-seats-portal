@@ -1023,3 +1023,24 @@ div.filter {
 		font-size: 16px;
 	}
 }
+
+div.success-message {
+	width: 100%;
+	background-color: rgba(18, 185, 31, 0.75);
+	color: white;
+	border-radius: 0;
+	padding: 15px 10px;
+	text-align: center;
+	font-weight: 300;
+	margin: 20px 0;
+
+	p {
+		display: inline;
+	}
+
+	&:before {
+		content: "\f00c";
+		padding: 0 10px 0 0;
+		font-family: "FontAwesome";
+	}
+}

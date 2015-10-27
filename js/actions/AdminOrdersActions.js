@@ -158,6 +158,43 @@ var AdminOrdersActions = {
 	},
 	dismissLookupOrderNumberModal: function() {
 		this.dispatch(LanwarConstants.DISMISS_LOOKUP_ORDER_NUMBER_MODAL, {});
+	},
+	dismissReSendEmailModal: function() {
+		this.dispatch(LanwarConstants.DISMISS_RE_SEND_EMAIL_MODAL, {});
+	},
+	openReSendEmailModal: function() {
+		this.dispatch(LanwarConstants.OPEN_RE_SEND_EMAIL_MODAL, {});
+	},
+	reSendEmail: function(orderId, email) {
+		this.dispatch(LanwarConstants.RE_SEND_EMAIL_LOADING, {});
+
+		$.ajax({
+			url: '/api/orders/' + orderId + '/email/create',
+			data: {email: email},
+			type: 'post',
+			success: function(result) {
+				this.dispatch(LanwarConstants.RE_SEND_EMAIL_SUCCESS, result);
+			}.bind(this),
+			error: function(xhr) {
+				try {
+					var errorStr = JSON.parse(xhr.responseText).error;
+
+					if (!errorStr)
+						throw true;
+				}
+				catch (e) {
+					var errorStr = "Sorry, there was an error. Please try again later.";
+				}
+
+				if (errorStr == "Permission denied")
+					this.dispatch(LanwarConstants.SESSION_TIMEOUT, {});
+				
+				this.dispatch(LanwarConstants.RE_SEND_EMAIL_ERROR, {error: errorStr == "Permission denied" ? "" : errorStr});
+			}.bind(this)
+		});
+	},
+	resetReSendEmailMessage: function() {
+		this.dispatch(LanwarConstants.RESET_RE_SEND_EMAIL_MESSAGE, {});
 	}
 };
 
