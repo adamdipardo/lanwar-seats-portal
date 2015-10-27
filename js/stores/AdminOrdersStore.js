@@ -41,6 +41,7 @@ var AdminOrdersStore = Fluxxor.createStore({
 
 		this.isLoadingOrders = true;
 		this.orders = [];
+		this.ordersPaging.currentPage = payload.page;
 		this.emit("change");
 
 	},

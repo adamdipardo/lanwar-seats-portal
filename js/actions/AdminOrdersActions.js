@@ -2,13 +2,27 @@ var LanwarConstants = require('../constants/LanwarConstants');
 
 var AdminOrdersActions = {
 
-	getOrders: function(pageNum, sortKey, sortDirection) {
-		this.dispatch(LanwarConstants.ADMIN_ORDERS_LOADING, {});
+	getOrders: function(pageNum, sortKey, sortDirection, filters) {
+		this.dispatch(LanwarConstants.ADMIN_ORDERS_LOADING, {page: pageNum || 1});
+
+		var ordersData = {
+			page: pageNum || 1, 
+			sort: sortKey || 'lastName', 
+			sortDirection: sortDirection || 'asc'
+		};
+
+		if (typeof(filters) != "undefined") {
+			ordersData.paymentMethod = filters.paymentMethod;
+			ordersData.ticketTypes = JSON.stringify(filters.ticketTypes);
+			ordersData.startDate = filters.startDate;
+			ordersData.endDate = filters.endDate;
+			ordersData.name = filters.name;
+		}
 
 		$.ajax({
 			url: '/api/orders/read',
 			type: 'post',
-			data: {page: pageNum || 1, sort: sortKey || 'lastName', sortDirection: sortDirection || 'asc'},
+			data: ordersData,
 			success: function(result) {
 				this.dispatch(LanwarConstants.ADMIN_ORDERS_SUCCESS, result);
 			}.bind(this),

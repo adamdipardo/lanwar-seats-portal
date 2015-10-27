@@ -589,6 +589,10 @@ table.table td.loading-row {
 	color: #666;
 }
 
+div.paging {
+	margin-top: 20px;
+}
+
 ul.pagination {
 	margin: 0;
 	padding: 0;
@@ -994,5 +998,28 @@ div.coupon-form {
 	p {
 		margin: 0 !important;
 		text-align: center;
+	}
+}
+
+p.orders-showing-count {
+	position: relative;
+	top: -15px;
+}
+
+div.filter-toggle {
+	margin-bottom: 10px;
+
+	a {
+		cursor: pointer;
+	}
+}
+
+div.filter {
+	background-color: #EBEBEB;
+	padding-top: 10px;
+	padding-bottom: 10px;
+
+	h4 {
+		font-size: 16px;
 	}
 }
