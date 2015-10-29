@@ -3,6 +3,7 @@ var Fluxxor = require('fluxxor');
 var Navigation = require('react-router').Navigation;
 var moment = require('moment');
 
+var LanwarConfig = require('../../LanwarConfig');
 var Header = require('../Header');
 var Footer = require('../Footer');
 var PagingButtons = require('../PagingButtons');
@@ -182,13 +183,13 @@ var Orders = React.createClass({
 
 		var ticketTypes = [];
 		if (this.state.byoc)
-			ticketTypes.push(1);
+			ticketTypes.push(LanwarConfig.ticketIds.byoc);
 		if (this.state.smash4)
-			ticketTypes.push(11);
+			ticketTypes.push(LanwarConfig.ticketIds.smash);
 		if (this.state.melee)
-			ticketTypes.push(31);
+			ticketTypes.push(LanwarConfig.ticketIds.melee);
 		if (this.state.spectator)
-			ticketTypes.push(21);
+			ticketTypes.push(LanwarConfig.ticketIds.spectator);
 
 		var startDate;
 		var endDate;

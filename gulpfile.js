@@ -152,17 +152,20 @@ gulp.task('config', function(cb) {
 	if (argv.env == 'production') {
 		socketURL = 'https://tickets.lanwarx.ca/';
 		stripePK = 'pk_live_kaAxoRRHGCWyhBch0VqOjQvc';
+		ticketIds = '{byoc:1,smash:2,spectator:3,melee:4}';
 	}
 	else if (argv.env == 'dev') {
 		socketURL = 'https://dev-tickets.lanwarx.ca/';
 		stripePK = 'pk_test_wLwLaMViOVhUcRGOIBWmj3N1';
+		ticketIds = '{byoc:1,smash:11,spectator:21,melee:31}';
 	}
 	else {
 		socketURL = 'http://127.0.0.1:8000/';
 		stripePK = 'pk_test_wLwLaMViOVhUcRGOIBWmj3N1';
+		ticketIds = '{byoc:1,smash:11,spectator:21,melee:31}';
 	}
 
-	fs.writeFile('./js/LanwarConfig.js', 'var LanwarConfig = {socketURL: "'+socketURL+'", stripePK: "'+stripePK+'"}; module.exports = LanwarConfig;', cb);
+	fs.writeFile('./js/LanwarConfig.js', 'var LanwarConfig = {socketURL: "'+socketURL+'", stripePK: "'+stripePK+'", ticketIds: '+ticketIds+'}; module.exports = LanwarConfig;', cb);
 
 });
 
