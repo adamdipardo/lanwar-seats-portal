@@ -2,3 +2,4 @@ build/
 dist/
 node_modules/
 js/LanwarConfig.js
+npm-debug.log

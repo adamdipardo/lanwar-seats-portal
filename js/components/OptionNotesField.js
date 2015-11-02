@@ -26,14 +26,14 @@ var OptionNotesField = React.createClass({
 		}
 
 		return {
-			notes: thisTicket.chosenOptions[thisOption].notes
+			notes: thisTicket.chosenOptions[thisOption][this.props.fieldKey]
 		};
 
 	},
 
 	handleNotesChange: function(e) {
 
-		this.getFlux().actions.BuyTicketsActions.updateTicketOptionsNotes(this.props.ticketKey, this.props.optionId, e.target.value);
+		this.getFlux().actions.BuyTicketsActions.updateTicketOptionsNotes(this.props.ticketKey, this.props.optionId, e.target.value, this.props.fieldKey);
 
 	},
 
@@ -41,8 +41,8 @@ var OptionNotesField = React.createClass({
 
 		return (
 			<div className="form-group">
-				<label className="sr-only">Player IGN name(s)</label>
-				<input type="text" name="notes" className="form-control" placeholder="Player IGN name(s)" onChange={this.handleNotesChange} value={this.state.notes}/>
+				<label className="sr-only">{this.props.label}</label>
+				<input type="text" name={this.props.fieldKey} className="form-control" placeholder={this.props.label} onChange={this.handleNotesChange} value={this.state.notes}/>
 			</div>
 		);
 

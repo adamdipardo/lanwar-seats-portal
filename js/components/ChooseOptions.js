@@ -62,6 +62,11 @@ var ChooseOptions = React.createClass({
 						return false;
 					}
 
+					if (typeof(ticket.chosenOptions[i].notes2) == "undefined" || ticket.chosenOptions[i].notes2.trim() == "") {
+						areTicketsValid = false;
+						return false;
+					}
+
 					if (ticket.chosenOptions[i].id == 11 || ticket.chosenOptions[i].id == 12)
 						hasDoubles = true;
 

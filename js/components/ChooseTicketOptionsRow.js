@@ -81,7 +81,8 @@ var ChooseTicketOptionsRow = React.createClass({
 		for (var i = 0; i < this.props.ticket.options.length; i++) {
 			var option = this.props.ticket.options[i];
 			var isChecked = typeof(this.props.ticket.chosenOptions) != "undefined" && this.isOptionChecked(option.id);
-			var optionNotes = isChecked ? <OptionNotesField ticketKey={this.props.ticketKey} optionId={option.id} /> : null;
+			var optionNotes = isChecked ? <OptionNotesField ticketKey={this.props.ticketKey} optionId={option.id} fieldKey="notes" label="Player IGN name(s)"/> : null;
+			var optionNotes2 = isChecked ? <OptionNotesField ticketKey={this.props.ticketKey} optionId={option.id} fieldKey="notes2" label="Player Region (city)"/> : null;
 			optionRows.push((
 				<tr key={option.id}>
 					<td width="65%">
@@ -97,6 +98,13 @@ var ChooseTicketOptionsRow = React.createClass({
 				<tr key={option.id+"notes"}>
 					<td colSpan="2">
 						{optionNotes}
+					</td>
+				</tr>
+			));
+			optionRows.push((
+				<tr key={option.id+"notes2"}>
+					<td colSpan="2">
+						{optionNotes2}
 					</td>
 				</tr>
 			));

@@ -58,7 +58,7 @@ var Header = React.createClass({
 
 			// add admin menu items
 			if (this.state.user.type == 'admin') {
-				menu.unshift(<li className="dropdown" key={3}><a className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span className="caret"></span></a> <ul className="dropdown-menu"><li><a href="/#/admin/orders">All Orders</a></li><li><a href="/#/admin/checked-in-tickets">All Checked-In Tickets</a></li><li><a href="/#/admin/scan">Scan</a></li><li><a onClick={this.openLookUpOrderNumberModal}>Lookup Order #</a></li></ul></li>);
+				menu.unshift(<li className="dropdown" key={3}><a className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span className="caret"></span></a> <ul className="dropdown-menu"><li><a href="/#/admin/orders">All Orders</a></li><li><a href="/#/admin/checked-in-tickets">All Checked-In Tickets</a></li><li><a href="/#/admin/scan">Scan</a></li><li><a onClick={this.openLookUpOrderNumberModal}>Lookup Order #</a></li><li><a href="/api/orders/smash/csv/read" target="_blank">Smash CSV</a></li></ul></li>);
 			}
 		}
 

@@ -48,7 +48,7 @@ var BuyTicketsActions = {
 			if (ticket.options.length > 0) {
 				formattedTicket.options = [];
 				for (var i = 0; i < ticket.chosenOptions.length; i++)
-					formattedTicket.options.push({id: ticket.chosenOptions[i].id, notes: ticket.chosenOptions[i].notes});
+					formattedTicket.options.push({id: ticket.chosenOptions[i].id, notes: ticket.chosenOptions[i].notes, notes2: ticket.chosenOptions[i].notes2});
 			}
 
 			formattedTickets.push(formattedTicket);
@@ -122,8 +122,8 @@ var BuyTicketsActions = {
 	updateTicketOptions: function(ticketKey, chosenOptions) {
 		this.dispatch(LanwarConstants.UPDATE_TICKET_OPTIONS, {ticketKey: ticketKey, chosenOptions: chosenOptions});
 	},
-	updateTicketOptionsNotes: function(ticketKey, optionId, notes) {
-		this.dispatch(LanwarConstants.UPDATE_TICKET_OPTIONS_NOTES, {ticketKey: ticketKey, optionId: optionId, notes: notes});
+	updateTicketOptionsNotes: function(ticketKey, optionId, notes, fieldKey) {
+		this.dispatch(LanwarConstants.UPDATE_TICKET_OPTIONS_NOTES, {ticketKey: ticketKey, optionId: optionId, notes: notes, fieldKey: fieldKey});
 	},
 	checkCoupon: function(coupon) {
 		this.dispatch(LanwarConstants.CHECK_COUPON_LOADING);

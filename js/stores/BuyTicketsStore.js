@@ -170,7 +170,7 @@ var BuyTicketsStore = Fluxxor.createStore({
 		var ticket = this.tickets[payload.ticketKey];
 		for (var i = 0; i < ticket.chosenOptions.length; i++) {
 			if (ticket.chosenOptions[i].id == payload.optionId)
-				ticket.chosenOptions[i].notes = payload.notes;
+				ticket.chosenOptions[i][payload.fieldKey] = payload.notes;
 		}
 		this.emit("change");
 

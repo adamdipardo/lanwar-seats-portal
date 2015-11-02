@@ -192,6 +192,8 @@ var Checkout = React.createClass({
 
 	render: function() {
 
+		console.log(this.state.tickets);
+
 		// if (this.state.checkoutSuccess === true)
 		// 	this.handleCheckoutCompleted();
 
