@@ -290,8 +290,11 @@ var Orders = React.createClass({
 		 	filter = (
 				<form onSubmit={this.handleFilterSubmit}>
 				<div className="row">
-					<div className="col-md-12 filter-toggle">
+					<div className="col-md-6 filter-toggle">
 						<a onClick={this.handleFilterToggle.bind(this, false)}><i className="fa fa-angle-down"></i> Hide Filters</a>
+					</div>
+					<div className="col-md-6" style={{textAlign: "right"}}>
+						Download <a href="/api/orders/csv/read" target="_blank">All CSV</a> / <a href="/api/orders/smash/csv/read" target="_blank">Smash CSV</a>
 					</div>
 				</div>
 				<div className="row filter">
@@ -377,8 +380,11 @@ var Orders = React.createClass({
 		else {
 			filter = (
 				<div className="row">
-					<div className="col-md-12 filter-toggle">
+					<div className="col-md-6 filter-toggle">
 						<a onClick={this.handleFilterToggle.bind(this, true)}><i className="fa fa-angle-up"></i> Show Filters</a>
+					</div>
+					<div className="col-md-6" style={{textAlign: "right"}}>
+						Download <a href="/api/orders/csv/read" target="_blank">All CSV</a> / <a href="/api/orders/smash/csv/read" target="_blank">Smash CSV</a>
 					</div>
 				</div>
 			);
@@ -394,12 +400,6 @@ var Orders = React.createClass({
 								<h2>Orders</h2>
 
 								<OrderSummary />
-
-								<div className="row">
-									<div className="col-md-12" style={{textAlign: "right"}}>
-										<a className="btn btn-primary" href="/api/orders/csv/read" target="_blank">Download CSV</a> <a className="btn btn-primary" href="/api/orders/smash/csv/read" target="_blank">Download Smash CSV</a>
-									</div>
-								</div>
 
 								{filter}
 

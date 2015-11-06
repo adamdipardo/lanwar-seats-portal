@@ -631,47 +631,45 @@ ul.pagination {
 
 div.orders-summary {
 	margin-top: 30px;
-	margin-bottom: 20px;
+	margin-bottom: 30px;
+	min-height: 60px;
 
-	div.total { 
-		h2 {
-			font-size: 50px;
-			font-weight: bold;
-			text-align: center;
-			padding: 0;
-			margin: 33px 0 0;
-		}
+	div {
+		border-left: 1px solid #CCC;
 
-		h3 {
-			font-size: 16px;
-			text-align: center;
+		&:nth-child(-n+2) {
+			border-left: none;
 		}
 	}
 
-	div.ticket-type {
-		text-align: center;
-		border-color: #EBEBEB;
-		border-style: solid;
-		min-height: 81px;
-		border-width: 0;
-
-		&:nth-child(odd) {
-			border-right-width: 1px;
+	div.total {
+		h2, h3 {
+			font-weight: bold;
 		}
+	}
 
-		&:nth-child(n+3) {
-			border-top-width: 1px;
+	div.options {
+		border-left: none;
+
+		h3 {
+			text-align: left;
+			line-height: 1.45em;
+			font-size: 14px;
+
+			span.number {
+				float: right;
+				color: $lanwarRed;
+				font-weight: bold;
+			}
 		}
 	}
 
 	h2 {
-		padding: 0 0 6px;
-		margin: 8px 0 0;
-		// margin: 0;
+		margin: 0 0 3px;
 		font-size: 36px;
 		font-weight: normal;
 		color: $lanwarRed;
-		// border-bottom: 1px solid #CCC;
+		text-align: center;
 	}
 
 	h3 {
@@ -679,23 +677,7 @@ div.orders-summary {
 		color: #666;
 		text-transform: uppercase;
 		font-size: 16px;
-		// display: inline-block;
-	}
-
-	.options {
-		
-		h2 {
-			font-size: 20px;
-			font-weight: 400;
-			margin-top: 12px;
-			color: #333;
-		}
-
-		h3 {
-			font-size: 14px;
-			color: #999;
-		}
-
+		text-align: center;
 	}
 
 	a.btn-primary {

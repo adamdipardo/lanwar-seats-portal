@@ -59,75 +59,36 @@ var OrderSummary = React.createClass({
 
 			return (
 				<div className="row orders-summary">
-					<div className="col-md-3 col-sm-6 total">
+					<div className="col-md-1"></div>
+					<div className="col-md-2 total">
 						<h2>{this.state.summary.total}</h2>
 						<h3>Tickets Sold</h3>
 					</div>
-					<div className="col-md-3 col-sm-6">
-						<div className="row">
-							<div className="col-xs-6 ticket-type">
-								<h2>{this.state.summary.byoc}</h2>
-								<h3>BYOC</h3>
-							</div>
-							<div className="col-xs-6 ticket-type">
-								<h2>{this.state.summary.smash}</h2>
-								<h3>Smash4</h3>
-							</div>
-							<div className="col-xs-6 ticket-type">
-								<h2>{this.state.summary.melee}</h2>
-								<h3>Melee</h3>
-							</div>
-							<div className="col-xs-6 ticket-type">
-								<h2>{this.state.summary.spectator}</h2>
-								<h3>Spec</h3>
-							</div>
-						</div>						
+					<div className="col-md-1 ticket-type">
+						<h2>{this.state.summary.byoc}</h2>
+						<h3>BYOC</h3>
 					</div>
-					<div className="col-md-3">
-						<table className="table summary-table">
-						<thead>
-						<tr>
-							<td colspan="2">Smash 4</td>
-						</tr>
-						</thead>
-						<tbody>
-						<tr>
-							<td>Singles</td>
-							<td>{smashSingles}</td>
-						</tr>
-						<tr>
-							<td>Doubles</td>
-							<td>{smashDoubles}</td>
-						</tr>
-						<tr>
-							<td>Doubles Partner</td>
-							<td>{smashDoublesPartner}</td>
-						</tr>
-						</tbody>
-						</table>
-					</div>			
-					<div className="col-md-3">
-						<table className="table summary-table">
-						<thead>
-						<tr>
-							<td colspan="2">Smash Melee</td>
-						</tr>
-						</thead>
-						<tbody>
-						<tr>
-							<td>Singles</td>
-							<td>{meleeSingles}</td>
-						</tr>
-						<tr>
-							<td>Doubles</td>
-							<td>{meleeDoubles}</td>
-						</tr>
-						<tr>
-							<td>Doubles Partner</td>
-							<td>{meleeDoublesPartner}</td>
-						</tr>
-						</tbody>
-						</table>
+					<div className="col-md-1 ticket-type smash">
+						<h2>{this.state.summary.smash}</h2>
+						<h3>Smash4</h3>
+					</div>
+					<div className="col-md-2 options">
+						<h3>Singles <span className="number">{smashSingles}</span></h3>
+						<h3>Doubles <span className="number">{smashDoubles}</span></h3>
+						<h3>Doubles Partner <span className="number">{smashDoublesPartner}</span></h3>
+					</div>
+					<div className="col-md-1 ticket-type">
+						<h2>{this.state.summary.melee}</h2>
+						<h3>Melee</h3>
+					</div>
+					<div className="col-md-2 options">
+						<h3>Singles <span className="number">{meleeSingles}</span></h3>
+						<h3>Doubles <span className="number">{meleeDoubles}</span></h3>
+						<h3>Doubles Partner <span className="number">{meleeDoublesPartner}</span></h3>
+					</div>
+					<div className="col-md-1 ticket-type">
+						<h2>{this.state.summary.spectator}</h2>
+						<h3>Spec</h3>
 					</div>
 				</div>
 			);
