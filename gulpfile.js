@@ -16,6 +16,7 @@ var clean = require('gulp-clean');
 var minifyCss = require('gulp-minify-css');
 var awspublish = require('gulp-awspublish');
 var cloudfront = require("gulp-cloudfront");
+var env = require('gulp-env');
 
 var libs = [
   'react',
@@ -68,6 +69,12 @@ gulp.task('vendor', function() {
 	
 	if (argv.env == 'production' || argv.env == 'dev')
 	{
+		env({
+			vars: {
+				NODE_ENV: 'production'
+			}
+		});
+		
 		return bundler.bundle()
 			.pipe(source('vendor.js'))
 			.pipe(buffer())

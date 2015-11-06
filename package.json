@@ -21,6 +21,7 @@
     "gulp-cloudfront": "0.0.14",
     "gulp-concat": "^2.5.2",
     "gulp-copy": "0.0.2",
+    "gulp-env": "^0.2.0",
     "gulp-minify-css": "^1.2.0",
     "gulp-rename": "^1.2.2",
     "gulp-rev-all": "^0.8.21",

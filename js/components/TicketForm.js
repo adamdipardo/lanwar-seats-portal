@@ -67,7 +67,6 @@ var TicketForm = React.createClass({
 			else
 				ticketTypesSelected[ticket.id] = 1;
 		});
-		console.log(ticketTypesSelected);
 
 		return (
 			<div>

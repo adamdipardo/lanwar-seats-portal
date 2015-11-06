@@ -4,6 +4,8 @@ var Router = require("react-router");
 var Route = Router.Route;
 var DefaultRoute = Router.DefaultRoute;
 
+var LanwarConfig = require('./LanwarConfig');
+
 var TicketTypesStore = require('./stores/TicketTypesStore');
 var TicketTypesActions = require('./actions/TicketTypesActions');
 var BuyTicketsStore = require('./stores/BuyTicketsStore');
@@ -87,11 +89,13 @@ var actions = {
 
 var flux = new Fluxxor.Flux(stores, actions);
 
-flux.on("dispatch", function(type, payload) {
-	if (console && console.log) {
-		console.log("[Dispatch]", type, payload);
-	}
-});
+if (LanwarConfig.stripePK.indexOf('_live_') == -1) {
+	flux.on("dispatch", function(type, payload) {
+		if (console && console.log) {
+			console.log("[Dispatch]", type, payload);
+		}
+	});
+}
 
 // check for session
 flux.actions.UserAccountActions.checkForSession();

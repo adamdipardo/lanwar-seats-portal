@@ -192,11 +192,6 @@ var Checkout = React.createClass({
 
 	render: function() {
 
-		console.log(this.state.tickets);
-
-		// if (this.state.checkoutSuccess === true)
-		// 	this.handleCheckoutCompleted();
-
 		var ticketRows = [];
 		var firstName = this.state.formData.firstName;
 		var lastName = this.state.formData.lastName;
