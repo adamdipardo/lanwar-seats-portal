@@ -39,7 +39,8 @@ var Orders = React.createClass({
 			ordersPaging: AdminOrdersStore.ordersPaging,
 			user: UserAccountStore.user,
 			isLoadingSessionCheck: UserAccountStore.isLoadingSessionCheck,
-			isLoggedIn: UserAccountStore.isLoggedIn
+			isLoggedIn: UserAccountStore.isLoggedIn,
+			isLoadingSummary: AdminOrdersStore.isLoadingSummary
 		};
 
 	},
@@ -220,6 +221,14 @@ var Orders = React.createClass({
 
 	},
 
+	handleRefreshClick: function() {
+
+		this.getOrders();
+		this.refs.orderSummary.handleRefreshClick();
+		this.setState({clickedRefresh: true});
+
+	},
+
 	render: function() {
 
 		// permission
@@ -390,6 +399,14 @@ var Orders = React.createClass({
 			);
 		}
 
+		var refreshButton;
+		if ((this.state.isLoadingOrders || this.state.isLoadingSummary) && this.state.clickedRefresh) {
+			refreshButton = <a onClick={this.handleRefreshClick} style={{float: "right"}}><i className="fa fa-refresh fa-spin"></i></a>;
+		}
+		else {
+			refreshButton = <a onClick={this.handleRefreshClick} style={{float: "right"}}><i className="fa fa-refresh"></i></a>;
+		}
+
 		return (
 			<div>
 				<Header />
@@ -397,9 +414,9 @@ var Orders = React.createClass({
 					<div className="container">
 						<div className="row">
 							<div className="col-md-12">
-								<h2>Orders</h2>
+								<h2>Orders {refreshButton}</h2>
 
-								<OrderSummary />
+								<OrderSummary ref="orderSummary"/>
 
 								{filter}
 

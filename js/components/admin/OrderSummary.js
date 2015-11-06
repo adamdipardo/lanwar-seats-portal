@@ -34,6 +34,12 @@ var OrderSummary = React.createClass({
 
 	},
 
+	handleRefreshClick: function() {
+
+		this.getFlux().actions.AdminOrdersActions.getOrdersSummary();		
+
+	},
+
 	render: function() {
 
 		if (!this.state.isLoadingOrdersSummary) {
@@ -94,7 +100,7 @@ var OrderSummary = React.createClass({
 			);
 		}
 		else {
-			return (<div></div>);
+			return (<div className="row orders-summary"></div>);
 		}
 
 	}
