@@ -7,6 +7,7 @@ var LanwarConfig = require('../../LanwarConfig');
 var Header = require('../Header');
 var Footer = require('../Footer');
 var PagingButtons = require('../PagingButtons');
+var OrderSummary = require('./OrderSummary');
 
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -38,9 +39,7 @@ var Orders = React.createClass({
 			ordersPaging: AdminOrdersStore.ordersPaging,
 			user: UserAccountStore.user,
 			isLoadingSessionCheck: UserAccountStore.isLoadingSessionCheck,
-			isLoggedIn: UserAccountStore.isLoggedIn,
-			isLoadingOrdersSummary: AdminOrdersStore.isLoadingOrdersSummary,
-			summary: AdminOrdersStore.summary
+			isLoggedIn: UserAccountStore.isLoggedIn
 		};
 
 	},
@@ -49,7 +48,6 @@ var Orders = React.createClass({
 
 		// this.getFlux().actions.AdminOrdersActions.getOrders(this.state.page);
 		this.getOrders();
-		this.getFlux().actions.AdminOrdersActions.getOrdersSummary();
 
 	},
 
@@ -257,29 +255,6 @@ var Orders = React.createClass({
 			);
 		}
 
-		var summary = null;
-		if (!this.state.isLoadingOrdersSummary) {
-			var smashOptions = [];
-
-			if (typeof(this.state.summary.smashOptions) != "undefined") {
-				for (var i = 0; i < this.state.summary.smashOptions.length; i++)
-					smashOptions.push(<div className="col-md-1 options"><h2>{this.state.summary.smashOptions[i].numOrdered}</h2><h3>{this.state.summary.smashOptions[i].name}</h3></div>);
-			}
-
-			summary = (
-				<div className="row orders-summary">
-					<div className="col-md-2"><h2>{this.state.summary.total}</h2><h3>Tickets Sold</h3></div>
-					<div className="col-md-1"><h2>{this.state.summary.byoc}<h3>BYOC</h3></h2></div>
-					<div className="col-md-1"><h2>{this.state.summary.smash}</h2><h3>Smash</h3></div>
-					{smashOptions}
-					<div className="col-md-1"><h2>{this.state.summary.spectator}<h3>Spectator</h3></h2></div>
-					<div className="col-md-4">
-						<a className="btn btn-primary" href="/api/orders/csv/read" target="_blank">Download CSV</a>
-					</div>
-				</div>
-			);
-		}
-
 		var sortIcons = {
 			orderNumber: null,
 			lastName: null,
@@ -418,7 +393,13 @@ var Orders = React.createClass({
 							<div className="col-md-12">
 								<h2>Orders</h2>
 
-								{summary}
+								<OrderSummary />
+
+								<div className="row">
+									<div className="col-md-12" style={{textAlign: "right"}}>
+										<a className="btn btn-primary" href="/api/orders/csv/read" target="_blank">Download CSV</a> <a className="btn btn-primary" href="/api/orders/smash/csv/read" target="_blank">Download Smash CSV</a>
+									</div>
+								</div>
 
 								{filter}
 

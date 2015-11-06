@@ -633,18 +633,53 @@ div.orders-summary {
 	margin-top: 30px;
 	margin-bottom: 20px;
 
+	div.total { 
+		h2 {
+			font-size: 50px;
+			font-weight: bold;
+			text-align: center;
+			padding: 0;
+			margin: 33px 0 0;
+		}
+
+		h3 {
+			font-size: 16px;
+			text-align: center;
+		}
+	}
+
+	div.ticket-type {
+		text-align: center;
+		border-color: #EBEBEB;
+		border-style: solid;
+		min-height: 81px;
+		border-width: 0;
+
+		&:nth-child(odd) {
+			border-right-width: 1px;
+		}
+
+		&:nth-child(n+3) {
+			border-top-width: 1px;
+		}
+	}
+
 	h2 {
-		margin: 0;
-		font-size: 28px;
-		font-weight: bold;
+		padding: 0 0 6px;
+		margin: 8px 0 0;
+		// margin: 0;
+		font-size: 36px;
+		font-weight: normal;
 		color: $lanwarRed;
+		// border-bottom: 1px solid #CCC;
 	}
 
 	h3 {
 		margin: 0;
 		color: #666;
 		text-transform: uppercase;
-		font-size: 18px;
+		font-size: 16px;
+		// display: inline-block;
 	}
 
 	.options {
@@ -665,6 +700,34 @@ div.orders-summary {
 
 	a.btn-primary {
 		float: right;
+	}
+
+	table.summary-table {
+		thead {
+			td {
+				font-size: 16px;
+				color: #3D3D3D;
+				text-transform: uppercase;
+				font-weight: 400;
+			}
+		}
+
+		tbody {
+			tr {
+				td {
+					color: #666;
+					font-weight: 300;
+					text-transform: uppercase;
+					font-family: 'Robot', sans-serif;
+					font-size: 14px;
+
+					&:nth-child(2) {
+						color: $lanwarRed;
+						font-weight: bold;
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -1044,3 +1107,4 @@ div.success-message {
 		font-family: "FontAwesome";
 	}
 }
+

@@ -214,7 +214,8 @@ var AdminOrdersStore = Fluxxor.createStore({
 		this.summary = {
 			total: 0,
 			byoc: 0,
-			smash: 0
+			smash: 0,
+			melee: 0
 		};
 		this.emit("change");
 	},
@@ -239,7 +240,22 @@ var AdminOrdersStore = Fluxxor.createStore({
 					numOrdered: payload.tickets[1].options[2].numOrdered
 				}
 			],
-			spectator: payload.tickets[2].numOrdered
+			spectator: payload.tickets[2].numOrdered,
+			melee: payload.tickets[3].numOrdered,
+			meleeOptions: [
+				{
+					name: 'Singles', 
+					numOrdered: payload.tickets[3].options[0].numOrdered
+				},
+				{
+					name: 'Doubles', 
+					numOrdered: payload.tickets[3].options[1].numOrdered
+				},
+				{
+					name: 'Doubles Partner', 
+					numOrdered: payload.tickets[3].options[2].numOrdered
+				}
+			],
 		};
 		this.emit("change");
 	},
