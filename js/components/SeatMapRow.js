@@ -24,8 +24,8 @@ var SeatMapRow = React.createClass({
 
 	},
 
-	handleSeatClick: function(seat) {
-
+	handleSeatClick: function(seat, row, seatElement) {
+		
 		if (!this.isSeatUnavailable(seat))
 			this.props.onSeatClick(this.props.row.key, seat);
 
@@ -52,15 +52,29 @@ var SeatMapRow = React.createClass({
 				var classes = ['seat'];
 				if (this.isSeatSelectedByUser(element.key)) 
 					classes.push('selected');
-				else if (this.isSeatUnavailable(element.key))
+				else if (this.isSeatUnavailable(element.key, element))
 				{
 					classes.push('taken');
-					seatName += " (taken)";
+
+					if (this.props.isAdminView)
+						seatName += " (Ticket #" + element.ticket.id + ", " + element.ticket.firstName + " " + element.ticket.lastName + ")";
+					else
+						seatName += " (taken)";
 				}
-				seats.push(<span key={index} className={classNames(classes)} data-tip={seatName} onClick={this.handleSeatClick.bind(null, element.key, row.key)}></span>);
+
+				if (this.props.isAdminView) {
+					var seatSpan = <span key={index} className={classNames(classes)} data-tip={seatName}></span>;
+					
+					if (element.ticket)
+						seats.push(<a href={"/#/admin/orders/" + element.ticket.orderId}>{seatSpan}</a>);
+					else
+						seats.push(seatSpan);
+				}
+				else
+					seats.push(<span key={index} className={classNames(classes)} data-tip={seatName} onClick={this.handleSeatClick.bind(null, element.key, row.key, element)}></span>);
 			}.bind(this));
 
-			var classes = classNames(sectionClasses.shift(), 'section-row');
+			var classes = classNames(sectionClasses.shift(), 'section-row', {'admin': this.props.isAdminView});
 			sectionContainers.push(<div key={index} className={classes}>{seats}</div>);
 		}.bind(this));
 
@@ -72,6 +86,9 @@ var SeatMapRow = React.createClass({
 	},
 
 	isSeatSelectedByUser: function(seatKey) {
+
+		if (this.props.isAdminView)
+			return false;
 
 		var tickets = this.state.order.tickets;
 
@@ -90,11 +107,16 @@ var SeatMapRow = React.createClass({
 
 	},
 
-	isSeatUnavailable: function(seatKey) {
+	isSeatUnavailable: function(seatKey, seat) {
 
-		var unavailableSeats = this.props.unavailableSeats;
+		if (this.props.isAdminView) {
+			return seat.isBooked;
+		}
+		else {
+			var unavailableSeats = this.props.unavailableSeats;
 
-		return seatKey in unavailableSeats;
+			return seatKey in unavailableSeats;
+		}
 
 	}
 

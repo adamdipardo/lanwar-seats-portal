@@ -32,21 +32,25 @@ var SeatMap = React.createClass({
 
 	},
 
-	componentDidMount: function() {
+	componentDidMount: function() {		
 
-		this.getFlux().actions.SeatAvailabilityActions.loadSeatStatuses();
+		if (!this.props.isAdminView) {
+			this.getFlux().actions.SeatAvailabilityActions.loadSeatStatuses();
 
-		io = socket(LanwarConfig.socketURL, {path: "/reservations/socket.io"});
+			io = socket(LanwarConfig.socketURL, {path: "/reservations/socket.io"});
 
-		io.on('seat changed', function(data) {
-			this.getFlux().actions.SeatAvailabilityActions.seatStatusChanged(data.id, data.status);
-		}.bind(this));
+			io.on('seat changed', function(data) {
+				this.getFlux().actions.SeatAvailabilityActions.seatStatusChanged(data.id, data.status);
+			}.bind(this));
+		}
 
 	},
 
 	componentWillUnmount: function() {
 
-		io.disconnect();
+		if (!this.props.isAdminView) {
+			io.disconnect();
+		}
 
 	},
 
@@ -87,7 +91,7 @@ var SeatMap = React.createClass({
 
 		var seatingPlanRows = [];
 		seatingPlan.reverse().forEach(function(element, index) {
-			seatingPlanRows.push(<SeatMapRow key={index} row={element} onSeatClick={this.handleSeatClick} unavailableSeats={this.state.unavailableSeats}/>);
+			seatingPlanRows.push(<SeatMapRow key={index} row={element} onSeatClick={this.handleSeatClick} unavailableSeats={this.state.unavailableSeats} isAdminView={this.props.isAdminView}/>);
 		}.bind(this));
 
 		return (
@@ -120,9 +124,16 @@ var SeatMap = React.createClass({
 				for (var i = 0; i <= sectionNum; i++)
 					if (typeof seatingPlanRow[i] === "undefined") seatingPlanRow[i] = [];
 
-				seatingPlanRow[sectionNum].push({key: index, id: seat.id, name: seat.name});
-			});
-		});
+				var data = {key: index, id: seat.id, name: seat.name};
+
+				if (this.props.isAdminView) {
+					data.isBooked = seat.isBooked;
+					data.ticket = seat.ticket;
+				}
+
+				seatingPlanRow[sectionNum].push(data);
+			}.bind(this));
+		}.bind(this));
 
 		// add any missing sections
 		seatingPlan.forEach(function(element, index) {

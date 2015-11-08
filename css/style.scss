@@ -453,6 +453,22 @@ div.section-row {
 		}
 	}
 
+	&.admin {
+		span.seat {
+			&:hover {
+				cursor: default;
+				background-color: $lanwarRed;
+			}
+
+			&.taken {
+				cursor: pointer;
+
+				&:hover {
+					background-color: #CCC;
+				}
+			}
+		}
+	}
 }
 
 div.select-seats {

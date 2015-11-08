@@ -42,7 +42,7 @@ var RoomsList = React.createClass({
 			// get ID of room
 			var rooms = this.getFlux().store("RoomsStore").getState().rooms;
 
-			this.getFlux().actions.RoomsActions.loadSeats(roomKey, rooms[roomKey].id);
+			this.getFlux().actions.RoomsActions.loadSeats(roomKey, rooms[roomKey].id, this.props.isAdminView);
 		}
 
 		this.props.onSelectRoom(roomKey);

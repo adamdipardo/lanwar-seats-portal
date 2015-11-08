@@ -70,6 +70,8 @@ var RoomsStore = Fluxxor.createStore({
 					var seats = row.seats.reduce(function(acc, seat) {
 						var clientId = seat.id;
 						acc[clientId] = {id: seat.id, name: seat.name, section: seat.section, isBooked: seat.isBooked};
+						if (seat.ticket)
+							acc[clientId].ticket = seat.ticket;
 						return acc;
 					}, {});
 					var clientId = row.id;

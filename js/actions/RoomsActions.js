@@ -18,13 +18,14 @@ var RoomsActions = {
 
 	},
 
-	loadSeats: function(roomKey, roomId) {
+	loadSeats: function(roomKey, roomId, isAdminView) {
 
 		this.dispatch(LanwarConstants.LOAD_SEATS, {roomKey: roomKey, roomId: roomId});
 
 		$.ajax({
 			url: '/api/rooms/' + roomId + '/seats/read',
 			type: 'post',
+			data: {adminView: isAdminView === true},
 			success: function(result) {
 				this.dispatch(LanwarConstants.LOAD_SEATS_SUCCESS, {roomKey: roomKey, roomId: roomId, rows: result});
 			}.bind(this),
