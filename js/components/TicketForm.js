@@ -39,9 +39,6 @@ var TicketForm = React.createClass({
 
 	isValid: function() {
 
-		console.log(this.state.tickets);
-		console.log(this.state.ticketTypes);
-
 		var hasTickets = false;
 		var hasSmash4 = false;
 		var hasMelee = false;
@@ -61,10 +58,6 @@ var TicketForm = React.createClass({
 			this.setState({error: "You cannot buy both a Smash 4 and a Smash Melee ticket together. Both tournaments will be running at the same time, so please choose one or the other."})
 		else
 			this.setState({error: null});
-
-		console.log(hasTickets);
-		console.log(hasSmash4);
-		console.log(hasMelee);
 
 		return hasTickets && !(hasSmash4 && hasMelee);
 
