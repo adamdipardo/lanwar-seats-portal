@@ -1,5 +1,6 @@
 var React = require('react');
 var Fluxxor = require('fluxxor');
+var LanwarConfig = require('../LanwarConfig');
 
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -38,19 +39,34 @@ var TicketForm = React.createClass({
 
 	isValid: function() {
 
+		console.log(this.state.tickets);
+		console.log(this.state.ticketTypes);
+
 		var hasTickets = false;
-		for (var ticket in this.state.tickets)
-		{
+		var hasSmash4 = false;
+		var hasMelee = false;
+		$.each(this.state.tickets, function(index, ticket) {
 			hasTickets = true;
-			break;
-		}
+			
+			if (ticket.id == LanwarConfig.ticketIds.smash)
+				hasSmash4 = true;
+
+			if (ticket.id == LanwarConfig.ticketIds.melee)
+				hasMelee = true;
+		});
 
 		if (!hasTickets)
 			this.setState({error: "Please select at least one ticket to buy."});
+		else if (hasSmash4 && hasMelee)
+			this.setState({error: "You cannot buy both a Smash 4 and a Smash Melee ticket together. Both tournaments will be running at the same time, so please choose one or the other."})
 		else
 			this.setState({error: null});
 
-		return hasTickets;
+		console.log(hasTickets);
+		console.log(hasSmash4);
+		console.log(hasMelee);
+
+		return hasTickets && !(hasSmash4 && hasMelee);
 
 	},
 
