@@ -303,7 +303,7 @@ var Orders = React.createClass({
 						<a onClick={this.handleFilterToggle.bind(this, false)}><i className="fa fa-angle-down"></i> Hide Filters</a>
 					</div>
 					<div className="col-md-6" style={{textAlign: "right"}}>
-						Download <a href="/api/orders/csv/read" target="_blank">All CSV</a> / <a href="/api/orders/smash/csv/read" target="_blank">Smash CSV</a>
+						Download <a href="/api/orders/csv/read" target="_blank">All CSV</a> / <a href="/api/orders/smash/csv/read" target="_blank">Smash CSV</a> / <a href="/api/orders/byoc/lanhub/csv/read" target="_blank">Lanhub BYOC CSV</a>
 					</div>
 				</div>
 				<div className="row filter">
@@ -393,7 +393,7 @@ var Orders = React.createClass({
 						<a onClick={this.handleFilterToggle.bind(this, true)}><i className="fa fa-angle-up"></i> Show Filters</a>
 					</div>
 					<div className="col-md-6" style={{textAlign: "right"}}>
-						Download <a href="/api/orders/csv/read" target="_blank">All CSV</a> / <a href="/api/orders/smash/csv/read" target="_blank">Smash CSV</a>
+						Download <a href="/api/orders/csv/read" target="_blank">All CSV</a> / <a href="/api/orders/smash/csv/read" target="_blank">Smash CSV</a> / <a href="/api/orders/byoc/lanhub/csv/read" target="_blank">Lanhub BYOC CSV</a>
 					</div>
 				</div>
 			);
