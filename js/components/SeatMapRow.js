@@ -38,7 +38,7 @@ var SeatMapRow = React.createClass({
 
 		var sectionClasses;
 		if (numSections == 1)
-			sectionClasses = [['col-xs-12', 'center-section']];
+			sectionClasses = [['col-xs-12', 'center-section', 'only-section']];
 		else if (numSections == 3)
 			sectionClasses = [['col-xs-3', 'left-section'], ['col-xs-6', 'center-section'], ['col-xs-3', 'right-section']];
 
@@ -47,6 +47,7 @@ var SeatMapRow = React.createClass({
 
 			// get seats
 			var seats = [];
+			var seatLabels = [];
 			element.forEach(function(element, index) {
 				var seatName = "Row " + row.name + ", Seat " + element.name;
 				var classes = ['seat'];
@@ -63,19 +64,34 @@ var SeatMapRow = React.createClass({
 				}
 
 				if (this.props.isAdminView) {
-					var seatSpan = <span key={index} className={classNames(classes)} data-tip={seatName}></span>;
-					
-					if (element.ticket)
-						seats.push(<a href={"/#/admin/orders/" + element.ticket.orderId}>{seatSpan}</a>);
-					else
-						seats.push(seatSpan);
+					if (this.props.isPrintable) {
+						if (this.isSeatUnavailable(element.key, element))
+							seats.push(<span key={index} className={classNames(classes)}><span>{element.ticket.orderId}</span></span>);
+						else
+							seats.push(<span key={index} className={classNames(classes)}></span>);
+
+						seatLabels.push(<span key={index + "_label"} className="seat-label">{element.name}</span>);
+					}
+					else {
+						var seatSpan = <span key={index} className={classNames(classes)} data-tip={seatName}></span>;
+						
+						if (element.ticket)
+							seats.push(<a href={"/#/admin/orders/" + element.ticket.orderId}>{seatSpan}</a>);
+						else
+							seats.push(seatSpan);
+					}
 				}
 				else
 					seats.push(<span key={index} className={classNames(classes)} data-tip={seatName} onClick={this.handleSeatClick.bind(null, element.key, row.key, element)}></span>);
 			}.bind(this));
 
-			var classes = classNames(sectionClasses.shift(), 'section-row', {'admin': this.props.isAdminView});
-			sectionContainers.push(<div key={index} className={classes}>{seats}</div>);
+			var rowLabel = null;
+			if (this.props.isPrintable)
+				rowLabel = (<span className="seat row-label"><span>{row.name}</span></span>);
+
+			var classes = classNames(sectionClasses.shift(), 'section-row', {'admin': this.props.isAdminView, 'print': this.props.isPrintable});
+			sectionContainers.push(<div key={index} className={classes}>{rowLabel}{seats}{rowLabel}<div>{seatLabels}</div></div>);
+			// sectionContainers.push(<div key={index + "_labels"} className={classes}>{seatLabels}</div>)
 		}.bind(this));
 
 		return (

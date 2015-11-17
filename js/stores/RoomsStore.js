@@ -10,6 +10,7 @@ var RoomsStore = Fluxxor.createStore({
 		// this.selectedRoom = null;
 		this.isLoadingSeats = false;
 		this.getSeatsError = null;
+		this.isLoadingAllSeats = false;
 
 		this.bindActions(
 			LanwarConstants.LOAD_ROOMS, this.onLoadRooms,
@@ -17,7 +18,10 @@ var RoomsStore = Fluxxor.createStore({
 			LanwarConstants.LOAD_ROOMS_FAILURE, this.onLoadRoomsFailure,
 			LanwarConstants.LOAD_SEATS, this.onLoadSeats,
 			LanwarConstants.LOAD_SEATS_SUCCESS, this.onLoadSeatsSuccess,
-			LanwarConstants.LOAD_SEATS_FAILURE, this.onLoadSeatsFailure
+			LanwarConstants.LOAD_SEATS_FAILURE, this.onLoadSeatsFailure,
+			LanwarConstants.LOAD_ALL_SEATS, this.onLoadAllSeats,
+			LanwarConstants.LOAD_ALL_SEATS_SUCCESS, this.onLoadAllSeatsSuccess,
+			LanwarConstants.LOAD_ALL_SEATS_FAILURE, this.onLoadAllSeatsFailure
 		);
 	},
 
@@ -89,13 +93,36 @@ var RoomsStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
+	onLoadAllSeats: function(payload) {
+		this.rooms = {};
+		this.isLoadingAllSeats = true;
+		this.emit("change");
+	},
+
+	onLoadAllSeatsSuccess: function(payload) {
+		
+		for (var i = 0; i < payload.rooms.length; i++) {
+			this.rooms[payload.rooms[i].id] = payload.rooms[i];
+		}
+
+		this.isLoadingAllSeats = false;
+		this.emit("change");
+	},
+
+	onLoadAllSeatsFailure: function(payload) {
+		this.isLoadingAllSeats = false;
+		this.emit("change");
+		alert(payload.error);
+	},
+
 	getState: function() {
 		return {
 			isLoadingRooms: this.isLoadingRooms,
 			getRoomsError: this.getRoomsError,
 			rooms: this.rooms,
 			selectedRoom: this.selectedRoom,
-			isLoadingSeats: this.isLoadingSeats
+			isLoadingSeats: this.isLoadingSeats,
+			isLoadingAllSeats: this.isLoadingAllSeats
 		};
 	}
 });

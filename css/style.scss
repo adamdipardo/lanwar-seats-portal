@@ -420,14 +420,52 @@ div.section-row {
 
 	&.left-section {
 		text-align: right;
+
+		span.seat.row-label {
+			// left: 15px;
+
+			&:first-child {
+				display: inline-block;
+				margin-right: 10px;
+			}
+		}
 	}
 
 	&.center-section {
 		text-align: center;
+
+		&.only-section {
+			span.seat.row-label {
+				display: inline-block;
+
+				&:nth-last-child(2) {
+					// right: 15px;
+					margin-left: 10px;
+				}
+
+				&:first-child {
+					// left: 15px;
+					margin-right: 10px;
+				}
+			}
+		}
 	}
 
 	&.right-section {
 		text-align: left;
+
+		span.seat.row-label {
+
+			&:nth-last-child(2) {
+				display: inline-block;
+				margin-left: 10px;
+			}
+		}
+	}
+
+	span.seat-label {
+		width: 25px;
+		display: inline-block;
 	}
 
 	span.seat {
@@ -468,6 +506,98 @@ div.section-row {
 				}
 			}
 		}
+	}
+
+	&.print {
+
+		span.seat-label {
+			font-size: 12px;
+			text-align: center;
+
+			@media print {
+				width: 25px;
+			}
+		}
+
+		span.seat {
+			position: relative;
+			font-size: 10px;
+			margin: 0;
+			width: 25px;
+			height: 25px;
+			border-width: 1px 1px 1px 0;
+			border-style: solid;
+			border-color: black;
+			background-color: transparent;
+
+			&:hover {
+				background-color: transparent;
+				cursor: default;
+			}
+
+			&.taken {
+				&:hover {
+					background-color: transparent;
+					cursor: default;
+				}
+			}
+
+			&.row-label {
+				// position: absolute;
+				// top: 0;
+				// left: 15px;
+				border: none;
+				display: none;
+				font-weight: bold;
+				font-size: 14px;
+			}
+
+			&:nth-child(2) {
+				border-left-width: 1px;
+			}
+
+			@media print {
+				border-width: 1px 1px 1px 0;
+				border-style: solid;
+				border-color: black;
+
+				&:first-child {
+					border-left-width: 1px;
+				}
+			}
+
+			span {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				line-height: 25px;
+				text-align: center;
+			}
+		}
+	}
+}
+
+div.seats-room {
+	page-break-inside: avoid;
+
+	> p {
+		text-align: center;
+	}
+
+	h2 {
+		text-align: center;
+	}
+
+	div.front {
+		text-align: center;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		text-transform: uppercase;
+		font-style: italic;
+		margin-top: 10px;
+		color: #999;
+		width: 100%;
 	}
 }
 
@@ -513,6 +643,12 @@ div.select-seats {
 	div.seats-message {
 
 		font-size: 18px;
+		padding-right: 10px;
+
+		p {
+			position: relative;
+			top: -14px;
+		}
 
 	}
 

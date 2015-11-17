@@ -37,6 +37,7 @@ var AdminOrderDetail = require('./components/admin/OrderDetail');
 var AdminScan = require('./components/admin/Scan');
 var AdminTickets = require('./components/admin/CheckedInTickets');
 var RoomsView = require('./components/admin/RoomsView');
+var PrintableSeats = require('./components/admin/PrintableSeats');
 var ChooseOptions = require('./components/ChooseOptions');
 var Login = require('./components/Login');
 
@@ -57,6 +58,7 @@ var routes = (
 			<Route name="admin-scan" path="/admin/scan" handler={AdminScan} />
 			<Route name="admin-checked-in-tickets" path="/admin/checked-in-tickets" handler={AdminTickets} />
 			<Route name="admin-rooms-view" path="/admin/rooms-view" handler={RoomsView} />
+			<Route name="admin-rooms-print" path="/admin/rooms/print" handler={PrintableSeats} />
 		</Route>
 		<Route name="order" path="/order/:orderHash" handler={CheckoutFinish}/>
 		<Route name="order-select-seats" path="/order/:orderHash/select-seats" handler={SelectSeats} />

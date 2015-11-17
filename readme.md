@@ -1,5 +1,7 @@
 # LanWar Tickets Portal
 
+Version 0.1
+
 This project aims to provide an interface for ordering tickets, and reserving seats for LANWAR X. Also provided is admin functionality for reviewing orders, and checking-in tickets either manually or by scanning the ticket's QR code. Built with [React](http://facebook.github.io/react/) and [Fluxxor](http://fluxxor.com).
 
 The portal is only front-end, all back-end work is handled by a separate API and communication between the two is via Ajax.
@@ -23,6 +25,7 @@ The portal is only front-end, all back-end work is handled by a separate API and
 * View a list of all checked-in tickets
 * Lookup order by entering in the Order ID #
 * Download a CSV of all orders/tickets
+* View room layouts
 
 ## Installation
 
@@ -50,5 +53,10 @@ The portal is only front-end, all back-end work is handled by a separate API and
 
 ## To-Do
 
-* Add more stuff to footer, maybe
-* Add UA3XXX rooms?
+* Admin overview page with metrics, charts, etc.
+* Admin printable room layouts
+
+### Version 1.0
+
+* Upgrade to React 0.14
+* Better handling of Smash/Melee tickets

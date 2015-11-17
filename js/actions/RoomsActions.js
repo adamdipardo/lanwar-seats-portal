@@ -34,7 +34,37 @@ var RoomsActions = {
 			}.bind(this)
 		});
 
-	}
+	},
+
+	loadAllSeats: function() {
+
+		this.dispatch(LanwarConstants.LOAD_ALL_SEATS, {});
+
+		$.ajax({
+			url: '/api/rooms/seats/read',
+			type: 'post',
+			success: function(result) {
+				this.dispatch(LanwarConstants.LOAD_ALL_SEATS_SUCCESS, {rooms: result});
+			}.bind(this),
+			error: function(xhr) {
+				try {
+					var errorStr = JSON.parse(xhr.responseText).error;
+
+					if (!errorStr)
+						throw true;
+				}
+				catch (e) {
+					var errorStr = "Sorry, there was an error. Please try again later.";
+				}
+
+				if (errorStr == "Permission denied")
+					this.dispatch(LanwarConstants.SESSION_TIMEOUT, {});
+				else
+					this.dispatch(LanwarConstants.LOAD_ALL_SEATS_FAILURE, {error: errorStr});
+			}.bind(this)
+		});
+
+	},
 };
 
 module.exports = RoomsActions;
