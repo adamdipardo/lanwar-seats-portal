@@ -73,6 +73,12 @@ var OrderDetail = React.createClass({
 
 	},
 
+	componentWillReceiveProps: function() {
+
+		this.getFlux().actions.AdminOrdersActions.resetReSendEmailMessage();
+
+	},
+
 	render: function() {
 
 		// permission
@@ -157,6 +163,7 @@ var OrderDetail = React.createClass({
 									<div className="col-md-6">
 										<h3>Order Details</h3>
 										<table className="table table-striped">
+										<tbody>
 										<tr>
 											<th>Date Created:</th>
 											<td>{orderDetail.createdNice}</td>
@@ -182,6 +189,7 @@ var OrderDetail = React.createClass({
 											<td>{orderDetail.isCash ? 'Cash' : 'Online'}</td>
 										</tr>
 										{recordedBy}
+										</tbody>
 										</table>
 										<button className="btn btn-primary" onClick={this.handleReSendEmailClick}>Re-Send Confirmation Email</button> &nbsp; 
 										<button className="btn btn-primary" onClick={this.handleSelectSeatsClick}>Select Seats for this User</button>
