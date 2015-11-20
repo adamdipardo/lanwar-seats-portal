@@ -67,7 +67,7 @@ var RoomsList = React.createClass({
 		var selectedRoom = this.state.selectedRoom;
 
 		var options = [];
-		var disabledRooms = ["61","71","81"];
+		var disabledRooms = ["61"];
 		Object.keys(rooms).map(function(id) {
 			if (this.props.isAdminView || disabledRooms.indexOf(id) == -1)
 				options.push({value: String(id), label: rooms[id].name + "   (" + rooms[id].seats.taken + "/" + rooms[id].seats.total + ")"});
