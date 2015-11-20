@@ -2,6 +2,7 @@ var React = require('react');
 var Fluxxor = require('fluxxor');
 var ReactBootstrap = require('react-bootstrap');
 var Modal = ReactBootstrap.Modal;
+var Navigation = require('react-router').Navigation;
 
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -10,7 +11,7 @@ var TicketRow = require('./TicketRow');
 
 var CheckInModal = React.createClass({
 
-	mixins: [FluxMixin, StoreWatchMixin("CheckInStore")],
+	mixins: [FluxMixin, StoreWatchMixin("CheckInStore"), Navigation],
 
 	getInitialState: function() {
 
@@ -36,6 +37,13 @@ var CheckInModal = React.createClass({
 	dismiss: function() {
 
 		this.getFlux().actions.CheckInActions.dismissCheckIn();
+
+	},
+
+	handleSelectSeatsClick: function() {
+		console.log(this.state);
+		this.getFlux().actions.OrderActions.manuallyLoadOrder(this.state.checkInTicket.order);
+		this.transitionTo('/admin/orders/' + this.state.checkInTicket.order.id + '/select-seats');
 
 	},
 
@@ -123,6 +131,10 @@ var CheckInModal = React.createClass({
 					options.push(this.state.checkInTicket.options[i].name);
 			}
 
+			var selectSeatButton;
+			if (this.state.checkInTicket.canBookSeat && !this.state.checkInTicket.seat.name)
+				selectSeatButton = (<a onClick={this.handleSelectSeatsClick} className="pull-right btn btn-primary">Select Seat</a>);
+
 			return (
 				<Modal dialogClassName='check-in success' animation={false}>
 					<i className="fa fa-check-circle fa-4x"></i>
@@ -169,6 +181,7 @@ var CheckInModal = React.createClass({
 					</table>
 
 					<div className="modal-buttons">
+						{selectSeatButton}
 						<a href={"/#/admin/orders/" + this.state.checkInTicket.orderId} className="pull-right btn btn-primary">View Order #{this.state.checkInTicket.orderId}</a> 
 						<a onClick={this.dismiss} className="pull-right btn btn-default">Scan Another</a>
 						<div className="clearfix"></div>

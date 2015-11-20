@@ -44,7 +44,7 @@ var OrderActions = {
 			}
 		});
 	},
-	bookSeats: function(orderHash, tickets, reservationSessionId, router) {
+	bookSeats: function(orderHash, orderId, tickets, reservationSessionId, router) {
 		this.dispatch(LanwarConstants.BOOK_SEATS_LOADING, {});
 
 		reservedTickets = [];
@@ -54,12 +54,15 @@ var OrderActions = {
 		}
 
 		$.ajax({
-			url: '/api/orders/' + orderHash + '/tickets/book',
+			url: '/api/orders/' + (orderHash || orderId) + '/tickets/book' + (orderId ? '/admin' : ''),
 			type: 'post',
 			data: {tickets: JSON.stringify(reservedTickets), reservationSessionId: reservationSessionId},
 			success: function(result) {
 				this.dispatch(LanwarConstants.BOOK_SEATS_SUCCESS, result);
-				router.transitionTo('/order/' + orderHash);
+				if (orderHash)
+					router.transitionTo('/order/' + orderHash);
+				else
+					router.transitionTo('/admin/orders/' + orderId);
 			}.bind(this),
 			error: function(xhr) {
 				this.dispatch(LanwarConstants.BOOK_SEATS_ERROR, {error: JSON.parse(xhr.responseText).error});
@@ -80,6 +83,9 @@ var OrderActions = {
 				this.dispatch(LanwarConstants.SET_LABEL_ERROR, {ticketId: ticketId, error: JSON.parse(xhr.responseText).error});
 			}.bind(this)
 		});
+	},
+	manuallyLoadOrder: function(order) {
+		this.dispatch(LanwarConstants.MANUALLY_LOAD_ORDER, {order: order});
 	}
 };
 

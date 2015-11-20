@@ -60,6 +60,13 @@ var OrderDetail = React.createClass({
 
 	},
 
+	handleSelectSeatsClick: function() {
+
+		this.getFlux().actions.OrderActions.manuallyLoadOrder(this.state.orderDetail);
+		this.transitionTo('/admin/orders/' + this.state.orderDetail.id + '/select-seats');
+
+	},
+
 	componentWillUnmount: function() {
 
 		this.getFlux().actions.AdminOrdersActions.resetReSendEmailMessage();
@@ -83,6 +90,23 @@ var OrderDetail = React.createClass({
 									<h2>Order #{this.context.router.getCurrentParams().orderId}</h2>
 
 									<div className="loading-circle padding"><i className="fa fa-circle-o-notch fa-spin fa-4x"></i></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<Footer />
+				</div>
+			);
+		}
+
+		if (!this.state.orderDetail.tickets) {
+			return (
+				<div>
+					<Header />
+					<div className="container-fluid body">
+						<div className="container">
+							<div className="row">
+								<div className="col-md-12">
 								</div>
 							</div>
 						</div>
@@ -130,7 +154,7 @@ var OrderDetail = React.createClass({
 								<h2>Order #{this.context.router.getCurrentParams().orderId}</h2>
 
 								<div className="row">
-									<div className="col-md-4">
+									<div className="col-md-6">
 										<h3>Order Details</h3>
 										<table className="table table-striped">
 										<tr>
@@ -159,7 +183,8 @@ var OrderDetail = React.createClass({
 										</tr>
 										{recordedBy}
 										</table>
-										<button className="btn btn-primary" onClick={this.handleReSendEmailClick}>Re-Send Confirmation Email</button>
+										<button className="btn btn-primary" onClick={this.handleReSendEmailClick}>Re-Send Confirmation Email</button> &nbsp; 
+										<button className="btn btn-primary" onClick={this.handleSelectSeatsClick}>Select Seats for this User</button>
 									</div>
 								</div>
 

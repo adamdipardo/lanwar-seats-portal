@@ -55,6 +55,7 @@ var routes = (
 		<Route name="admin" path="/admin">
 			<Route name="admin-orders" path="/admin/orders" handler={AdminOrders} />
 			<Route name="admin-order-detail" path="/admin/orders/:orderId" handler={AdminOrderDetail} />
+			<Route name="admin-order-detail-select-seats" path="/admin/orders/:orderId/select-seats" handler={SelectSeats} />
 			<Route name="admin-scan" path="/admin/scan" handler={AdminScan} />
 			<Route name="admin-checked-in-tickets" path="/admin/checked-in-tickets" handler={AdminTickets} />
 			<Route name="admin-rooms-view" path="/admin/rooms-view" handler={RoomsView} />

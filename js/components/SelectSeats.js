@@ -47,7 +47,10 @@ var SelectSeats = React.createClass({
 		var response = confirm("Are you sure you want to go back? Any new seats that you have reserved in this session will be lost. (Previously reserved seats will be kept.)");
 
 		if (response == true) {
-			this.transitionTo('/order/' + this.context.router.getCurrentParams().orderHash);
+			if (this.context.router.getCurrentParams().orderId)
+				this.transitionTo('/admin/orders/' + this.context.router.getCurrentParams().orderId);
+			else
+				this.transitionTo('/order/' + this.context.router.getCurrentParams().orderHash);
 		}
 
 	},
@@ -73,21 +76,18 @@ var SelectSeats = React.createClass({
 	handleTimeExpired: function() {
 
 		alert('Your reservation time has expired. Please start over if you\'d like to reserve new seats.');
-		this.transitionTo('/order/' + this.context.router.getCurrentParams().orderHash);
 
+		if (this.context.router.getCurrentParams().orderId)
+			this.transitionTo('/admin/orders/' + this.context.router.getCurrentParams().orderId);
+		else
+			this.transitionTo('/order/' + this.context.router.getCurrentParams().orderHash);
 	},
 
 	handleClickContinue: function() {
 
 		this.setState({isContinuing: true});
-
-		// reserveTickets = [];
-		// for (var i = 0; i < this.state.order.tickets.length; i++) {
-		// 	if (this.state.order.tickets[i].seat.seatKey && this.state.order.tickets[i].seat.seatKey != this.state.order.tickets[i].seat.id)
-		// 		reserveTickets.push({'id': this.state.order.tickets[i].id, 'seat': this.state.order.tickets[i].seat.seatKey});
-		// }
 		
-		this.getFlux().actions.OrderActions.bookSeats(this.context.router.getCurrentParams().orderHash, this.state.order.tickets, this.state.reservationSessionId, this.context.router);
+		this.getFlux().actions.OrderActions.bookSeats(this.context.router.getCurrentParams().orderHash, this.context.router.getCurrentParams().orderId, this.state.order.tickets, this.state.reservationSessionId, this.context.router);
 
 	},
 
@@ -114,10 +114,14 @@ var SelectSeats = React.createClass({
 		var numNewSeats = 0;
 		var room = this.state.room;
 
-		if (!this.context.router.getCurrentParams().orderHash)
+		if (!this.context.router.getCurrentParams().orderHash && !this.context.router.getCurrentParams().orderId)
 			this.transitionTo('/');
-		else if (!this.state.order.tickets || this.state.order.tickets.length == 0)
-			this.transitionTo('/order/' + this.context.router.getCurrentParams().orderHash);
+		else if (!this.state.order.tickets || this.state.order.tickets.length == 0) {
+			if (this.context.router.getCurrentParams().orderHash)
+				this.transitionTo('/order/' + this.context.router.getCurrentParams().orderHash);
+			else
+				this.transitionTo('/admin/orders/' + this.context.router.getCurrentParams().orderId);
+		}
 
 		// should timer be active (has a ticket been chosen?)
 		var checkoutTimer = this.state.checkoutExpireTime != null ? <CheckoutTimer onTimeExpired={this.handleTimeExpired} timeoutAt={this.state.checkoutExpireTime}/> : null;

@@ -27,7 +27,8 @@ var OrderStore = Fluxxor.createStore({
 			LanwarConstants.BOOK_SEATS_ERROR, this.onBookSeatsError,
 			LanwarConstants.SET_LABEL_LOADING, this.onSetLabelLoading,
 			LanwarConstants.SET_LABEL_SUCCESS, this.onSetLabelSuccess,
-			LanwarConstants.SET_LABEL_ERROR, this.onSetLabelError
+			LanwarConstants.SET_LABEL_ERROR, this.onSetLabelError,
+			LanwarConstants.MANUALLY_LOAD_ORDER, this.onManuallyLoadOrder
 		);
 	},
 
@@ -141,6 +142,13 @@ var OrderStore = Fluxxor.createStore({
 
 		this.emit("change");
 		alert(payload.error);
+
+	},
+
+	onManuallyLoadOrder: function(payload) {
+
+		this.order = payload.order;
+		this.emit("change");
 
 	},
 

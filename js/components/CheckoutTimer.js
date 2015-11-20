@@ -27,6 +27,12 @@ var CheckoutTimer = React.createClass({
 
 	},
 
+	componentWillUnmount: function() {
+
+		clearInterval(this.interval);
+
+	},
+
 	render: function() {
 
 		var numSecondsLeft = this.state.timeoutAt.diff(moment(), 'seconds');

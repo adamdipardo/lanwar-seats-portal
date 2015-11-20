@@ -58,6 +58,7 @@ var Scan = React.createClass({
 
 		try {
 			$('#reader').html5_qrcode_stop();
+			$('#reader').remove();
 		}
 		catch (e) {
 			// do nothing, just need to catch error in case QR-code scanner is not running and we try to stop it
