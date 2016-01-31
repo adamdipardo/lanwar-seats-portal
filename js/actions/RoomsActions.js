@@ -43,6 +43,7 @@ var RoomsActions = {
 		$.ajax({
 			url: '/api/rooms/seats/read',
 			type: 'post',
+			data: {eventId: LanwarConstants.EVENT_ID},
 			success: function(result) {
 				this.dispatch(LanwarConstants.LOAD_ALL_SEATS_SUCCESS, {rooms: result});
 			}.bind(this),

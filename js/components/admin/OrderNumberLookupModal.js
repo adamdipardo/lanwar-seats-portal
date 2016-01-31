@@ -1,6 +1,6 @@
 var React = require('react');
 var Fluxxor = require('fluxxor');
-var Navigation = require('react-router').Navigation;
+var History = require('react-router').History;
 var ReactBootstrap = require('react-bootstrap');
 var Modal = ReactBootstrap.Modal;
 
@@ -9,7 +9,7 @@ var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var OrderNumberLookUpModal = React.createClass({
 
-	mixins: [FluxMixin, StoreWatchMixin("AdminOrdersStore"), Navigation],
+	mixins: [FluxMixin, StoreWatchMixin("AdminOrdersStore"), History],
 
 	getInitialState: function() {
 
@@ -45,7 +45,7 @@ var OrderNumberLookUpModal = React.createClass({
 		e.preventDefault();
 
 		// this.props.onSubmitOrderNumber(this.state.orderNumber);
-		this.getFlux().actions.AdminOrdersActions.lookupOrderNumber(this.state.orderNumber, this.context.router);
+		this.getFlux().actions.AdminOrdersActions.lookupOrderNumber(this.state.orderNumber);
 		// this.setState({orderNumber: null});
 
 	},
@@ -72,7 +72,7 @@ var OrderNumberLookUpModal = React.createClass({
 			lookUpError = (<div className="form-group has-error"><span className="help-block">{this.state.orderNumberLookupError}</span></div>);
 
 		return (
-			<Modal dialogClassName='lookup-order-number' bsSize="small" animation={false} onHide={this.handleHide}>
+			<Modal.Dialog dialogClassName='lookup-order-number' bsSize="small" animation={false} onHide={this.handleHide}>
 				<p>Lookup Order by Number</p>
 
 				<form className="form" onSubmit={this.handleSubmit}>
@@ -86,7 +86,7 @@ var OrderNumberLookUpModal = React.createClass({
 					{lookupButton}
 				</div>
 				</form>
-			</Modal>
+			</Modal.Dialog>
 		);
 
 	},

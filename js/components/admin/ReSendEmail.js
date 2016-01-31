@@ -64,7 +64,7 @@ var ReSendEmail = React.createClass({
 			sendButton = <button type="submit" className="btn btn-primary">Send</button>;
 
 		return (
-			<Modal dialogClassName='set-label' bsSize="medium" animation={false} onHide={this.handleHide}>
+			<Modal.Dialog dialogClassName='set-label' bsSize="sm" animation={false} onHide={this.handleHide}>
 				<p>Re-send email confirmation for {this.props.order.user.firstName} {this.props.order.user.lastName} to</p>
 
 				<form className="form" onSubmit={this.handleSubmit}>
@@ -77,7 +77,7 @@ var ReSendEmail = React.createClass({
 					{sendButton}
 				</div>
 				</form>
-			</Modal>
+			</Modal.Dialog>
 		);
 
 	}

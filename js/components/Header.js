@@ -1,6 +1,7 @@
 var React = require('react');
 var Fluxxor = require('fluxxor');
-var Navigation = require('react-router').Navigation;
+var History = require('react-router').History;
+var Link = require('react-router').Link;
 
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -11,7 +12,7 @@ var SessionTimedOutModal = require('./SessionTimedOutModal');
 
 var Header = React.createClass({
 
-	mixins: [FluxMixin, StoreWatchMixin("UserAccountStore"), Navigation],
+	mixins: [FluxMixin, StoreWatchMixin("UserAccountStore"), History],
 
 	getInitialState: function() {
 
@@ -43,13 +44,13 @@ var Header = React.createClass({
 
 		e.preventDefault();
 
-		this.getFlux().actions.UserAccountActions.logout(this.context.router);
+		this.getFlux().actions.UserAccountActions.logout();
 
 	},
 
 	render: function() {
 
-		var menu = [<li key={0}><a href="/#/">Buy Tickets</a></li>];
+		var menu = [<li key={0}><Link to="/">Buy Tickets</Link></li>];
 		if (this.state.isLoggedIn) {
 			menu.push([
 				<li className="dropdown" key={1}><a>Hello, {this.state.user.firstName}!</a></li>,
@@ -58,7 +59,7 @@ var Header = React.createClass({
 
 			// add admin menu items
 			if (this.state.user.type == 'admin') {
-				menu.unshift(<li className="dropdown" key={3}><a className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span className="caret"></span></a> <ul className="dropdown-menu"><li><a href="/#/admin/orders">All Orders</a></li><li><a href="/#/admin/checked-in-tickets">All Checked-In Tickets</a></li><li><a href="/#/admin/scan">Scan</a></li><li><a onClick={this.openLookUpOrderNumberModal}>Lookup Order #</a></li><li><a href="/#/admin/rooms-view">Rooms View</a></li></ul></li>);
+				menu.unshift(<li className="dropdown" key={3}><a className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span className="caret"></span></a> <ul className="dropdown-menu"><li><Link to="/admin/orders">All Orders</Link></li><li><Link to="/admin/checked-in-tickets">All Checked-In Tickets</Link></li><li><Link to="/admin/scan">Scan</Link></li><li><a onClick={this.openLookUpOrderNumberModal}>Lookup Order #</a></li><li><Link to="/admin/rooms-view">Rooms View</Link></li></ul></li>);
 			}
 		}
 

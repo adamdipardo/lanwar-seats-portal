@@ -1,4 +1,5 @@
 var LanwarConstants = require('../constants/LanwarConstants');
+var history = require('../history');
 
 var OrderActions = {
 	getOrder: function(hash) {
@@ -44,7 +45,7 @@ var OrderActions = {
 			}
 		});
 	},
-	bookSeats: function(orderHash, orderId, tickets, reservationSessionId, router) {
+	bookSeats: function(orderHash, orderId, tickets, reservationSessionId) {
 		this.dispatch(LanwarConstants.BOOK_SEATS_LOADING, {});
 
 		reservedTickets = [];
@@ -60,9 +61,9 @@ var OrderActions = {
 			success: function(result) {
 				this.dispatch(LanwarConstants.BOOK_SEATS_SUCCESS, result);
 				if (orderHash)
-					router.transitionTo('/order/' + orderHash);
+					history.replaceState(null, '/order/' + orderHash);
 				else
-					router.transitionTo('/admin/orders/' + orderId);
+					history.replaceState(null, '/admin/orders/' + orderId);
 			}.bind(this),
 			error: function(xhr) {
 				this.dispatch(LanwarConstants.BOOK_SEATS_ERROR, {error: JSON.parse(xhr.responseText).error});

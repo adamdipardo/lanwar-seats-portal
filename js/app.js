@@ -1,8 +1,10 @@
 var Fluxxor = require("fluxxor");
 var React = require("react");
-var Router = require("react-router");
-var Route = Router.Route;
-var DefaultRoute = Router.DefaultRoute;
+var render = require("react-dom").render;
+var Router = require("react-router").Router;
+var Route = require("react-router").Route;
+var IndexRoute = require("react-router").IndexRoute;
+var history = require('./history');
 
 var LanwarConfig = require('./LanwarConfig');
 
@@ -40,33 +42,6 @@ var RoomsView = require('./components/admin/RoomsView');
 var PrintableSeats = require('./components/admin/PrintableSeats');
 var ChooseOptions = require('./components/ChooseOptions');
 var Login = require('./components/Login');
-
-var routes = (
-	<Route name="home" path="/">
-		<Route name="choose-options" path="/choose-options" handler={ChooseOptions}/>
-		<Route name="select-seats" path="/select-seats" handler={SelectSeats}/>
-		<Route name="checkout" path="/checkout" handler={Checkout}/>
-		<Route name="checkout-finish" path="/checkout-finish" handler={CheckoutFinish}/>
-		<Route name="profile" path="/profile" handler={Profile}/>
-		<Route name="register" path="/register">
-			<Route name="register-finish" path="/register/finish" handler={RegisterSuccess} />
-			<DefaultRoute handler={Register} />
-		</Route>
-		<Route name="admin" path="/admin">
-			<Route name="admin-orders" path="/admin/orders" handler={AdminOrders} />
-			<Route name="admin-order-detail" path="/admin/orders/:orderId" handler={AdminOrderDetail} />
-			<Route name="admin-order-detail-select-seats" path="/admin/orders/:orderId/select-seats" handler={SelectSeats} />
-			<Route name="admin-scan" path="/admin/scan" handler={AdminScan} />
-			<Route name="admin-checked-in-tickets" path="/admin/checked-in-tickets" handler={AdminTickets} />
-			<Route name="admin-rooms-view" path="/admin/rooms-view" handler={RoomsView} />
-			<Route name="admin-rooms-print" path="/admin/rooms/print" handler={PrintableSeats} />
-		</Route>
-		<Route name="order" path="/order/:orderHash" handler={CheckoutFinish}/>
-		<Route name="order-select-seats" path="/order/:orderHash/select-seats" handler={SelectSeats} />
-		<Route name="login" path="/login" handler={Login} />
-		<DefaultRoute handler={BuyTickets} />
-	</Route>
-);
 
 var stores = {
 	TicketTypesStore: new TicketTypesStore(),
@@ -111,9 +86,46 @@ var sessionCheckInterval = setInterval(function() {
 		flux.actions.UserAccountActions.checkForSession(true);
 }, 60 * 1000)
 
-Router.run(routes, function(Handler) {
-	React.render(
-    	<Handler flux={flux} />,
-    	document.getElementById("lanwar-app")
-  	);
-});
+// Router.run(routes, function(Handler) {
+// 	React.render(
+//     	<Handler flux={flux} />,
+//     	document.getElementById("lanwar-app")
+//   	);
+// });
+
+function createFluxComponent(Component, props) {
+  return <Component {...props} flux={flux} />;
+}
+
+render((<Router createElement={createFluxComponent} history={history}>
+		<Route name="home" path="/">
+			<IndexRoute component={BuyTickets}/>
+			<Route name="choose-options" path="choose-options" component={ChooseOptions}/>
+			<Route name="select-seats" path="select-seats" component={SelectSeats}/>
+			<Route name="checkout" path="checkout" component={Checkout}/>
+			<Route name="checkout-finish" path="checkout-finish" component={CheckoutFinish}/>
+			<Route name="profile" path="profile" component={Profile}/>
+			<Route name="register" path="register">
+				<IndexRoute component={Register}/>
+				<Route name="register-finish" path="finish" component={RegisterSuccess} />
+			</Route>
+			<Route name="admin" path="admin">
+				<Route name="admin-orders" path="orders">
+					<IndexRoute component={AdminOrders}/>
+					<Route name="admin-order-detail" path=":orderId">
+						<IndexRoute component={AdminOrderDetail}/>
+						<Route name="admin-order-detail-select-seats" path="select-seats" component={SelectSeats} />
+					</Route>
+				</Route>				
+				<Route name="admin-scan" path="scan" component={AdminScan} />
+				<Route name="admin-checked-in-tickets" path="checked-in-tickets" component={AdminTickets} />
+				<Route name="admin-rooms-view" path="rooms-view" component={RoomsView} />
+				<Route name="admin-rooms-print" path="rooms/print" component={PrintableSeats} />
+			</Route>
+			<Route name="order" path="order/:orderHash">
+				<IndexRoute component={CheckoutFinish}/>
+				<Route name="order-select-seats" path="select-seats" component={SelectSeats} />
+			</Route>
+			<Route name="login" path="login" component={Login} />
+		</Route>
+	</Router>), document.getElementById("lanwar-app"));

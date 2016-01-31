@@ -1,13 +1,14 @@
 var React = require('react');
 var Fluxxor = require('fluxxor');
-var Navigation = require('react-router').Navigation;
+var History = require('react-router').History;
+var Link = require('react-router').Link;
 
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var Footer = React.createClass({
 
-	mixins: [FluxMixin, StoreWatchMixin("UserAccountStore"), Navigation],
+	mixins: [FluxMixin, StoreWatchMixin("UserAccountStore"), History],
 
 	getInitialState: function() {
 
@@ -31,7 +32,7 @@ var Footer = React.createClass({
 
 		e.preventDefault();
 
-		this.getFlux().actions.UserAccountActions.logout(this.context.router);
+		this.getFlux().actions.UserAccountActions.logout();
 
 	},
 
@@ -41,7 +42,7 @@ var Footer = React.createClass({
 		if (this.state.isLoggedIn)
 			loginLogout = <a onClick={this.handleLogoutClick}>Logout</a>;
 		else
-			loginLogout = <a href="/#/login">Admin Login</a>;
+			loginLogout = <Link to="/login">Admin Login</Link>;
 
 		return (			
 			<footer className="container-fluid">

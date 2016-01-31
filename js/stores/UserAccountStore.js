@@ -61,10 +61,6 @@ var UserAccountStore = Fluxxor.createStore({
 		this.isLoadingLogin = false;
 		this.isLoggedIn = true;
 		this.user = payload;
-		if (this.user.type == 'admin')
-			payload.router.transitionTo(payload.redirectUrl || '/admin/orders');
-		else
-			payload.router.transitionTo('/profile');
 		this.emit("change");
 
 	},

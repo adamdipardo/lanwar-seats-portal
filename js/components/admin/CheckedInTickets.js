@@ -1,6 +1,7 @@
 var React = require('react');
 var Fluxxor = require('fluxxor');
-var Navigation = require('react-router').Navigation;
+var History = require('react-router').History;
+var Link = require('react-router').Link;
 var LanwarLib = require('../../LanwarLib');
 
 var FluxMixin = Fluxxor.FluxMixin(React);
@@ -12,7 +13,7 @@ var PagingButtons = require('../PagingButtons');
 
 var CheckedInTickets = React.createClass({
 
-	mixins: [FluxMixin, StoreWatchMixin("AdminTicketsStore"), Navigation],
+	mixins: [FluxMixin, StoreWatchMixin("AdminTicketsStore"), History],
 
 	getInitialState: function() {
 
@@ -54,7 +55,7 @@ var CheckedInTickets = React.createClass({
 
 		// permission
 		if ((!this.state.isLoggedIn || this.state.user.type != 'admin') && !this.state.isLoadingSessionCheck)
-			this.transitionTo('/login', {}, {expired: true, return: this.context.router.getCurrentPathname()});
+			this.history.pushState(null, '/login', {expired: true, return: this.props.location.pathname});
 
 		var ticketRows = [];
 		if (this.state.isLoadingTickets == true) {
@@ -64,7 +65,7 @@ var CheckedInTickets = React.createClass({
 			for (var i = 0; i < this.state.tickets.length; i++) {
 				var ticket = this.state.tickets[i];
 				var niceCheckInTime = LanwarLib.getNiceCheckInTime(ticket.checkInDate);
-				ticketRows.push(<tr key={i}><td>{ticket.id}</td><td>{ticket.order.user.lastName}</td><td>{ticket.order.user.firstName}</td><td>{ticket.seat}</td><td>{niceCheckInTime}</td><td><a href={"/#/admin/orders/" + ticket.orderId}>View Order</a></td></tr>);
+				ticketRows.push(<tr key={i}><td>{ticket.id}</td><td>{ticket.order.user.lastName}</td><td>{ticket.order.user.firstName}</td><td>{ticket.seat}</td><td>{niceCheckInTime}</td><td><Link to={"/admin/orders/" + ticket.orderId}>View Order</Link></td></tr>);
 			}
 		}
 

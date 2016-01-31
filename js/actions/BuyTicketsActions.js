@@ -1,4 +1,5 @@
 var LanwarConstants = require('../constants/LanwarConstants');
+var history = require('../history');
 
 var BuyTicketsActions = {
 	changeTicketQuantity: function(ticketType, quantity) {
@@ -7,39 +8,7 @@ var BuyTicketsActions = {
 	saveFormData: function(formData) {
 		this.dispatch(LanwarConstants.SAVE_TICKET_FORM_DATA, {formData: formData});
 	},
-	/*assignSeatToTicket: function(ticketKey, roomKey, rowKey, seatKey) {
-		this.dispatch(LanwarConstants.ASSIGN_SEAT_TO_TICKET, {ticketKey: ticketKey, roomKey: roomKey, rowKey: rowKey, seatKey: seatKey});
-	},*/
-	// makeSeatReservation: function(ticketKey, roomKey, rowKey, seatKey) {
-	// 	this.dispatch(LanwarConstants.LOAD_MAKE_RESERVATION);
-
-	// 	$.ajax({
-	// 		url: LanwarConstants.RESERVATION_API + "/seat/" + seatKey + "/reserve",
-	// 		type: 'post',
-	// 		success: function(result) {
-	// 			this.dispatch(LanwarConstants.LOAD_MAKE_RESERVATION_SUCCESS, {ticketKey: ticketKey, roomKey: roomKey, rowKey: rowKey, seatKey: seatKey, sessionId: result.sessId});
-	// 		}.bind(this),
-	// 		error: function(xhr) {
-	// 			this.dispatch(LanwarConstants.LOAD_MAKE_RESERVATION, {error: JSON.parse(xhr.responseText).error});
-	// 		}.bind(this)
-	// 	});
-	// },
-	// cancelSeatReservation: function(seatKey, cancellingAll) {
-	// 	if (typeof(cancellingAll) != "undefined" && cancellingAll == true)
-	// 		this.dispatch(LanwarConstants.ALL_SEATS_UNRESERVED, {});
-
-	// 	$.ajax({
-	// 		url: LanwarConstants.RESERVATION_API + "/seat/" + seatKey + "/unreserve",
-	// 		type: 'post',
-	// 		success: function(result) {
-	// 			// 
-	// 		},
-	// 		error: function(xhr) {
-	// 			// 
-	// 		}
-	// 	});
-	// },
-	checkout: function(router, userId, formData, tickets, total, token, isAdminGuestCheckout, isStudentCheckout, coupon) {
+	checkout: function(userId, formData, tickets, total, token, isAdminGuestCheckout, isStudentCheckout, coupon) {
 
 		var formattedTickets = [];
 		$.each(tickets, function(index, ticket) {
@@ -85,9 +54,9 @@ var BuyTicketsActions = {
 			type: 'post',
 			data: sendData,
 			dataType: 'json',
-			success: function(result) {
+			success: function(result) {				
+				history.replaceState(null, '/order/' + result.hash, {checkout:true});
 				this.dispatch(LanwarConstants.CHECKOUT_SUCCESS, result);
-				router.transitionTo('/order/' + result.hash, {}, {checkout: true});
 			}.bind(this),
 			error: function(xhr) {
 				try {

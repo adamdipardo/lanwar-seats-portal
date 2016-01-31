@@ -1,6 +1,7 @@
 var React = require('react');
 var Fluxxor = require('fluxxor');
 var classNames = require('classnames');
+var Link = require('react-router').Link;
 
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -76,7 +77,7 @@ var SeatMapRow = React.createClass({
 						var seatSpan = <span key={index} className={classNames(classes)} data-tip={seatName}></span>;
 						
 						if (element.ticket)
-							seats.push(<a href={"/#/admin/orders/" + element.ticket.orderId}>{seatSpan}</a>);
+							seats.push(<Link to={"/admin/orders/" + element.ticket.orderId} key={index}>{seatSpan}</Link>);
 						else
 							seats.push(seatSpan);
 					}

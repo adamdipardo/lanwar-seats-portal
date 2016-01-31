@@ -1,6 +1,6 @@
 var React = require('react');
 var Fluxxor = require('fluxxor');
-var Navigation = require('react-router').Navigation;
+var History = require('react-router').History;
 
 var Header = require('./Header');
 var Footer = require('./Footer');
@@ -10,7 +10,7 @@ var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var ChooseOptions = React.createClass({
-	mixins: [FluxMixin, Navigation, StoreWatchMixin("BuyTicketsStore")],
+	mixins: [FluxMixin, History, StoreWatchMixin("BuyTicketsStore")],
 
 	getInitialState: function() {
 
@@ -35,7 +35,7 @@ var ChooseOptions = React.createClass({
 
 	handleClickBack: function() {
 
-		this.transitionTo('/', {}, {back: true});
+		this.history.pushState(null, '/', {back: true});
 
 	},
 
@@ -92,7 +92,7 @@ var ChooseOptions = React.createClass({
 		this.setState({areTicketsValid: areTicketsValid, continueError: !areTicketsValid ? errorStr : '' });
 
 		if (areTicketsValid)
-			this.context.router.transitionTo('checkout');
+			this.history.pushState(null, '/checkout');
 
 	},
 
@@ -111,7 +111,7 @@ var ChooseOptions = React.createClass({
 		}.bind(this));
 
 		if (numTicketsWithOptions == 0)
-			this.context.router.transitionTo('/');
+			this.history.pushState(null, '/');
 
 		
 

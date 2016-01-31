@@ -1,5 +1,6 @@
 var React = require('react');
 var Fluxxor = require('fluxxor');
+var Link = require('react-router').Link;
 
 var RoomsList = require('../RoomsList');
 var SeatMap = require('../SeatMap');
@@ -76,7 +77,7 @@ var RoomsView = React.createClass({
 						<div className="row room-select">
 							<div className="col-md-12">
 								<RoomsList onSelectRoom={this.handleRoomSelect} isAdminView={true}/>
-								<a href="/#/admin/rooms/print" target="_blank" className="btn btn-primary pull-right">Printable View</a>
+								<Link to="/admin/rooms/print" target="_blank" className="btn btn-primary pull-right">Printable View</Link>
 								<div className="seats-message pull-right"><p>Click a taken seat to view the Order Details for that ticket.</p></div>
 							</div>
 						</div>

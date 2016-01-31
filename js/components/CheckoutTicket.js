@@ -47,7 +47,7 @@ var CheckoutTicket = React.createClass({
 			seat = <span>Seat not available for this ticket.</span>;
 
 		return (
-			<tr>
+			<tr key={ticket.id}>
 				<td>{ticket.id}</td>
 				<td>{ticket.type}</td>
 				<td>{options.join(', ')}</td>

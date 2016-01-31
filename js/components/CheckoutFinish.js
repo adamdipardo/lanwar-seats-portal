@@ -1,7 +1,9 @@
 var React = require('react');
 var Fluxxor = require('fluxxor');
-var Navigation = require('react-router').Navigation;
+var History = require('react-router').History;
+var Link = require('react-router').Link;
 var ReactTooltip = require("react-tooltip");
+var moment = require('moment');
 
 var CheckoutTicket = require('./CheckoutTicket');
 var Header = require('./Header');
@@ -12,7 +14,7 @@ var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var CheckoutFinish = React.createClass({
-	mixins: [FluxMixin, StoreWatchMixin("BuyTicketsStore", "UserAccountStore", "OrderStore"), Navigation],
+	mixins: [FluxMixin, StoreWatchMixin("BuyTicketsStore", "UserAccountStore", "OrderStore"), History],
 
 	getInitialState: function() {
 
@@ -63,15 +65,15 @@ var CheckoutFinish = React.createClass({
 
 	getTicketsPDF: function() {
 
-		var pdfWindow = window.open('/api/orders/' + this.context.router.getCurrentParams().orderHash + '/tickets/pdf/read');
+		var pdfWindow = window.open('/api/orders/' + this.props.params.orderHash + '/tickets/pdf/read');
 
 	},
 
 	componentDidMount: function() {
 
-		if (this.context.router.getCurrentParams().orderHash)
+		if (this.props.params.orderHash)
 		{
-			this.getFlux().actions.OrderActions.getOrder(this.context.router.getCurrentParams().orderHash);
+			this.getFlux().actions.OrderActions.getOrder(this.props.params.orderHash);
 		}
 
 	},
@@ -99,7 +101,7 @@ var CheckoutFinish = React.createClass({
 		}
 
 		var checkoutMessage;
-		if (this.context.router.getCurrentQuery().checkout == 'true') {
+		if (this.props.location.query.checkout == 'true') {
 			checkoutMessage = (<div className="checkout-box"><h2>Thanks!</h2><p>Below is a summary of your order. We have also emailed you a link to this page, along with a PDF copy of your tickets. Be sure to print and bring ALL tickets with you to the event.</p></div>);
 		}
 
@@ -107,10 +109,11 @@ var CheckoutFinish = React.createClass({
 		var firstName = this.state.order.user.firstName;
 		var lastName = this.state.order.user.lastName;
 		var email = this.state.order.user.email;
+		var date = moment(this.state.order.created, "X").format("MMMM D, YYYY h:mm a");
 
 		var totalPrice = 0.0;
 		$.each(this.state.order.tickets, function(index, ticket) {
-			ticketRows.push(<CheckoutTicket ticket={ticket} onLabelClick={this.handleLabelClick}/>);
+			ticketRows.push(<CheckoutTicket key={index} ticket={ticket} onLabelClick={this.handleLabelClick}/>);
 			totalPrice += ticket.price;
 		}.bind(this));
 
@@ -118,7 +121,7 @@ var CheckoutFinish = React.createClass({
 		var chooseSeatsButton;
 		for (var i = 0; i < this.state.order.tickets.length; i++) {
 			if (this.state.order.tickets[i].canBookSeat) {
-				chooseSeatsButton = (<a href={"/#/order/"+this.context.router.getCurrentParams().orderHash+"/select-seats"} className="btn btn-primary choose-tickets-button">Choose or Change Seats</a>);
+				chooseSeatsButton = (<Link to={"/order/"+this.props.params.orderHash+"/select-seats"} className="btn btn-primary choose-tickets-button">Choose or Change Seats</Link>);
 				break;
 			}
 		}
@@ -137,6 +140,7 @@ var CheckoutFinish = React.createClass({
 								<h2>Order Summary</h2>
 
 								<table className="table">
+								<tbody>
 								<tr>
 									<td>First Name: </td>
 									<td>{firstName}</td>
@@ -149,6 +153,11 @@ var CheckoutFinish = React.createClass({
 									<td>Email: </td>
 									<td>{email}</td>
 								</tr>
+								<tr>
+									<td>Date: </td>
+									<td>{date}</td>
+								</tr>
+								</tbody>
 								</table>
 
 								<div className="row">

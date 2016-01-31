@@ -1,6 +1,6 @@
 var React = require('react');
 var Fluxxor = require('fluxxor');
-var Navigation = require('react-router').Navigation;
+var History = require('react-router').History;
 
 var Header = require('./Header');
 var Footer = require('./Footer');
@@ -11,7 +11,7 @@ var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var BuyTickets = React.createClass({
-	mixins: [FluxMixin, Navigation, StoreWatchMixin("UserAccountStore", "BuyTicketsStore")],
+	mixins: [FluxMixin, StoreWatchMixin("UserAccountStore", "BuyTicketsStore"), History],
 
 	getInitialState: function() {
 		
@@ -56,9 +56,9 @@ var BuyTickets = React.createClass({
 			});
 			
 			if (chooseOptions)
-				this.transitionTo('choose-options');
+				this.history.pushState(null, '/choose-options');
 			else
-				this.transitionTo('checkout');
+				this.history.pushState(null, '/checkout');
 		}
 
 	},
@@ -83,7 +83,7 @@ var BuyTickets = React.createClass({
 
 	componentDidMount: function() {
 
-		if (!this.context.router.getCurrentQuery().back)
+		if (!this.props.location.query.back)
 			this.getFlux().actions.BuyTicketsActions.resetCheckout();
 
 	},
@@ -124,7 +124,7 @@ var BuyTickets = React.createClass({
 
 		return (
 			<div>
-				<Header />
+				<Header/>
 				<div className="container-fluid body">
 					<div className="container">
 						<div className="row">
@@ -146,7 +146,7 @@ var BuyTickets = React.createClass({
 						</div>
 					</div>
 				</div>
-				<Footer />
+				<Footer/>
 			</div>
 		);
 	}

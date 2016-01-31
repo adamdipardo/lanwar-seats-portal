@@ -1,6 +1,6 @@
 var React = require('react');
 var Fluxxor = require('fluxxor');
-var Navigation = require('react-router').Navigation;
+var History = require('react-router').History;
 var moment = require('moment');
 
 var FluxMixin = Fluxxor.FluxMixin(React);
@@ -15,7 +15,7 @@ var Header = require('./Header');
 var Footer = require('./Footer');
 
 var SelectSeats = React.createClass({
-	mixins: [FluxMixin, StoreWatchMixin("OrderStore"), Navigation],
+	mixins: [FluxMixin, StoreWatchMixin("OrderStore"), History],
 
 	getInitialState: function() {
 		return {
@@ -47,10 +47,10 @@ var SelectSeats = React.createClass({
 		var response = confirm("Are you sure you want to go back? Any new seats that you have reserved in this session will be lost. (Previously reserved seats will be kept.)");
 
 		if (response == true) {
-			if (this.context.router.getCurrentParams().orderId)
-				this.transitionTo('/admin/orders/' + this.context.router.getCurrentParams().orderId);
+			if (this.props.params.orderId)
+				this.history.pushState(null, '/admin/orders/' + this.props.params.orderId);
 			else
-				this.transitionTo('/order/' + this.context.router.getCurrentParams().orderHash);
+				this.history.pushState(null, '/order/' + this.props.params.orderHash);
 		}
 
 	},
@@ -77,17 +77,17 @@ var SelectSeats = React.createClass({
 
 		alert('Your reservation time has expired. Please start over if you\'d like to reserve new seats.');
 
-		if (this.context.router.getCurrentParams().orderId)
-			this.transitionTo('/admin/orders/' + this.context.router.getCurrentParams().orderId);
+		if (this.props.params.orderId)
+			this.history.pushState(null, '/admin/orders/' + this.props.params.orderId);
 		else
-			this.transitionTo('/order/' + this.context.router.getCurrentParams().orderHash);
+			this.history.pushState(null, '/order/' + this.props.params.orderHash);
 	},
 
 	handleClickContinue: function() {
 
 		this.setState({isContinuing: true});
 		
-		this.getFlux().actions.OrderActions.bookSeats(this.context.router.getCurrentParams().orderHash, this.context.router.getCurrentParams().orderId, this.state.order.tickets, this.state.reservationSessionId, this.context.router);
+		this.getFlux().actions.OrderActions.bookSeats(this.props.params.orderHash, this.props.params.orderId, this.state.order.tickets, this.state.reservationSessionId);
 
 	},
 
@@ -114,13 +114,16 @@ var SelectSeats = React.createClass({
 		var numNewSeats = 0;
 		var room = this.state.room;
 
-		if (!this.context.router.getCurrentParams().orderHash && !this.context.router.getCurrentParams().orderId)
-			this.transitionTo('/');
+		if (!this.props.params.orderHash && !this.props.params.orderId) {
+			this.history.pushState(null, '/');
+			return (<div></div>);
+		}
 		else if (!this.state.order.tickets || this.state.order.tickets.length == 0) {
-			if (this.context.router.getCurrentParams().orderHash)
-				this.transitionTo('/order/' + this.context.router.getCurrentParams().orderHash);
+			if (this.props.params.orderHash)
+				this.history.pushState(null, '/order/' + this.props.params.orderHash);
 			else
-				this.transitionTo('/admin/orders/' + this.context.router.getCurrentParams().orderId);
+				this.history.pushState(null, '/admin/orders/' + this.props.params.orderId);
+			return (<div></div>);
 		}
 
 		// should timer be active (has a ticket been chosen?)

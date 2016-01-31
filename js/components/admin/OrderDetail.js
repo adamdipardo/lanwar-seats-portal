@@ -1,6 +1,6 @@
 var React = require('react');
 var Fluxxor = require('fluxxor');
-var Navigation = require('react-router').Navigation;
+var History = require('react-router').History;
 var moment = require("moment");
 
 var FluxMixin = Fluxxor.FluxMixin(React);
@@ -13,7 +13,7 @@ var ReSendEmail = require('./ReSendEmail');
 
 var OrderDetail = React.createClass({
 
-	mixins: [FluxMixin, StoreWatchMixin("AdminOrdersStore"), Navigation],
+	mixins: [FluxMixin, StoreWatchMixin("AdminOrdersStore"), History],
 
 	getInitialState: function() {
 		showReSendEmail: false
@@ -39,8 +39,8 @@ var OrderDetail = React.createClass({
 
 	componentDidMount: function() {
 
-		if (this.context.router.getCurrentQuery()['from-cache'] != 'true' || this.state.orderDetail.id != this.context.router.getCurrentParams().orderId)
-			this.getFlux().actions.AdminOrdersActions.getOrderDetail(this.context.router.getCurrentParams().orderId);
+		if (this.props.location.query['from-cache'] != 'true' || this.state.orderDetail.id != this.props.params.orderId)
+			this.getFlux().actions.AdminOrdersActions.getOrderDetail(this.props.params.orderId);
 
 	},
 
@@ -63,7 +63,7 @@ var OrderDetail = React.createClass({
 	handleSelectSeatsClick: function() {
 
 		this.getFlux().actions.OrderActions.manuallyLoadOrder(this.state.orderDetail);
-		this.transitionTo('/admin/orders/' + this.state.orderDetail.id + '/select-seats');
+		this.history.pushState(null, '/admin/orders/' + this.state.orderDetail.id + '/select-seats');
 
 	},
 
@@ -83,7 +83,7 @@ var OrderDetail = React.createClass({
 
 		// permission
 		if ((!this.state.isLoggedIn || this.state.user.type != 'admin') && !this.state.isLoadingSessionCheck)
-			this.transitionTo('/login', {}, {expired: true, return: this.context.router.getCurrentPathname()});
+			this.history.pushState(null, '/login', {expired: true, return: this.props.location.pathname});
 
 		if (this.state.isLoadingOrderDetail) {
 			return (
@@ -93,7 +93,7 @@ var OrderDetail = React.createClass({
 						<div className="container">
 							<div className="row">
 								<div className="col-md-12">
-									<h2>Order #{this.context.router.getCurrentParams().orderId}</h2>
+									<h2>Order #{this.props.params.orderId}</h2>
 
 									<div className="loading-circle padding"><i className="fa fa-circle-o-notch fa-spin fa-4x"></i></div>
 								</div>
@@ -129,7 +129,7 @@ var OrderDetail = React.createClass({
 
 		var ticketRows = [];
 		for (var i = 0; i < orderDetail.tickets.length; i++) {
-			ticketRows.push(<TicketRow ticket={orderDetail.tickets[i]} checkInClick={this.handleCheckInClick} allowClick={true} />);
+			ticketRows.push(<TicketRow ticket={orderDetail.tickets[i]} checkInClick={this.handleCheckInClick} allowClick={true} key={i} />);
 		}
 
 		var recordedBy;
@@ -157,7 +157,7 @@ var OrderDetail = React.createClass({
 						<div className="row">
 							<div className="col-md-12">
 								{reSendEmailMessage}
-								<h2>Order #{this.context.router.getCurrentParams().orderId}</h2>
+								<h2>Order #{this.props.params.orderId}</h2>
 
 								<div className="row">
 									<div className="col-md-6">

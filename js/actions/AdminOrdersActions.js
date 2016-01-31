@@ -1,4 +1,5 @@
 var LanwarConstants = require('../constants/LanwarConstants');
+var history = require('../history');
 
 var AdminOrdersActions = {
 
@@ -8,7 +9,8 @@ var AdminOrdersActions = {
 		var ordersData = {
 			page: pageNum || 1, 
 			sort: sortKey || 'lastName', 
-			sortDirection: sortDirection || 'asc'
+			sortDirection: sortDirection || 'asc',
+			eventId: LanwarConstants.EVENT_ID
 		};
 
 		if (typeof(filters) != "undefined") {
@@ -50,6 +52,7 @@ var AdminOrdersActions = {
 		$.ajax({
 			url: '/api/orders/summary/read',
 			type: 'post',
+			data: {eventId: LanwarConstants.EVENT_ID},
 			success: function(result) {
 				this.dispatch(LanwarConstants.ADMIN_ORDERS_SUMMARY_SUCCESS, result);
 			}.bind(this),
@@ -128,7 +131,7 @@ var AdminOrdersActions = {
 	openLookupOrderNumberModal: function() {
 		this.dispatch(LanwarConstants.OPEN_LOOKUP_ORDER_NUMBER_MODAL, {});
 	},
-	lookupOrderNumber: function(orderNumber, router) {
+	lookupOrderNumber: function(orderNumber) {
 		this.dispatch(LanwarConstants.LOOKUP_ORDER_NUMBER_LOADING, {});
 
 		$.ajax({
@@ -136,7 +139,7 @@ var AdminOrdersActions = {
 			type: 'post',
 			success: function(result) {
 				this.dispatch(LanwarConstants.LOOKUP_ORDER_NUMBER_SUCCESS, result);
-				router.transitionTo('/admin/orders/' + orderNumber, {}, {'from-cache':true});
+				history.replaceState(null, '/admin/orders/' + orderNumber, {'from-cache':true});
 			}.bind(this),
 			error: function(xhr) {
 				try {

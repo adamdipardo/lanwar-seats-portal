@@ -2,7 +2,8 @@ var React = require('react');
 var Fluxxor = require('fluxxor');
 var ReactBootstrap = require('react-bootstrap');
 var Modal = ReactBootstrap.Modal;
-var Navigation = require('react-router').Navigation;
+var History = require('react-router').History;
+var Link = require('react-router').Link;
 
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -11,7 +12,7 @@ var TicketRow = require('./TicketRow');
 
 var CheckInModal = React.createClass({
 
-	mixins: [FluxMixin, StoreWatchMixin("CheckInStore"), Navigation],
+	mixins: [FluxMixin, StoreWatchMixin("CheckInStore"), History],
 
 	getInitialState: function() {
 
@@ -43,8 +44,7 @@ var CheckInModal = React.createClass({
 	handleSelectSeatsClick: function() {
 		console.log(this.state);
 		this.getFlux().actions.OrderActions.manuallyLoadOrder(this.state.checkInTicket.order);
-		this.transitionTo('/admin/orders/' + this.state.checkInTicket.order.id + '/select-seats');
-
+		this.history.pushState(null, '/admin/orders/' + this.state.checkInTicket.order.id + '/select-seats');
 	},
 
 	componentWillUnmount: function() {
@@ -60,10 +60,10 @@ var CheckInModal = React.createClass({
 
 		if (this.state.isLoadingCheckIn) {
 			return (
-				<Modal dialogClassName='loading-modal' animation={false} bsSize="small">
+				<Modal.Dialog dialogClassName='loading-modal' animation={false} bsSize="small">
 					<i className="fa fa-circle-o-notch fa-spin fa-4x"></i>
 					<p>Checking In...</p>
-				</Modal>
+				</Modal.Dialog>
 			);
 		}
 
@@ -98,7 +98,7 @@ var CheckInModal = React.createClass({
 						</table>
 
 						<div className="modal-buttons">
-							<a href={"/#/admin/orders/" + this.state.checkInOrder.id} className="pull-right btn btn-primary">View Order #{this.state.checkInOrder.id}</a> 
+							<Link to={"/admin/orders/" + this.state.checkInOrder.id} className="pull-right btn btn-primary">View Order #{this.state.checkInOrder.id}</Link> 
 							<a onClick={this.dismiss} className="pull-right btn btn-default">Scan Again</a>
 							<div className="clearfix"></div>
 						</div>
@@ -115,10 +115,10 @@ var CheckInModal = React.createClass({
 			}
 
 			return (
-				<Modal dialogClassName='check-in error' animation={false}>
+				<Modal.Dialog dialogClassName='check-in error' animation={false}>
 					<p>ERROR: {this.state.checkInError}</p>
 					{orderInfo}
-				</Modal>
+				</Modal.Dialog>
 			);
 		}
 
@@ -136,7 +136,7 @@ var CheckInModal = React.createClass({
 				selectSeatButton = (<a onClick={this.handleSelectSeatsClick} className="pull-right btn btn-primary">Select Seat</a>);
 
 			return (
-				<Modal dialogClassName='check-in success' animation={false}>
+				<Modal.Dialog dialogClassName='check-in success' animation={false}>
 					<i className="fa fa-check-circle fa-4x"></i>
 					<h3>Check in successful</h3>
 					<table className="table table-striped">
@@ -182,11 +182,11 @@ var CheckInModal = React.createClass({
 
 					<div className="modal-buttons">
 						{selectSeatButton}
-						<a href={"/#/admin/orders/" + this.state.checkInTicket.orderId} className="pull-right btn btn-primary">View Order #{this.state.checkInTicket.orderId}</a> 
+						<Link to={"/admin/orders/" + this.state.checkInTicket.orderId} className="pull-right btn btn-primary">View Order #{this.state.checkInTicket.orderId}</Link> 
 						<a onClick={this.dismiss} className="pull-right btn btn-default">Scan Another</a>
 						<div className="clearfix"></div>
 					</div>
-				</Modal>
+				</Modal.Dialog>
 			);
 		}
 

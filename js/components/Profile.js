@@ -1,6 +1,6 @@
 var React = require('react');
 var Fluxxor = require('fluxxor');
-var Navigation = require('react-router').Navigation;
+var History = require('react-router').History;
 var classNames = require('classnames');
 
 var Header = require('./Header');
@@ -11,7 +11,7 @@ var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var Profile = React.createClass({
 
-	mixins: [FluxMixin, StoreWatchMixin("UserAccountStore"), Navigation],
+	mixins: [FluxMixin, StoreWatchMixin("UserAccountStore"), History],
 
 	getInitialState: function() {
 
@@ -175,7 +175,7 @@ var Profile = React.createClass({
 
 		// permission
 		if (!this.state.isLoggedIn && !this.state.isLoadingSessionCheck)
-			this.transitionTo('/login');
+			this.history.pushState(null, '/login');
 
 		// while loading only show icon
 		if (this.state.isLoadingProfile) {

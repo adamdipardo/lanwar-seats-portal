@@ -1,6 +1,6 @@
 var React = require('react');
 var Fluxxor = require('fluxxor');
-var Navigation = require('react-router').Navigation;
+var History = require('react-router').History;
 
 var Header = require('../Header');
 var Footer = require('../Footer');
@@ -11,7 +11,7 @@ var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var Scan = React.createClass({
 
-	mixins: [FluxMixin, Navigation, StoreWatchMixin("UserAccountStore", "CheckInStore")],
+	mixins: [FluxMixin, History, StoreWatchMixin("UserAccountStore", "CheckInStore")],
 
 	getInitialState: function() {
 
@@ -39,7 +39,7 @@ var Scan = React.createClass({
 
 	componentDidMount: function() {
 
-		$('#scripts').html('<script src="/js/jsqrcode-combined.min.js"></script><script src="/js/html5-qrcode.js"></script>');
+		$('#scripts').html('<script src="/js/jsqrcode-combined.min.js"></script><script src="/js/html5-qrcode.min.js"></script>');
 
 		$('#reader').html5_qrcode(function(data) {
 			if (!this.state.isLoadingCheckIn)
@@ -70,7 +70,7 @@ var Scan = React.createClass({
 
 		// permission
 		if ((!this.state.isLoggedIn || this.state.user.type != 'admin') && !this.state.isLoadingSessionCheck)
-			this.transitionTo('/login', {}, {expired: true, return: this.context.router.getCurrentPathname()});
+			this.history.pushState(null, '/login', {expired: true, return: this.props.location.pathname});
 
 		return (
 			<div>

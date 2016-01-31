@@ -10,10 +10,10 @@ var ReservationLoading = React.createClass({
 			return <span />;
 
 		return (
-			<Modal dialogClassName='loading-modal' animation={false} bsSize="small">
+			<Modal.Dialog dialogClassName='loading-modal' animation={false} bsSize="small">
 				<i className="fa fa-circle-o-notch fa-spin fa-4x"></i>
 				<p>{this.props.text}</p>
-			</Modal>
+			</Modal.Dialog>
 		);
 
 	}

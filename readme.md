@@ -54,7 +54,6 @@ The portal is only front-end, all back-end work is handled by a separate API and
 ## To-Do
 
 * Admin overview page with metrics, charts, etc.
-* Admin printable room layouts
 
 ### Version 1.0
 

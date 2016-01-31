@@ -1,6 +1,6 @@
 var React = require('react');
 var Fluxxor = require('fluxxor');
-var Navigation = require('react-router').Navigation;
+var History = require('react-router').History;
 var LanwarConstants = require('../constants/LanwarConstants');
 var LanwarConfig = require('../LanwarConfig');
 
@@ -15,7 +15,7 @@ var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var Checkout = React.createClass({
 
-	mixins: [FluxMixin, StoreWatchMixin("BuyTicketsStore", "UserAccountStore"), Navigation],
+	mixins: [FluxMixin, StoreWatchMixin("BuyTicketsStore", "UserAccountStore"), History],
 
 	stripeCheckInterval: null,
 
@@ -64,34 +64,16 @@ var Checkout = React.createClass({
 		});
 
 		if (shouldGoToOptions)
-			this.transitionTo('/choose-options', {}, {back: true});
+			this.history.pushState(null, '/choose-options', {back: true});
 		else
-			this.transitionTo('/', {}, {back: true});
+			this.history.pushState(null, '/', {back: true});
 
 	},
-
-	handleTimeExpired: function() {
-
-		if (!this.state.isLoadingCheckout && !this.state.checkoutSuccess)
-		{
-			alert('Your reservation time has expired. Please go back and start your order again.');
-			this.transitionTo('/');
-		}
-		else
-		{
-			this.setState({timerHasExpired: true});
-		}
-
-	},
-
-	// handleCheckoutCompleted: function() {
-	// 	this.transitionTo('/checkout-finish');
-	// },
 
 	handleCheckout: function() {
 
 		if (this.state.isAdminGuestCheckout) {
-			this.getFlux().actions.BuyTicketsActions.checkout(this.context.router, null, this.state.formData, this.state.tickets, this.state.totalPrice, null, this.state.isAdminGuestCheckout, this.state.isStudentCheckout, this.state.coupon);
+			this.getFlux().actions.BuyTicketsActions.checkout(null, this.state.formData, this.state.tickets, this.state.totalPrice, null, this.state.isAdminGuestCheckout, this.state.isStudentCheckout, this.state.coupon);
 			return;
 		}
 		else if (this.state.totalPrice == 0) {
@@ -105,7 +87,7 @@ var Checkout = React.createClass({
 			});
 
 			if (areAllTicketsFree) {
-				this.getFlux().actions.BuyTicketsActions.checkout(this.context.router, null, this.state.formData, this.state.tickets, this.state.totalPrice, "free", this.state.isAdminGuestCheckout, null, this.state.coupon);
+				this.getFlux().actions.BuyTicketsActions.checkout(null, this.state.formData, this.state.tickets, this.state.totalPrice, "free", this.state.isAdminGuestCheckout, null, this.state.coupon);
 				return;
 			}
 
@@ -121,7 +103,7 @@ var Checkout = React.createClass({
 				//	userId = this.state.user.userId;
 
 				// init checkout
-				this.getFlux().actions.BuyTicketsActions.checkout(this.context.router, userId, this.state.formData, this.state.tickets, this.state.totalPrice, token.id, this.state.isAdminGuestCheckout, null, this.state.coupon);
+				this.getFlux().actions.BuyTicketsActions.checkout(userId, this.state.formData, this.state.tickets, this.state.totalPrice, token.id, this.state.isAdminGuestCheckout, null, this.state.coupon);
 
 			}.bind(this)
 		});
@@ -139,7 +121,7 @@ var Checkout = React.createClass({
 
 	redirectToStart: function() {
 
-		this.transitionTo('/');
+		this.history.pushState(null, '/');
 
 	},
 
@@ -221,7 +203,7 @@ var Checkout = React.createClass({
 		}.bind(this));
 
 		if (!ticketRows.length || ((!firstName || !lastName || !email) && !this.state.isLoggedIn))
-			this.transitionTo('/');
+			this.history.pushState(null, '/');
 
 		var checkoutButton;
 		if (!this.state.hasStripe) {
@@ -235,6 +217,7 @@ var Checkout = React.createClass({
 		if (!this.state.isLoggedIn || this.state.isAdminGuestCheckout) {
 			registerFieldsSummary = (
 				<table className="table">
+				<tbody>
 				<tr>
 					<td>First Name: </td>
 					<td>{firstName}</td>
@@ -247,6 +230,7 @@ var Checkout = React.createClass({
 					<td>Email: </td>
 					<td>{email}</td>
 				</tr>
+				</tbody>
 				</table>
 			);
 		}
@@ -289,7 +273,7 @@ var Checkout = React.createClass({
 
 		return (
 			<div>
-				<Header />
+				<Header/>
 				<div className="container-fluid body">
 					<div className="container">
 						<div className="row">
@@ -332,7 +316,7 @@ var Checkout = React.createClass({
 						</div>
 					</div>
 				</div>
-				<Footer />
+				<Footer/>
 				<div id="scriptContainer"></div>
 				<ReservationLoading show={this.state.isLoadingCheckout && !this.state.checkoutSuccess && !this.state.checkoutError } text="Checking out..." />
 			</div>

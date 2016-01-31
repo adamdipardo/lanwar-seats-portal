@@ -1,6 +1,6 @@
 var React = require('react');
 var Fluxxor = require('fluxxor');
-var Navigation = require('react-router').Navigation;
+var History = require('react-router').History;
 
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -9,7 +9,7 @@ var Header = require('./Header');
 var Footer = require('./Footer');
 
 var Login = React.createClass({
-	mixins: [FluxMixin, Navigation, StoreWatchMixin("UserAccountStore")],
+	mixins: [FluxMixin, History, StoreWatchMixin("UserAccountStore")],
 
 	getInitialState: function() {
 
@@ -47,7 +47,7 @@ var Login = React.createClass({
 			this.setState({passwordError: true});
 
 		if (!this.state.emailError && !this.state.passwordError)
-			this.getFlux().actions.UserAccountActions.login(this.state.email, this.state.password, this.context.router.getCurrentQuery().return, this.context.router);
+			this.getFlux().actions.UserAccountActions.login(this.state.email, this.state.password, this.props.location.query.return);
 
 	},
 
@@ -70,7 +70,7 @@ var Login = React.createClass({
 		}
 
 		var flashMessage;
-		if (this.context.router.getCurrentQuery().expired == "true") {
+		if (this.props.location.query.expired == "true") {
 			flashMessage = <div className="alert alert-danger">Your session has expired. Please login again.</div>;
 		}
 

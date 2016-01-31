@@ -39,7 +39,7 @@ var RegisterBasicFields = React.createClass({
 
 		// check for required fields
 		fields.forEach(function(field){
-			var value = this.refs[field].getDOMNode().value.trim();
+			var value = this.refs[field].value.trim();
 
 			if (!value)
 				errors[field] = 'Please fill out this field';
@@ -63,9 +63,9 @@ var RegisterBasicFields = React.createClass({
 
 	getFormData: function() {
 		return {
-			firstName: this.refs.firstName.getDOMNode().value,
-			lastName: this.refs.lastName.getDOMNode().value,
-			email: this.refs.email.getDOMNode().value
+			firstName: this.refs.firstName.value,
+			lastName: this.refs.lastName.value,
+			email: this.refs.email.value
 		};
 	},
 

@@ -1,6 +1,6 @@
 var React = require('react');
 var Fluxxor = require('fluxxor');
-var Navigation = require('react-router').Navigation;
+var History = require('react-router').History;
 
 var RegisterBasicFields = require('./RegisterBasicFields');
 var Header = require('./Header');
@@ -11,7 +11,7 @@ var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var Register = React.createClass({
 
-	mixins: [FluxMixin, StoreWatchMixin("UserAccountStore"), Navigation],
+	mixins: [FluxMixin, StoreWatchMixin("UserAccountStore"), History],
 
 	getInitialState: function() {
 
@@ -40,7 +40,7 @@ var Register = React.createClass({
 		if (this.refs.basicFormFields.isValid())
 		{
 			var formData = this.refs.basicFormFields.getFormData();
-			this.getFlux().actions.UserAccountActions.register(formData, this.context.router);
+			this.getFlux().actions.UserAccountActions.register(formData);
 		}
 
 	},
@@ -49,7 +49,7 @@ var Register = React.createClass({
 
 		// permission
 		if (this.state.isLoggedIn && !this.state.isLoadingSessionCheck)
-			this.transitionTo('/profile');
+			this.history.pushState(null, '/profile');
 
 		if (this.state.isLoadingRegister)
 			var registerButton = <button type="submit" className="pull-right btn btn-primary" disabled="disabled">Registering... <i className="fa fa-circle-o-notch fa-spin"></i></button>;

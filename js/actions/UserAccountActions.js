@@ -1,7 +1,8 @@
 var LanwarConstants = require('../constants/LanwarConstants');
+var history = require('../history');
 
 var UserAccountActions = {
-	login: function(email, password, redirectUrl, router) {
+	login: function(email, password, redirectUrl) {
 		this.dispatch(LanwarConstants.LOGIN_LOADING, {});
 
 		$.ajax({
@@ -9,9 +10,11 @@ var UserAccountActions = {
 			type: 'post',
 			data: {email: email, password: password},
 			success: function(result) {
-				result.router = router;
-				result.redirectUrl = redirectUrl;
 				this.dispatch(LanwarConstants.LOGIN_SUCCESS, result);
+				if (result.type == 'admin')
+					history.replaceState(null, redirectUrl || '/admin/orders');
+				else
+					history.replaceState(null, '/profile');
 			}.bind(this),
 			error: function(xhr) {
 				this.dispatch(LanwarConstants.LOGIN_ERROR, {error: JSON.parse(xhr.responseText).error});
@@ -96,20 +99,20 @@ var UserAccountActions = {
 			}.bind(this)
 		});
 	},
-	logout: function(router) {
+	logout: function() {
 		$.ajax({
 			url: '/api/sessions/destroy',
 			type: 'post',
 			success: function(result) {
 				this.dispatch(LanwarConstants.LOGOUT_SUCCESS, {});
-				router.transitionTo('/');
+				history.replaceState(null, '/');
 			}.bind(this),
 			error: function(xhr) {
 				// 
 			}.bind(this)
 		});
 	},
-	register: function(formFields, router) {
+	register: function(formFields) {
 		this.dispatch(LanwarConstants.REGISTER_LOADING, {});
 
 		$.ajax({
@@ -118,15 +121,15 @@ var UserAccountActions = {
 			data: {firstName: formFields.firstName, lastName: formFields.lastName, email: formFields.email, password: formFields.password},
 			success: function(result) {
 				this.dispatch(LanwarConstants.REGISTER_SUCCESS, result);
-				router.transitionTo('/register/finish');
+				history.replaceState(null, '/register/finish');
 			}.bind(this),
 			error: function(xhr) {
 				this.dispatch(LanwarConstants.REGISTER_ERROR, {error: JSON.parse(xhr.responseText).error});
 			}.bind(this)
 		});
 	},
-	dismissSessionTimedOutModal: function(router) {
-		router.transitionTo('/login', {}, {expired: true, return: router.getCurrentPathname()});
+	dismissSessionTimedOutModal: function(pathName) {
+		history.replaceState(null, '/login', {expired: true, return: pathName})
 		this.dispatch(LanwarConstants.DISMISSED_SESSION_TIMEOUT, {});
 	}
 };

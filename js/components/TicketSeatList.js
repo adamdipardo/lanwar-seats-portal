@@ -83,7 +83,7 @@ var TicketSeatList = React.createClass({
 		}.bind(this));
 
 		return (
-			<Modal title={seatName} onRequestHide={this.closeModal} animation={false} dialogClassName="ticket-seat-list">
+			<Modal.Dialog title={seatName} onRequestHide={this.closeModal} animation={false} dialogClassName="ticket-seat-list">
 				<div className="modal-body">
 					<p>Choose which ticket you would like to assign to this seat.</p>
 
@@ -94,7 +94,7 @@ var TicketSeatList = React.createClass({
 				<div className='modal-footer'>
 					<Button onClick={this.closeModal}>Cancel</Button>
 				</div>
-			</Modal>
+			</Modal.Dialog>
 		);
 
 	}

@@ -1,9 +1,11 @@
 var React = require('react');
 var Fluxxor = require('fluxxor');
-var Navigation = require('react-router').Navigation;
+var History = require('react-router').History;
+var Link = require('react-router').Link;
 var moment = require('moment');
 
 var LanwarConfig = require('../../LanwarConfig');
+var LanwarConstants = require('../../constants/LanwarConstants');
 var Header = require('../Header');
 var Footer = require('../Footer');
 var PagingButtons = require('../PagingButtons');
@@ -14,7 +16,7 @@ var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var Orders = React.createClass({
 
-	mixins: [FluxMixin, StoreWatchMixin("AdminOrdersStore"), Navigation],
+	mixins: [FluxMixin, StoreWatchMixin("AdminOrdersStore"), History],
 
 	getInitialState: function() {
 
@@ -233,11 +235,11 @@ var Orders = React.createClass({
 
 		// permission
 		if ((!this.state.isLoggedIn || this.state.user.type != 'admin') && !this.state.isLoadingSessionCheck)
-			this.transitionTo('/login', {}, {expired: true, return: this.context.router.getCurrentPathname()});
+			this.history.pushState(null, '/login', {expired: true, return: this.props.location.pathname});
 
 		var orderRows = [];
 		if (this.state.isLoadingOrders == true) {
-			orderRows.push(<tr><td colSpan="6" className="loading-row">Loading... <i className="fa fa-circle-o-notch fa-spin"></i></td></tr>)
+			orderRows.push(<tr key={0}><td colSpan="6" className="loading-row">Loading... <i className="fa fa-circle-o-notch fa-spin"></i></td></tr>)
 		}
 		else {		
 			for (var i = 0; i < this.state.orders.length; i++) {
@@ -246,7 +248,7 @@ var Orders = React.createClass({
 				for (var x = 0; x < this.state.orders[i].tickets.length; x++) {
 					if (this.state.orders[i].tickets[x].isCheckedIn) numCheckedIn++;
 				}
-				orderRows.push(<tr key={i}><td>{order.id}</td><td>{order.user.lastName}</td><td>{order.user.firstName}</td><td>{this.getPrettyDate(order.created)}</td><td>{numCheckedIn} / {order.tickets.length}</td><td><a href={"/#/admin/orders/" + order.id}>View</a></td></tr>);
+				orderRows.push(<tr key={i}><td>{order.id}</td><td>{order.user.lastName}</td><td>{order.user.firstName}</td><td>{this.getPrettyDate(order.created)}</td><td>{numCheckedIn} / {order.tickets.length}</td><td><Link to={"/admin/orders/" + order.id}>View</Link></td></tr>);
 			}
 		}
 
@@ -303,7 +305,7 @@ var Orders = React.createClass({
 						<a onClick={this.handleFilterToggle.bind(this, false)}><i className="fa fa-angle-down"></i> Hide Filters</a>
 					</div>
 					<div className="col-md-6" style={{textAlign: "right"}}>
-						Download <a href="/api/orders/csv/read" target="_blank">All CSV</a> / <a href="/api/orders/smash/csv/read" target="_blank">Smash CSV</a> / <a href="/api/orders/byoc/lanhub/csv/read" target="_blank">Lanhub BYOC CSV</a>
+						<a href={"/api/orders/csv/read" + LanwarConstants.EVENT_ID} target="_blank">Download All CSV</a>
 					</div>
 				</div>
 				<div className="row filter">
@@ -393,7 +395,7 @@ var Orders = React.createClass({
 						<a onClick={this.handleFilterToggle.bind(this, true)}><i className="fa fa-angle-up"></i> Show Filters</a>
 					</div>
 					<div className="col-md-6" style={{textAlign: "right"}}>
-						Download <a href="/api/orders/csv/read" target="_blank">All CSV</a> / <a href="/api/orders/smash/csv/read" target="_blank">Smash CSV</a> / <a href="/api/orders/byoc/lanhub/csv/read" target="_blank">Lanhub BYOC CSV</a>
+						<a href={"/api/orders/csv/read?eventId=" + LanwarConstants.EVENT_ID} target="_blank">Download All CSV</a>
 					</div>
 				</div>
 			);
