@@ -39,7 +39,7 @@ var SetTicketLabelModal = React.createClass({
 			return (<div></div>);
 
 		return (
-			<Modal dialogClassName='set-label' bsSize="small" animation={false} onHide={this.handleHide}>
+			<Modal.Dialog dialogClassName='set-label' bsSize="small" animation={false} onHide={this.handleHide}>
 				<p>Set label for Ticket #{this.props.ticket.id}</p>
 
 				<form className="form" onSubmit={this.handleSubmit}>
@@ -52,7 +52,7 @@ var SetTicketLabelModal = React.createClass({
 					<button type="submit" className="btn btn-primary">Set Label</button>
 				</div>
 				</form>
-			</Modal>
+			</Modal.Dialog>
 		);
 
 	}
