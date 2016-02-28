@@ -19,6 +19,8 @@ var AdminOrdersActions = {
 			ordersData.startDate = filters.startDate;
 			ordersData.endDate = filters.endDate;
 			ordersData.name = filters.name;
+			ordersData.isStudent = filters.isStudent;
+			ordersData.email = filters.email;
 		}
 
 		$.ajax({

@@ -169,7 +169,9 @@ var Orders = React.createClass({
 			startDate: null,
 			endDate: null,
 			dateRange: "",
-			name: ""
+			name: "",
+			email: "",
+			isStudent: ""
 		}, function() {
 			this.getOrders(1);
 		});
@@ -215,7 +217,9 @@ var Orders = React.createClass({
 			ticketTypes: ticketTypes,
 			startDate: startDate,
 			endDate: endDate,
-			name: this.state.name
+			name: this.state.name,
+			isStudent: this.state.isStudent,
+			email: this.state.email
 		};
 		
 		this.getFlux().actions.AdminOrdersActions.getOrders(page, this.state.sort, this.state.sortDirection, filters);
@@ -308,53 +312,18 @@ var Orders = React.createClass({
 				</div>
 				<div className="row filter">
 					<div className="col-md-2">
-						<h4>Payment Method</h4>
+						<h4>Is Student</h4>
 						<div className="form-group">
 							<div className="radio">
 								<label>
-									<input type="radio" value="" name="paymentMethod" checked={this.state.paymentMethod == ""} onChange={this.handleFilterChange} />
-									All
+									<input type="radio" value="true" name="isStudent" checked={this.state.isStudent == "true"} onChange={this.handleFilterChange} />
+									Yes
 								</label>
 							</div>
 							<div className="radio">
 								<label>
-									<input type="radio" value="online" name="paymentMethod" checked={this.state.paymentMethod == "online"} onChange={this.handleFilterChange} />
-									Online
-								</label>
-							</div>
-							<div className="radio">
-								<label>
-									<input type="radio" value="cash" name="paymentMethod" checked={this.state.paymentMethod == "cash"} onChange={this.handleFilterChange} />
-									Cash
-								</label>
-							</div>
-						</div>
-					</div>
-					<div className="col-md-2">
-						<h4>Ticket Types</h4>
-						<div className="form-group">
-							<div className="checkbox">
-								<label>
-									<input type="checkbox" name="byoc" checked={this.state.byoc} onChange={this.handleFilterChange} />
-									BYOC
-								</label>
-							</div>
-							<div className="checkbox">
-								<label>
-									<input type="checkbox" name="smash4" checked={this.state.smash4} onChange={this.handleFilterChange} />
-									Smash 4
-								</label>
-							</div>
-							<div className="checkbox">
-								<label>
-									<input type="checkbox" name="melee" checked={this.state.melee} onChange={this.handleFilterChange} />
-									Melee
-								</label>
-							</div>
-							<div className="checkbox">
-								<label>
-									<input type="checkbox" name="spectator" checked={this.state.spectator} onChange={this.handleFilterChange} />
-									Spectator
+									<input type="radio" value="false" name="isStudent" checked={this.state.isStudent == "false"} onChange={this.handleFilterChange} />
+									No (alumni)
 								</label>
 							</div>
 						</div>
@@ -372,7 +341,13 @@ var Orders = React.createClass({
 						</div>
 						{rangeFields}
 					</div>
-					<div className="col-md-4">
+					<div className="col-md-3">
+						<h4>Email Contains</h4>
+						<div className="form-group">
+							<input type="text" name="email" value={this.state.email} onChange={this.handleFilterChange} className="form-control" />
+						</div>
+					</div>
+					<div className="col-md-3">
 						<h4>Name Contains</h4>
 						<div className="form-group">
 							<input type="text" name="name" value={this.state.name} onChange={this.handleFilterChange} className="form-control" />
