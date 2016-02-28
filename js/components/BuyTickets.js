@@ -31,7 +31,8 @@ var BuyTickets = React.createClass({
 			user: UserAccountStore.user,
 			isAdminGuestCheckout: BuyTicketsStore.isAdminGuestCheckout,
 			isStudentCheckout: BuyTicketsStore.isStudentCheckout,
-			tickets: BuyTicketsStore.tickets
+			tickets: BuyTicketsStore.tickets,
+			isLoadingSessionCheck: UserAccountStore.isLoadingSessionCheck
 		};
 
 	},
@@ -65,6 +66,8 @@ var BuyTickets = React.createClass({
 
 	handleAdminGuestClick: function(e) {
 
+		e.target.checked = true;
+		
 		this.getFlux().actions.BuyTicketsActions.setAdminGuestCheckout(e.target.checked);
 
 		if (e.target.checked == false && this.state.isStudentCheckout)
@@ -89,6 +92,10 @@ var BuyTickets = React.createClass({
 	},
 
 	render: function() {
+
+		// for this event, only admins can purchase tickets
+		if ((!this.state.isLoggedIn || this.state.user.type != 'admin') && !this.state.isLoadingSessionCheck)
+			this.history.pushState(null, '/login', {expired: true, return: this.props.location.pathname});
 
 		var registerBasicFields = null;
 		// if (!this.state.isLoggedIn || this.state.isAdminGuestCheckout) {
@@ -131,9 +138,7 @@ var BuyTickets = React.createClass({
 							<div className="col-md-2"></div>
 							<div className="col-md-8">
 								<h1>LANWAR X</h1>
-								<h2 className="sub-title">November 20-22, 2015</h2>
-
-								<p style={{'textAlign': 'center'}}>Buy tickets below! View <a href="http://lanwarx.ca">our website</a> for full event details.</p>
+								<h2 className="sub-title">March 18-20, 2015</h2>
 							
 								<form onSubmit={this.continueForm}>
 								{adminGuestOption}

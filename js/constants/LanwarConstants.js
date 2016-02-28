@@ -123,7 +123,7 @@ module.exports = {
 	/**
 	 * Misc Constants
 	 */
-	EVENT_ID: 1,
+	EVENT_ID: 2,
 	RESERVATION_API: "/reservations",
 	STUDENT_DISCOUNT: 5.0
 };

@@ -26,7 +26,7 @@ var BuyTicketsActions = {
 		this.dispatch(LanwarConstants.CHECKOUT_LOADING, {});
 
 		var sendData = {
-			eventId: 1, 
+			eventId: LanwarConstants.EVENT_ID, 
 			token: token, 
 			total: total,
 			tickets: JSON.stringify(formattedTickets)
