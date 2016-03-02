@@ -46,7 +46,7 @@ var AdminUsersActions = {
 		};
 
 		if (password)
-			editData.password = password;
+			editData.newPassword = password;
 
 		$.ajax({
 			url: '/api/users/' + id + '/admin/update',

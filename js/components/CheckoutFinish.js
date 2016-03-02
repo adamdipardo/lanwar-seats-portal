@@ -175,7 +175,6 @@ var CheckoutFinish = React.createClass({
 								<tr>
 									<th>ID #</th>
 									<th>Ticket Type</th>
-									<th>Options</th>
 									<th>Label <i className="fa fa-question-circle" data-tip={"If you have multiple tickets, you can label each to keep track of them."} data-place="top"></i></th>
 									<th>Seat</th>
 								</tr>

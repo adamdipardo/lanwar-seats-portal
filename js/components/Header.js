@@ -53,7 +53,7 @@ var Header = React.createClass({
 		var menu = [];
 		if (this.state.isLoggedIn) {
 			menu.push([
-				<li className="dropdown" key={1}><a>Hello, {this.state.user.firstName}!</a></li>,
+				<li className="dropdown" key={1}><Link to="/profile">Profile</Link></li>,
 				<li key={2}><a onClick={this.handleLogoutClick}>Logout</a></li>
 			]);
 

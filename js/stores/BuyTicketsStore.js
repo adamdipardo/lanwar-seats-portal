@@ -168,9 +168,17 @@ var BuyTicketsStore = Fluxxor.createStore({
 	onUpdateTicketOptionsNodes: function(payload) {
 
 		var ticket = this.tickets[payload.ticketKey];
-		for (var i = 0; i < ticket.chosenOptions.length; i++) {
-			if (ticket.chosenOptions[i].id == payload.optionId)
-				ticket.chosenOptions[i][payload.fieldKey] = payload.notes;
+
+		if (!ticket.chosenOptions || !ticket.chosenOptions.length) {
+			ticket.chosenOptions = [];
+			ticket.chosenOptions.push({id: payload.optionId});
+			ticket.chosenOptions[0][payload.fieldKey] = payload.notes;
+		}
+		else {
+			for (var i = 0; i < ticket.chosenOptions.length; i++) {
+				if (ticket.chosenOptions[i].id == payload.optionId)
+					ticket.chosenOptions[i][payload.fieldKey] = payload.notes;
+			}
 		}
 		this.emit("change");
 

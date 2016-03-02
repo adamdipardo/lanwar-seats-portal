@@ -225,7 +225,7 @@ var AdminOrdersStore = Fluxxor.createStore({
 		this.summary = {
 			total: payload.total,
 			byoc: payload.tickets[0].numOrdered,
-			smash: payload.tickets[1].numOrdered,
+			/*smash: payload.tickets[1].numOrdered,
 			smashOptions: [
 				{
 					name: 'Singles', 
@@ -255,7 +255,7 @@ var AdminOrdersStore = Fluxxor.createStore({
 					name: 'Doubles Partner', 
 					numOrdered: payload.tickets[3].options[2].numOrdered
 				}
-			],
+			],*/
 		};
 		this.emit("change");
 	},

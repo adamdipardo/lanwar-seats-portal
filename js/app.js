@@ -45,6 +45,7 @@ var PrintableSeats = require('./components/admin/PrintableSeats');
 var AdminUsers = require('./components/admin/Users');
 var ChooseOptions = require('./components/ChooseOptions');
 var Login = require('./components/Login');
+var TicketEmails = require('./components/TicketEmails');
 
 var stores = {
 	TicketTypesStore: new TicketTypesStore(),
@@ -105,7 +106,7 @@ function createFluxComponent(Component, props) {
 render((<Router createElement={createFluxComponent} history={history}>
 		<Route name="home" path="/">
 			<IndexRoute component={BuyTickets}/>
-			<Route name="choose-options" path="choose-options" component={ChooseOptions}/>
+			<Route name="choose-options" path="choose-options" component={TicketEmails}/>
 			<Route name="select-seats" path="select-seats" component={SelectSeats}/>
 			<Route name="checkout" path="checkout" component={Checkout}/>
 			<Route name="checkout-finish" path="checkout-finish" component={CheckoutFinish}/>

@@ -50,7 +50,6 @@ var CheckoutTicket = React.createClass({
 			<tr key={ticket.id}>
 				<td>{ticket.id}</td>
 				<td>{ticket.type}</td>
-				<td>{options.join(', ')}</td>
 				<td>{ticketLabel}</td>
 				<td>{seat}</td>
 			</tr>

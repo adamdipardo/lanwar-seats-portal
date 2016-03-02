@@ -149,6 +149,14 @@ var OrderDetail = React.createClass({
 			);
 		}
 
+		var studentNumber;
+		if (orderDetail.user.studentNumber) {
+			studentNumber = (<tr>
+					<th>Student Number</th>
+					<td>{orderDetail.user.studentNumber}</td>
+				</tr>);
+		}
+
 		return (
 			<div>
 				<Header />
@@ -184,6 +192,7 @@ var OrderDetail = React.createClass({
 											<th>Student Order?</th>
 											<td>{orderDetail.isStudent ? 'Yes' : 'No'}</td>
 										</tr>
+										{studentNumber}
 										<tr>
 											<th>Paid By</th>
 											<td>{orderDetail.isCash ? 'Cash' : 'Online'}</td>
@@ -204,7 +213,6 @@ var OrderDetail = React.createClass({
 										<tr>
 											<th>Ticket #</th>
 											<th>Type</th>
-											<th>Options</th>
 											<th>Label</th>
 											<th>Seat</th>
 											<th>Checked In?</th>

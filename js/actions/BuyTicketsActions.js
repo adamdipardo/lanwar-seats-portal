@@ -38,6 +38,7 @@ var BuyTicketsActions = {
 			sendData.firstName = formData.firstName;
 			sendData.lastName = formData.lastName;
 			sendData.email = formData.email;
+			sendData.studentNumber = formData.studentNumber
 		}
 
 		if (isAdminGuestCheckout)

@@ -48,7 +48,6 @@ var TicketRow = React.createClass({
 			<tr key={ticket.id}>
 				<td>{ticket.id}</td>
 				<td>{ticket.type}</td>
-				<td>{options.join(', ')}</td>
 				<td>{ticket.label || "No Label Set"}</td>
 				<td>{seat}</td>
 				<td>{checkedIn}</td>

@@ -22,7 +22,7 @@ var Checkout = React.createClass({
 	getInitialState: function() {
 		return {
 			timerHasExpired: false,
-			hasStripe: false,
+			hasStripe: true,
 			coupon: ""
 		}
 	},
@@ -136,9 +136,9 @@ var Checkout = React.createClass({
 	
 	componentDidMount: function() {
 
-		$('#scriptContainer').append('<script type="text/javascript" src="https://checkout.stripe.com/checkout.js"></script>');
+		// $('#scriptContainer').append('<script type="text/javascript" src="https://checkout.stripe.com/checkout.js"></script>');
 		this.getFlux().actions.BuyTicketsActions.initCheckout();
-		this.stripeCheckInterval = setInterval(this.checkForStripe, 3000);
+		// this.stripeCheckInterval = setInterval(this.checkForStripe, 3000);
 
 	},
 
@@ -178,6 +178,7 @@ var Checkout = React.createClass({
 		var firstName = this.state.formData.firstName;
 		var lastName = this.state.formData.lastName;
 		var email = this.state.formData.email;
+		var studentNumber = this.state.formData.studentNumber;
 
 		$.each(this.state.tickets, function(index, ticket) {
 			
@@ -225,6 +226,10 @@ var Checkout = React.createClass({
 				<tr>
 					<td>Last Name: </td>
 					<td>{lastName}</td>
+				</tr>
+				<tr>
+					<td>Student Number: </td>
+					<td>{studentNumber}</td>
 				</tr>
 				<tr>
 					<td>Email: </td>

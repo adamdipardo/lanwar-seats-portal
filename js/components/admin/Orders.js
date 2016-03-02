@@ -9,6 +9,7 @@ var LanwarConstants = require('../../constants/LanwarConstants');
 var Header = require('../Header');
 var Footer = require('../Footer');
 var PagingButtons = require('../PagingButtons');
+var OrderSummary = require('./OrderSummary');
 
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -390,6 +391,8 @@ var Orders = React.createClass({
 						<div className="row">
 							<div className="col-md-12">
 								<h2>Orders {refreshButton}</h2>
+
+								<OrderSummary />
 
 								{filter}
 

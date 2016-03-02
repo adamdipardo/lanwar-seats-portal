@@ -30,9 +30,18 @@ var TicketTypeRow = React.createClass({
 
 	},
 
+	componentDidMount: function() {
+
+		setTimeout(function(){
+			this.getFlux().actions.BuyTicketsActions.changeTicketQuantity(this.props.ticketType, 1);
+			this.setState({quantity: 1});
+		}.bind(this), 500);
+
+	},
+
 	render: function() {
 		var quantities = [];
-		for (var i = 0; i < 11; i++)
+		for (var i = 0; i < 2; i++)
 		{
 			var isSelected = this.state.quantity == i ? 'selected' : '';
 			quantities.push(<option key={i} value={i} isSelected>{i}</option>);

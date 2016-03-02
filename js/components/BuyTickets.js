@@ -137,7 +137,7 @@ var BuyTickets = React.createClass({
 						<div className="row">
 							<div className="col-md-2"></div>
 							<div className="col-md-8">
-								<h1>LANWAR X</h1>
+								<h1>LANWAR Throwback</h1>
 								<h2 className="sub-title">March 18-20, 2015</h2>
 							
 								<form onSubmit={this.continueForm}>

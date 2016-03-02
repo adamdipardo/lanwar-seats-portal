@@ -32,7 +32,7 @@ var RegisterBasicFields = React.createClass({
 
 	isValid: function() {
 
-		var fields = ['firstName', 'lastName', 'email'];
+		var fields = ['firstName', 'lastName', 'email', 'studentNumber'];
 
 		// validate
 		var errors = {};
@@ -65,7 +65,8 @@ var RegisterBasicFields = React.createClass({
 		return {
 			firstName: this.refs.firstName.value,
 			lastName: this.refs.lastName.value,
-			email: this.refs.email.value
+			email: this.refs.email.value,
+			studentNumber: this.refs.studentNumber.value
 		};
 	},
 
@@ -79,7 +80,10 @@ var RegisterBasicFields = React.createClass({
 					<div className="col-md-6">
 						{this.renderField('lastName', 'Last Name', 'text', this.state.formData['lastName'])}
 					</div>
-					<div className="col-md-12">
+					<div className="col-md-6">
+						{this.renderField('studentNumber', 'Student Number', 'text', this.state.formData['studentNumber'])}
+					</div>
+					<div className="col-md-6">
 						{this.renderField('email', 'Email', 'email', this.state.formData['email'])}
 					</div>
 				</div>

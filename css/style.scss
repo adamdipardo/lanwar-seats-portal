@@ -798,6 +798,20 @@ div.orders-summary {
 		}
 	}
 
+	&.simple {
+		div.total {
+			text-align: center;
+
+			h2, h3 {
+				display: inline-block;
+			}
+
+			h2 {
+				margin-right: 15px;
+			}
+		}
+	}
+
 	div.total {
 		h2, h3 {
 			font-weight: bold;
@@ -1037,6 +1051,12 @@ table.table-ticket-options {
 				padding-top: 4px;
 				padding-bottom: 4px;
 			}
+		}
+	}
+
+	&.email-only {
+		div.description.option {
+			margin-bottom: 20px;
 		}
 	}
 
