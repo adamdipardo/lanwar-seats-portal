@@ -1289,3 +1289,84 @@ div.edit-user {
 		}
 	}
 }
+
+div.overview {
+	.ct-label {
+		font-size: 1.4rem;
+		color: #999;
+		font-weight: 300;
+		// transform: rotate(45deg);
+	}
+
+	.ct-label.ct-horizontal.ct-end {
+	    transform: translate(-50%,8px);
+	    display: block;
+	    text-align: center;
+	}
+}
+
+div.totals {
+	.ct-series-b .ct-slice-donut {
+		stroke: #F0F0F0;
+	}
+
+	margin-top: 80px;
+}
+
+div.student {
+	.ct-label {
+		font-size: 1.4rem;
+		color: #999;
+		font-weight: 300;
+		padding-top: 8px;
+	}
+
+	.ct-bar {
+		stroke-width: 80px;
+	}
+}
+
+div.overview-charts {
+	h3 {
+		margin: 40px 0 20px;
+		font-weight: 400;
+		font-size: 1.75rem;
+		color: #666;
+	}
+
+	h4 {
+		color: #B9121B;
+		text-align: center;
+		font-size: 4.5rem;
+		font-weight: 700;
+		position: relative;
+		top: -80px;
+		margin: 0 0 6px;
+	}
+
+	h5 {
+		color: #666;
+		text-align: center;
+		position: relative;
+		top: -80px;
+		margin: 0;
+		font-weight: 300;
+	}
+
+	div.options {
+		text-align: right;
+
+		div.radio {
+			display: inline-block;
+			padding: 0 10px;
+		}
+	}
+
+	i.chart-loading {
+		font-size: 4rem;
+		display: block;
+		text-align: center;
+		color: #CCC;
+		padding: 100px 0;
+	}
+}

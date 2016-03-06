@@ -28,6 +28,8 @@ var OrderActions = require('./actions/OrderActions');
 var OrderStore = require('./stores/OrderStore');
 var AdminUsersActions = require('./actions/AdminUsersActions');
 var AdminUsersStore = require('./stores/AdminUsersStore');
+var AdminOverviewActions = require('./actions/AdminOverviewActions');
+var AdminOverviewStore = require('./stores/AdminOverviewStore');
 
 var BuyTickets = require('./components/BuyTickets');
 var SelectSeats = require('./components/SelectSeats');
@@ -46,6 +48,7 @@ var AdminUsers = require('./components/admin/Users');
 var ChooseOptions = require('./components/ChooseOptions');
 var Login = require('./components/Login');
 var TicketEmails = require('./components/TicketEmails');
+var AdminOverview = require('./components/admin/Overview');
 
 var stores = {
 	TicketTypesStore: new TicketTypesStore(),
@@ -57,7 +60,8 @@ var stores = {
 	CheckInStore: new CheckInStore(),
 	AdminTicketsStore: new AdminTicketsStore(),
 	OrderStore: new OrderStore(),
-	AdminUsersStore: new AdminUsersStore()
+	AdminUsersStore: new AdminUsersStore(),
+	AdminOverviewStore: new AdminOverviewStore()
 };
 
 var actions = {
@@ -70,7 +74,8 @@ var actions = {
 	CheckInActions: CheckInActions,
 	AdminTicketsActions: AdminTicketsActions,
 	OrderActions: OrderActions,
-	AdminUsersActions: AdminUsersActions
+	AdminUsersActions: AdminUsersActions,
+	AdminOverviewActions: AdminOverviewActions
 }
 
 var flux = new Fluxxor.Flux(stores, actions);
@@ -128,6 +133,7 @@ render((<Router createElement={createFluxComponent} history={history}>
 				<Route name="admin-rooms-view" path="rooms-view" component={RoomsView} />
 				<Route name="admin-rooms-print" path="rooms/print" component={PrintableSeats} />
 				<Route name="admin-users" path="users" component={AdminUsers} />
+				<Route name="admin-overview" path="overview" component={AdminOverview} />
 			</Route>
 			<Route name="order" path="order/:orderHash">
 				<IndexRoute component={CheckoutFinish}/>

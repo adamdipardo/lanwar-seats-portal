@@ -59,7 +59,7 @@ var Header = React.createClass({
 
 			// add admin menu items
 			if (this.state.user.type == 'admin') {
-				menu.unshift(<li className="dropdown" key={3}><a className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span className="caret"></span></a> <ul className="dropdown-menu"><li><Link to="/admin/orders">All Orders</Link></li><li><Link to="/admin/checked-in-tickets">All Checked-In Tickets</Link></li><li><Link to="/admin/scan">Scan</Link></li><li><a onClick={this.openLookUpOrderNumberModal}>Lookup Order #</a></li><li><Link to="/admin/rooms-view">Rooms View</Link></li></ul></li>);
+				menu.unshift(<li className="dropdown" key={3}><a className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span className="caret"></span></a> <ul className="dropdown-menu"><li><Link to="/admin/orders">All Orders</Link></li><li><Link to="/admin/overview">Overview</Link></li><li><Link to="/admin/checked-in-tickets">All Checked-In Tickets</Link></li><li><Link to="/admin/scan">Scan</Link></li><li><a onClick={this.openLookUpOrderNumberModal}>Lookup Order #</a></li><li><Link to="/admin/rooms-view">Rooms View</Link></li></ul></li>);
 				menu.unshift(<li key={0}><Link to="/">Buy Tickets</Link></li>);
 			}
 		}
