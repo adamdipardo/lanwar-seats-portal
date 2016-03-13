@@ -32,7 +32,8 @@ var Scan = React.createClass({
 			user: UserAccountStore.user,
 			isLoggedIn: UserAccountStore.isLoggedIn,
 			isLoadingSessionCheck: UserAccountStore.isLoadingSessionCheck,
-			isLoadingCheckIn: CheckInStore.isLoadingCheckIn
+			isLoadingCheckIn: CheckInStore.isLoadingCheckIn,
+			ticketId: CheckInStore.ticketId
 		};
 
 	},
@@ -52,6 +53,10 @@ var Scan = React.createClass({
 			console.log('STREAM ERROR');
 		});
 
+		setTimeout(function() {
+			$('#ticketId').focus();
+		}, 300);
+
 	},
 
 	componentWillUnmount: function() {
@@ -63,6 +68,29 @@ var Scan = React.createClass({
 		catch (e) {
 			// do nothing, just need to catch error in case QR-code scanner is not running and we try to stop it
 		}
+
+	},
+
+	handleTicketIdChange: function(e) {
+
+		// this.setState({ticketId: e.target.value});
+		this.getFlux().actions.CheckInActions.setTicketId(e.target.value);
+
+	},
+
+	handleTicketIdCheckIn: function(e) {
+
+		e.preventDefault();
+
+		if (this.state.ticketId) {
+			this.getFlux().actions.CheckInActions.checkInTicketById(this.state.ticketId);
+		}
+
+	},
+
+	resetFocus: function() {
+
+		$('#ticketId').focus();
 
 	},
 
@@ -79,16 +107,45 @@ var Scan = React.createClass({
 					<div className="container">
 						<div className="row">
 							<div className="col-md-12">
-								<h2>Scan QR Code</h2>
-								<div id="reader"></div>
-								<p className="summary-text">Hold ticket QR code to webcam to scan.</p>
+								<h2>Check In Tickets</h2>
+							</div>
+							<div className="col-md-6">
+								<div className="check-in-box">
+									<div className="content">
+										<h3 className="ticket-id"><i className="fa fa-ticket"></i> By Ticket ID</h3>
+
+										<div className="row">
+											<div className="col-md-1"></div>
+											<div className="col-md-10">
+												<form onSubmit={this.handleTicketIdCheckIn}>
+												<div className="form-group">
+													<label htmlFor="ticketId" className="sr-only">Ticket ID</label>
+													<input type="number" name="ticketId" id="ticketId" placeholder="Type Ticket ID and hit Enter" onChange={this.handleTicketIdChange} className="form-control" value={this.state.ticketId}/>
+												</div>
+												<div className="form-group">
+													<button type="submit" className="btn btn-primary btn-block">Check In</button>
+												</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div className="col-md-6">
+								<div className="check-in-box">
+									<div className="content">
+										<h3><i className="fa fa-qrcode"></i> By QR Code</h3>
+										<div id="reader"></div>
+										<p className="summary-text">Hold ticket QR code to webcam to scan.</p>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<Footer />
 				<div id="scripts"></div>
-				<CheckInModal ref="checkInModal"/>
+				<CheckInModal ref="checkInModal" onClose={this.resetFocus}/>
 			</div>
 		);
 

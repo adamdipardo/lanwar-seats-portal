@@ -942,7 +942,7 @@ span.checked-in {
 }
 
 div#reader {
-	min-height: 300px;
+	min-height: 275px;
 	width: 100%;
 }
 
@@ -1368,5 +1368,45 @@ div.overview-charts {
 		text-align: center;
 		color: #CCC;
 		padding: 100px 0;
+	}
+}
+
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+  &:before {
+    display: block;
+    content: "";
+    width: 100%;
+    padding-top: ($height / $width) * 100%;
+  }
+  > .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+div.check-in-box {
+	background-color: #F0F0F0;
+	margin-top: 20px;
+	@include aspect-ratio(4, 3);
+
+	> .content {
+		padding: 20px;
+
+		h3 {
+			text-align: center;
+			margin-bottom: 20px;
+
+			&.ticket-id {
+				margin-top: 120px;
+			}
+
+			i {
+				color: $lanwarRed;
+			}
+		}
 	}
 }

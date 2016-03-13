@@ -128,7 +128,7 @@ render((<Router createElement={createFluxComponent} history={history}>
 						<Route name="admin-order-detail-select-seats" path="select-seats" component={SelectSeats} />
 					</Route>
 				</Route>				
-				<Route name="admin-scan" path="scan" component={AdminScan} />
+				<Route name="admin-check-in" path="check-in" component={AdminScan} />
 				<Route name="admin-checked-in-tickets" path="checked-in-tickets" component={AdminTickets} />
 				<Route name="admin-rooms-view" path="rooms-view" component={RoomsView} />
 				<Route name="admin-rooms-print" path="rooms/print" component={PrintableSeats} />

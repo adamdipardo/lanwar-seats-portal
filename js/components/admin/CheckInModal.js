@@ -38,6 +38,7 @@ var CheckInModal = React.createClass({
 	dismiss: function() {
 
 		this.getFlux().actions.CheckInActions.dismissCheckIn();
+		this.props.onClose();
 
 	},
 
