@@ -164,9 +164,8 @@ var CheckoutFinish = React.createClass({
 									<div className="col-sm-6">
 										<h2>{this.state.order.tickets.length} Tickets</h2>
 									</div>
-									<div className="col-sm-6 checkout-finish-buttons">										
+									<div className="col-sm-6 checkout-finish-buttons">
 										{chooseSeatsButton}
-										<a onClick={this.getTicketsPDF} className="btn btn-primary choose-tickets-button">Print Tickets</a>
 									</div>
 								</div>
 
@@ -175,7 +174,6 @@ var CheckoutFinish = React.createClass({
 								<tr>
 									<th>ID #</th>
 									<th>Ticket Type</th>
-									<th>Label <i className="fa fa-question-circle" data-tip={"If you have multiple tickets, you can label each to keep track of them."} data-place="top"></i></th>
 									<th>Seat</th>
 								</tr>
 								</thead>
