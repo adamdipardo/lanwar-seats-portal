@@ -134,7 +134,7 @@ module.exports = {
 	/**
 	 * Misc Constants
 	 */
-	EVENT_ID: 2,
+	EVENT_ID: 3,
 	RESERVATION_API: "/reservations",
 	STUDENT_DISCOUNT: 5.0
 };
