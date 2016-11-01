@@ -135,7 +135,7 @@ var CheckoutFinish = React.createClass({
 							<div className="col-md-2"></div>
 							<div className="col-md-8">
 								{checkoutMessage}
-								<h1>LANWAR X Order #{this.state.order.id}</h1>
+								<h1>LANWAR X Order</h1>
 
 								<h2>Order Summary</h2>
 
@@ -172,7 +172,6 @@ var CheckoutFinish = React.createClass({
 								<table className="table">
 								<thead>
 								<tr>
-									<th>ID #</th>
 									<th>Ticket Type</th>
 									<th>Seat</th>
 								</tr>

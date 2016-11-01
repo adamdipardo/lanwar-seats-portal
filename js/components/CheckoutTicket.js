@@ -48,7 +48,6 @@ var CheckoutTicket = React.createClass({
 
 		return (
 			<tr key={ticket.id}>
-				<td>{ticket.id}</td>
 				<td>{ticket.type}</td>
 				<td>{seat}</td>
 			</tr>
