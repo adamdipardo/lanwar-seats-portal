@@ -1137,7 +1137,7 @@ p.error.options-error {
 }
 
 .checkout-finish-buttons {
-	text-align: right;	
+	text-align: right;
 }
 
 .btn.choose-tickets-button {
@@ -1409,4 +1409,70 @@ div.check-in-box {
 			}
 		}
 	}
+}
+
+table.table-room {
+
+	border: 1px solid black;
+
+	td {
+		padding: 3px;
+		border: 1px solid #CCC;
+
+		&.separator, &.no-seat {
+			max-width: 40px;
+			background-color: #CCC !important;
+		}
+	}
+
+	thead, tfoot {
+
+		td {
+			font-weight: bold;
+			text-align: center;
+			font-size: 12px;
+		}
+
+	}
+
+	tbody {
+
+		tr {
+
+			td {
+				text-align: center;
+				font-size: 11px;
+				min-width: 80px;
+				background-color: #ffffff;
+
+				&:first-child, &:last-child {
+					font-weight: bold;
+					text-align: right;
+					font-size: 12px;
+					min-width: 0;
+				}
+
+				&:last-child {
+					text-align: left;
+				}
+
+				&.taken {
+					background-color: #99ff99;
+				}
+			}
+
+			&:nth-child(odd) {
+				td {
+					background-color: darken(#ffffff, 5%);
+
+					&.taken {
+						background-color: darken(#99ff99, 20%);
+					}
+				}
+			}
+
+		}
+
+	}
+
 }

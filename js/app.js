@@ -49,6 +49,7 @@ var ChooseOptions = require('./components/ChooseOptions');
 var Login = require('./components/Login');
 var TicketEmails = require('./components/TicketEmails');
 var AdminOverview = require('./components/admin/Overview');
+var RoomsViewTable = require('./components/RoomsViewTable');
 
 var stores = {
 	TicketTypesStore: new TicketTypesStore(),
@@ -92,7 +93,7 @@ if (LanwarConfig.stripePK.indexOf('_live_') == -1) {
 flux.actions.UserAccountActions.checkForSession();
 
 // keep checking session
-var sessionCheckInterval = setInterval(function() { 
+var sessionCheckInterval = setInterval(function() {
 	if (flux.store('UserAccountStore').getState().isLoggedIn)
 		flux.actions.UserAccountActions.checkForSession(true);
 }, 60 * 1000)
@@ -127,7 +128,7 @@ render((<Router createElement={createFluxComponent} history={history}>
 						<IndexRoute component={AdminOrderDetail}/>
 						<Route name="admin-order-detail-select-seats" path="select-seats" component={SelectSeats} />
 					</Route>
-				</Route>				
+				</Route>
 				<Route name="admin-check-in" path="check-in" component={AdminScan} />
 				<Route name="admin-checked-in-tickets" path="checked-in-tickets" component={AdminTickets} />
 				<Route name="admin-rooms-view" path="rooms-view" component={RoomsView} />
@@ -139,6 +140,7 @@ render((<Router createElement={createFluxComponent} history={history}>
 				<IndexRoute component={CheckoutFinish}/>
 				<Route name="order-select-seats" path="select-seats" component={SelectSeats} />
 			</Route>
+			<Route name="rooms" path="rooms" component={RoomsViewTable}/>
 			<Route name="login" path="login" component={Login} />
 		</Route>
 	</Router>), document.getElementById("lanwar-app"));

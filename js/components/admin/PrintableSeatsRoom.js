@@ -55,7 +55,7 @@ var PrintableSeatsRoom = React.createClass({
 			var seatingPlanRow = seatingPlan[seatingPlan.length - 1].seats;
 			$.each(row.seats, function(index, seat) {
 				if (numSections < seat.section) numSections = seat.section;
-				var sectionNum = seat.section - 1;				
+				var sectionNum = seat.section - 1;
 				for (var i = 0; i <= sectionNum; i++)
 					if (typeof seatingPlanRow[i] === "undefined") seatingPlanRow[i] = [];
 
