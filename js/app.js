@@ -30,6 +30,8 @@ var AdminUsersActions = require('./actions/AdminUsersActions');
 var AdminUsersStore = require('./stores/AdminUsersStore');
 var AdminOverviewActions = require('./actions/AdminOverviewActions');
 var AdminOverviewStore = require('./stores/AdminOverviewStore');
+var SimpleOrdersStore = require('./stores/SimpleOrdersStore');
+var SimpleOrdersActions = require('./actions/SimpleOrdersActions');
 
 var BuyTickets = require('./components/BuyTickets');
 var SelectSeats = require('./components/SelectSeats');
@@ -50,6 +52,7 @@ var Login = require('./components/Login');
 var TicketEmails = require('./components/TicketEmails');
 var AdminOverview = require('./components/admin/Overview');
 var RoomsViewTable = require('./components/RoomsViewTable');
+var SeatsViewTable = require('./components/SeatsViewTable');
 
 var stores = {
 	TicketTypesStore: new TicketTypesStore(),
@@ -62,7 +65,8 @@ var stores = {
 	AdminTicketsStore: new AdminTicketsStore(),
 	OrderStore: new OrderStore(),
 	AdminUsersStore: new AdminUsersStore(),
-	AdminOverviewStore: new AdminOverviewStore()
+	AdminOverviewStore: new AdminOverviewStore(),
+	SimpleOrdersStore: new SimpleOrdersStore()
 };
 
 var actions = {
@@ -76,7 +80,8 @@ var actions = {
 	AdminTicketsActions: AdminTicketsActions,
 	OrderActions: OrderActions,
 	AdminUsersActions: AdminUsersActions,
-	AdminOverviewActions: AdminOverviewActions
+	AdminOverviewActions: AdminOverviewActions,
+	SimpleOrdersActions: SimpleOrdersActions
 }
 
 var flux = new Fluxxor.Flux(stores, actions);
@@ -141,6 +146,7 @@ render((<Router createElement={createFluxComponent} history={history}>
 				<Route name="order-select-seats" path="select-seats" component={SelectSeats} />
 			</Route>
 			<Route name="rooms" path="rooms" component={RoomsViewTable}/>
+			<Route name="seats-list" path="seats-list" component={SeatsViewTable}/>
 			<Route name="login" path="login" component={Login} />
 		</Route>
 	</Router>), document.getElementById("lanwar-app"));
