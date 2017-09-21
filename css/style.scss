@@ -1459,6 +1459,17 @@ table.table-room {
 				&.taken {
 					background-color: #99ff99;
 				}
+
+				&.seat {
+					height: 24px;
+				}
+
+				&.seat-count {
+					background-color: #CCC !important;
+					text-align: center;
+					font-weight: normal;
+					font-size: 11px;
+				}
 			}
 
 			&:nth-child(odd) {

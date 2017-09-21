@@ -69,7 +69,7 @@ var RoomsList = React.createClass({
 		var options = [];
 		var disabledRooms = [84,85,91];
 		Object.keys(rooms).map(function(id) {
-			if (this.props.isAdminView == true || disabledRooms.indexOf(rooms[id].id) == -1)
+			if ((this.props.isAdminView == true || window.location.href.indexOf("/admin/orders/") > -1) || disabledRooms.indexOf(rooms[id].id) == -1)
 				options.push({value: String(id), label: rooms[id].name + "   (" + rooms[id].seats.taken + "/" + rooms[id].seats.total + ")"});
 		}.bind(this));
 
